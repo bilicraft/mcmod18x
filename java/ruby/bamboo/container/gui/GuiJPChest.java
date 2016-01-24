@@ -1,7 +1,6 @@
 package ruby.bamboo.container.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.ContainerChest;
@@ -27,12 +26,14 @@ public class GuiJPChest extends  GuiContainer{
         this.ySize = i + this.inventoryRows * 18;
     }
 
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         this.fontRendererObj.drawString(this.lowerChestInventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
         this.fontRendererObj.drawString(this.upperChestInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
     }
 
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

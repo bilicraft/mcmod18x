@@ -23,6 +23,7 @@ public enum EnumSlideDoor implements IEnumTex {
     private String jpName;
     private String iconName;
 
+    @Override
     public int getId() {
         return id;
     }

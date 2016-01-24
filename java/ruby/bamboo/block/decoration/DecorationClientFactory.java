@@ -5,28 +5,30 @@ import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+
 public class DecorationClientFactory extends DecorationFactory {
 
+    @Override
     void registerNormal(EnumDecoration deco) {
         registerJson(deco.getModName());
     }
 
+    @Override
     void registerDoubleSlab(EnumDecoration deco) {
-        ModelLoader.setCustomStateMapper(Block.getBlockFromName(deco.getModName() + deco.DOUBLE_SLAB), (new StateMap.Builder()).addPropertiesToIgnore(DecorationSlab.SEAMLESS).build());
-        registerJson(deco.getModName() + deco.DOUBLE_SLAB);
+        ModelLoader.setCustomStateMapper(Block.getBlockFromName(deco.getModName() + EnumDecoration.DOUBLE_SLAB), (new StateMap.Builder()).addPropertiesToIgnore(DecorationSlab.SEAMLESS).build());
+        registerJson(deco.getModName() + EnumDecoration.DOUBLE_SLAB);
     }
 
+    @Override
     void registerSlab(EnumDecoration deco) {
         //ModelLoader.setCustomStateMapper(Block.getBlockFromName(deco.getModName() + deco.SLAB), (new StateMap.Builder()).addPropertiesToIgnore(DecorationSlab.HALF).build());
-        registerJson(deco.getModName() + deco.SLAB);
+        registerJson(deco.getModName() + EnumDecoration.SLAB);
     }
 
+    @Override
     void registerStair(EnumDecoration deco) {
-        registerJson(deco.getModName() + deco.STAIRS);
+        registerJson(deco.getModName() + EnumDecoration.STAIRS);
     }
 
     private void registerJson(String name) {

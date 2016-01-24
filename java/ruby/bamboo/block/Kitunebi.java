@@ -74,6 +74,7 @@ public class Kitunebi extends Block {
         return false;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public EnumWorldBlockLayer getBlockLayer()
     {

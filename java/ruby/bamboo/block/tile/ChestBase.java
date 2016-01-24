@@ -92,7 +92,7 @@ public abstract class ChestBase extends TileEntityLockable implements IUpdatePla
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -192,7 +192,8 @@ public abstract class ChestBase extends TileEntityLockable implements IUpdatePla
 		this.updateContainingBlockInfo();
 	}
 
-	public void writeToNBT(NBTTagCompound compound)
+	@Override
+    public void writeToNBT(NBTTagCompound compound)
 	{
 		super.writeToNBT(compound);
 		NBTTagList nbttaglist = new NBTTagList();
@@ -216,7 +217,8 @@ public abstract class ChestBase extends TileEntityLockable implements IUpdatePla
 		}
 	}
 
-	public void readFromNBT(NBTTagCompound compound)
+	@Override
+    public void readFromNBT(NBTTagCompound compound)
 	{
 		super.readFromNBT(compound);
 		NBTTagList nbttaglist = compound.getTagList("Items", 10);

@@ -37,7 +37,8 @@ public class SakuraLog extends BlockLog implements ICustomState {
 		list.add(new ItemStack(itemIn, 1, SakuraPlank.EnumType.SAKURA.getMetadata()));
 	}
 
-	public IBlockState getStateFromMeta(int meta) {
+	@Override
+    public IBlockState getStateFromMeta(int meta) {
 		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, SakuraPlank.EnumType.byMetadata((meta & 3)));
 
 		switch (meta & 12) {
@@ -57,7 +58,8 @@ public class SakuraLog extends BlockLog implements ICustomState {
 		return iblockstate;
 	}
 
-	public int getMetaFromState(IBlockState state) {
+	@Override
+    public int getMetaFromState(IBlockState state) {
 		byte b0 = 0;
 		int i = b0 | ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
 
@@ -75,15 +77,18 @@ public class SakuraLog extends BlockLog implements ICustomState {
 		return i;
 	}
 
-	protected BlockState createBlockState() {
+	@Override
+    protected BlockState createBlockState() {
 		return new BlockState(this, new IProperty[] { VARIANT, LOG_AXIS });
 	}
 
-	protected ItemStack createStackedBlock(IBlockState state) {
+	@Override
+    protected ItemStack createStackedBlock(IBlockState state) {
 		return new ItemStack(Item.getItemFromBlock(this), 1, ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata());
 	}
 
-	public int damageDropped(IBlockState state) {
+	@Override
+    public int damageDropped(IBlockState state) {
 		return ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
 	}
 

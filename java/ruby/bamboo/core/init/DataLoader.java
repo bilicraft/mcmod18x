@@ -54,7 +54,7 @@ public class DataLoader extends ClassFinder {
 				instance = (Block) c.newInstance();
 			}
 
-			BambooBlock anoData = (BambooBlock) cls.getAnnotation(BambooBlock.class);
+			BambooBlock anoData = cls.getAnnotation(BambooBlock.class);
 			// 名前の指定がないときはクラス名小文字
 			String name = anoData.name().isEmpty() ? cls.getSimpleName().toLowerCase() : anoData.name().toLowerCase();
 			if (anoData.createiveTabs() != EnumCreateTab.NONE) {
@@ -80,7 +80,7 @@ public class DataLoader extends ClassFinder {
 			Class c = Class.forName(cls.getName());
 			Item instance = (Item) c.newInstance();
 
-			BambooItem anoData = (BambooItem) cls.getAnnotation(BambooItem.class);
+			BambooItem anoData = cls.getAnnotation(BambooItem.class);
 			// 名前の指定がないときはクラス名小文字
 			String name = anoData.name().isEmpty() ? cls.getSimpleName().toLowerCase() : anoData.name().toLowerCase();
 			if (anoData.createiveTabs() != EnumCreateTab.NONE) {

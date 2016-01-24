@@ -161,7 +161,8 @@ public class Bamboo extends BlockBush implements IGrowable {
 		this.tryBambooGrowth(world, pos, world.getBlockState(pos), 0.65F);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@Override
+    @SideOnly(Side.CLIENT)
 	public EnumWorldBlockLayer getBlockLayer() {
 		return EnumWorldBlockLayer.CUTOUT;
 	}

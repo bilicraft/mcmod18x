@@ -12,7 +12,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenBigTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
@@ -80,7 +79,7 @@ public class SakuraSapling extends BlockBush implements IGrowable {
 
 	@Override
 	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-		return (double) worldIn.rand.nextFloat() < 0.45D;
+		return worldIn.rand.nextFloat() < 0.45D;
 	}
 
 	@Override

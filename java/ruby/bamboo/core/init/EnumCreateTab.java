@@ -2,13 +2,11 @@ package ruby.bamboo.core.init;
 
 import java.util.HashMap;
 
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.StatCollector;
 import ruby.bamboo.core.Constants;
-import ruby.bamboo.item.itemblock.ItemBambooShoot;
 
 public enum EnumCreateTab {
 	NONE, TAB_BAMBOO;

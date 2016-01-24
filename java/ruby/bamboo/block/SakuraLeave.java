@@ -45,7 +45,8 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal {
 			return type.getMetadata() < 4;
 		}
 
-		public boolean apply(Object p_apply_1_)
+		@Override
+        public boolean apply(Object p_apply_1_)
 		{
 			return this.apply((EnumLeave) p_apply_1_);
 		}
@@ -112,7 +113,8 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal {
 		return null;
 	}
 
-	public String getLeaveName(int metadata) {
+	@Override
+    public String getLeaveName(int metadata) {
 		return EnumLeave.getLeave(metadata).getName();
 	}
 

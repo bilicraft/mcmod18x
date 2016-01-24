@@ -56,6 +56,7 @@ public class Tatami extends XZAxisBlock {
         return new BlockState(this, new IProperty[] { META, AXIS });
     }
 
+    @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
         return false;
     }

@@ -25,6 +25,7 @@ public class ItemSlideDoor extends Item implements ISubTexture {
         this.hasSubtypes = true;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
         for (IEnumTex tex : getName()) {

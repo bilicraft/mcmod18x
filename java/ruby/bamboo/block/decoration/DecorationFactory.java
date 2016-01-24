@@ -32,18 +32,18 @@ public class DecorationFactory {
     }
 
     void registerDoubleSlab(EnumDecoration deco) {
-        Block doubleSlab = new DecorationDoubleSlab(deco.getMaterial(), deco.getModName() + deco.SLAB);
-        registerBlock(doubleSlab, ItemBlock.class, deco.getName() + deco.DOUBLE_SLAB, EnumCreateTab.NONE);
+        Block doubleSlab = new DecorationDoubleSlab(deco.getMaterial(), deco.getModName() + EnumDecoration.SLAB);
+        registerBlock(doubleSlab, ItemBlock.class, deco.getName() + EnumDecoration.DOUBLE_SLAB, EnumCreateTab.NONE);
     }
 
     void registerSlab(EnumDecoration deco) {
         Block singleSlab = new DecorationSlab(deco.getMaterial());
-        registerBlock(singleSlab, ItemDecorationSlab.class, deco.getName() + deco.SLAB, deco.getCreateTab(), singleSlab, Block.getBlockFromName(deco.getModName() + deco.DOUBLE_SLAB));
+        registerBlock(singleSlab, ItemDecorationSlab.class, deco.getName() + EnumDecoration.SLAB, deco.getCreateTab(), singleSlab, Block.getBlockFromName(deco.getModName() + EnumDecoration.DOUBLE_SLAB));
     }
 
     void registerStair(EnumDecoration deco) {
         Block block = new DecorationStairs(Block.getBlockFromName(deco.getModName()).getDefaultState());
-        registerBlock(block, ItemBlock.class, deco.getName() + deco.STAIRS, deco.getCreateTab());
+        registerBlock(block, ItemBlock.class, deco.getName() + EnumDecoration.STAIRS, deco.getCreateTab());
     }
 
     private void registerBlock(Block block, Class<? extends ItemBlock> item, String name, EnumCreateTab tab, Object... obj) {
