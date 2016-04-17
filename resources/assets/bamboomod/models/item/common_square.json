@@ -1,5 +1,5 @@
 {
-    "parent": "bamboomod:block/kawara",
+    "parent": "bamboomod:block/common_square",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

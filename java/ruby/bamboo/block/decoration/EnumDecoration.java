@@ -17,7 +17,7 @@ public enum EnumDecoration {
 
     private byte typeFlg;
 
-    //flg 1:NOMAL 2:HALF 4:STAIR 3:ALL
+    //flg 1:NOMAL 2:HALF 4:STAIR 7:ALL
     EnumDecoration(String name, Material material, EnumCreateTab tab, int typeFlg) {
         this.name = name;
         this.material = material;

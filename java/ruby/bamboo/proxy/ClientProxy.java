@@ -58,7 +58,7 @@ public class ClientProxy extends CommonProxy {
             this.setIgnoreState(DataManager.getBlock(DataManager.getClass(name)));
             this.setCustomState(DataManager.getBlock(DataManager.getClass(name)));
             if (item instanceof ISubTexture) {
-                for (IEnumTex tex : ((ISubTexture) item).getName()) {
+                for (IEnumTex tex : ((ISubTexture) item).getEnumTex()) {
                     String jsonName = Constants.MODID + Constants.DMAIN_SEPARATE + tex.getJsonName();
                     ModelBakery.addVariantName(item, jsonName);
                     ModelLoader.setCustomModelResourceLocation(item, tex.getId(), new ModelResourceLocation(jsonName, "inventory"));
