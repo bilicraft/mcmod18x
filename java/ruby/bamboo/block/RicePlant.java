@@ -1,8 +1,12 @@
 package ruby.bamboo.block;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -44,5 +48,14 @@ public class RicePlant extends GrowableBase {
     @Override
     public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
         return EnumPlantType.Crop;
+    }
+
+    @Override
+    List<ItemStack> extraDrop(IBlockAccess world, BlockPos pos, IBlockState state, int fortune, List<ItemStack> ret, int age) {
+        if (age >= this.getMaxGrowthStage()) {
+            // 最大成長の場合、1個は保証される
+            ret.add(new ItemStack(this.getSeed(), 1, 0));
+        }
+        return ret;
     }
 }

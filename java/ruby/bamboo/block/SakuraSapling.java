@@ -61,7 +61,7 @@ public class SakuraSapling extends BlockBush implements IGrowable {
 	{
 		if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos))
 			return;
-		WorldGenAbstractTree object = rand.nextInt(10) == 0 ? new GenSakuraBigTree(true) : new GenSakuraTree(true);
+		WorldGenAbstractTree object = rand.nextInt(1) == 0 ? new GenSakuraBigTree(true) : new GenSakuraTree(true);
 		int i = 0;
 		int j = 0;
 		boolean flag = false;

@@ -1,379 +1,376 @@
 package ruby.bamboo.generate;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraftforge.common.IPlantable;
 import ruby.bamboo.block.SakuraLeave;
 import ruby.bamboo.block.SakuraLog;
 import ruby.bamboo.block.SakuraSapling;
 import ruby.bamboo.core.DataManager;
 
-import com.google.common.collect.Lists;
+public class GenSakuraBigTree extends WorldGenAbstractTree {
+    private Random rand;
+    private World world;
+    private BlockPos basePos = BlockPos.ORIGIN;
+    int heightLimit;
+    int height;
+    double heightAttenuation = 0.618D;
+    double branchSlope = 0.381D;
+    double scaleWidth = 1.0D;
+    double leafDensity = 1.0D;
+    int trunkSize = 1;
+    int heightLimitLimit = 12;
+    int leafDistanceLimit = 4;
+    List<FoliageCoordinates> field_175948_j;
 
-public class GenSakuraBigTree extends WorldGenAbstractTree
-{
-	private Random rand;
-	private World world;
-	private BlockPos pos;
-	private Block leave;
-	private static Block log = DataManager.getBlock(SakuraLog.class);
-	private static Block sapling = DataManager.getBlock(SakuraSapling.class);
-	private int meta;
-	int heightLimit;
-	int height;
-	double heightAttenuation;
-	double field_175944_d;
-	double field_175945_e;
-	double leafDensity;
-	int field_175943_g;
-	int field_175950_h;
-	int leafDistanceLimit;
-	List field_175948_j;
-	private static final String __OBFID = "CL_00000400";
+    BlockLeaves leave;
+    BlockLog log;
+    BlockBush sapling;
 
-	public GenSakuraBigTree(boolean notify)
-	{
-		super(notify);
-		this.pos = BlockPos.ORIGIN;
-		this.heightAttenuation = 0.618D;
-		this.field_175944_d = 0.381D;
-		this.field_175945_e = 1.0D;
-		this.leafDensity = 1.0D;
-		this.field_175943_g = 1;
-		this.field_175950_h = 12;
-		this.leafDistanceLimit = 4;
-		leave = DataManager.getBlock(SakuraLeave.class);
-		meta = 0;
-	}
+    public GenSakuraBigTree(boolean p_i2008_1_)
+    {
+        super(p_i2008_1_);
+    }
 
-	public GenSakuraBigTree(boolean notify, Block leave, int meta) {
-		this(notify);
-		this.leave = leave;
-		this.meta = meta;
-	}
 
-	void generateLeafNodeList()
-	{
-		this.height = (int) (this.heightLimit * this.heightAttenuation);
+    void generateLeafNodeList()
+    {
+        this.height = (int)((double)this.heightLimit * this.heightAttenuation);
 
-		if (this.height >= this.heightLimit)
-		{
-			this.height = this.heightLimit - 1;
-		}
+        if (this.height >= this.heightLimit)
+        {
+            this.height = this.heightLimit - 1;
+        }
 
-		int i = (int) (1.382D + Math.pow(this.leafDensity * this.heightLimit / 13.0D, 2.0D));
+        int i = (int)(1.382D + Math.pow(this.leafDensity * (double)this.heightLimit / 13.0D, 2.0D));
 
-		if (i < 1)
-		{
-			i = 1;
-		}
+        if (i < 1)
+        {
+            i = 1;
+        }
 
-		int j = this.pos.getY() + this.height;
-		int k = this.heightLimit - this.leafDistanceLimit;
-		this.field_175948_j = Lists.newArrayList();
-		this.field_175948_j.add(new GenSakuraBigTree.FoliageCoordinates(this.pos.up(k), j));
+        int j = this.basePos.getY() + this.height;
+        int k = this.heightLimit - this.leafDistanceLimit;
+        this.field_175948_j = Lists.<FoliageCoordinates>newArrayList();
+        this.field_175948_j.add(new FoliageCoordinates(this.basePos.up(k), j));
 
-		for (; k >= 0; --k)
-		{
-			float f = this.layerSize(k);
+        for (; k >= 0; --k)
+        {
+            float f = this.layerSize(k);
 
-			if (f >= 0.0F)
-			{
-				for (int l = 0; l < i; ++l)
-				{
-					double d0 = this.field_175945_e * f * (this.rand.nextFloat() + 0.328D);
-					double d1 = this.rand.nextFloat() * 2.0F * Math.PI;
-					double d2 = d0 * Math.sin(d1) + 0.5D;
-					double d3 = d0 * Math.cos(d1) + 0.5D;
-					BlockPos blockpos = this.pos.add(d2, k - 1, d3);
-					BlockPos blockpos1 = blockpos.up(this.leafDistanceLimit);
+            if (f >= 0.0F)
+            {
+                for (int l = 0; l < i; ++l)
+                {
+                    double d0 = this.scaleWidth * (double)f * ((double)this.rand.nextFloat() + 0.328D);
+                    double d1 = (double)(this.rand.nextFloat() * 2.0F) * Math.PI;
+                    double d2 = d0 * Math.sin(d1) + 0.5D;
+                    double d3 = d0 * Math.cos(d1) + 0.5D;
+                    BlockPos blockpos = this.basePos.add(d2, (double)(k - 1), d3);
+                    BlockPos blockpos1 = blockpos.up(this.leafDistanceLimit);
 
-					if (this.func_175936_a(blockpos, blockpos1) == -1)
-					{
-						int i1 = this.pos.getX() - blockpos.getX();
-						int j1 = this.pos.getZ() - blockpos.getZ();
-						double d4 = blockpos.getY() - Math.sqrt(i1 * i1 + j1 * j1) * this.field_175944_d;
-						int k1 = d4 > j ? j : (int) d4;
-						BlockPos blockpos2 = new BlockPos(this.pos.getX(), k1, this.pos.getZ());
+                    if (this.checkBlockLine(blockpos, blockpos1) == -1)
+                    {
+                        int i1 = this.basePos.getX() - blockpos.getX();
+                        int j1 = this.basePos.getZ() - blockpos.getZ();
+                        double d4 = (double)blockpos.getY() - Math.sqrt((double)(i1 * i1 + j1 * j1)) * this.branchSlope;
+                        int k1 = d4 > (double)j ? j : (int)d4;
+                        BlockPos blockpos2 = new BlockPos(this.basePos.getX(), k1, this.basePos.getZ());
 
-						if (this.func_175936_a(blockpos2, blockpos) == -1)
-						{
-							this.field_175948_j.add(new GenSakuraBigTree.FoliageCoordinates(blockpos, blockpos2.getY()));
-						}
-					}
-				}
-			}
-		}
-	}
+                        if (this.checkBlockLine(blockpos2, blockpos) == -1)
+                        {
+                            this.field_175948_j.add(new FoliageCoordinates(blockpos, blockpos2.getY()));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	void func_180712_a(BlockPos pos, float p_180712_2_, Block block)
-	{
-		int i = (int) (p_180712_2_ + 0.618D);
+    public BlockLeaves getLeave(){
+        if(leave==null){
+            leave=DataManager.getBlock(SakuraLeave.class);
+        }
+        return leave;
+    }
 
-		for (int j = -i; j <= i; ++j)
-		{
-			for (int k = -i; k <= i; ++k)
-			{
-				if (Math.pow(Math.abs(j) + 0.5D, 2.0D) + Math.pow(Math.abs(k) + 0.5D, 2.0D) <= p_180712_2_ * p_180712_2_)
-				{
-					BlockPos blockpos1 = pos.add(j, 0, k);
-					net.minecraft.block.state.IBlockState state = this.world.getBlockState(blockpos1);
+    public BlockLog getLog(){
+        if(log==null){
+            log=DataManager.getBlock(SakuraLog.class);
+        }
+        return log;
+    }
 
-					if (state.getBlock().isAir(this.world, blockpos1) || state.getBlock().isLeaves(this.world, blockpos1))
-					{
-						this.func_175905_a(this.world, blockpos1, block, meta);
-					}
-				}
-			}
-		}
-	}
+    public BlockBush getSapling(){
+        if(sapling==null){
+            sapling=DataManager.getBlock(SakuraSapling.class);
+        }
+        return sapling;
+    }
 
-	float layerSize(int p_76490_1_)
-	{
-		if (p_76490_1_ < this.heightLimit * 0.3F)
-		{
-			return -1.0F;
-		}
-		else
-		{
-			float f = this.heightLimit / 2.0F;
-			float f1 = f - p_76490_1_;
-			float f2 = MathHelper.sqrt_float(f * f - f1 * f1);
+    void func_181631_a(BlockPos p_181631_1_, float p_181631_2_, IBlockState p_181631_3_)
+    {
+        int i = (int)((double)p_181631_2_ + 0.618D);
 
-			if (f1 == 0.0F)
-			{
-				f2 = f;
-			}
-			else if (Math.abs(f1) >= f)
-			{
-				return 0.0F;
-			}
+        for (int j = -i; j <= i; ++j)
+        {
+            for (int k = -i; k <= i; ++k)
+            {
+                if (Math.pow((double)Math.abs(j) + 0.5D, 2.0D) + Math.pow((double)Math.abs(k) + 0.5D, 2.0D) <= (double)(p_181631_2_ * p_181631_2_))
+                {
+                    BlockPos blockpos = p_181631_1_.add(j, 0, k);
+                    net.minecraft.block.state.IBlockState state = this.world.getBlockState(blockpos);
 
-			return f2 * 0.5F;
-		}
-	}
+                    if (state.getBlock().isAir(this.world, blockpos) || state.getBlock().isLeaves(this.world, blockpos))
+                    {
+                        this.setBlockAndNotifyAdequately(this.world, blockpos, p_181631_3_);
+                    }
+                }
+            }
+        }
+    }
 
-	float leafSize(int p_76495_1_)
-	{
-		return p_76495_1_ >= 0 && p_76495_1_ < this.leafDistanceLimit ? (p_76495_1_ != 0 && p_76495_1_ != this.leafDistanceLimit - 1 ? 3.0F : 2.0F) : -1.0F;
-	}
+    float layerSize(int p_76490_1_)
+    {
+        if ((float)p_76490_1_ < (float)this.heightLimit * 0.3F)
+        {
+            return -1.0F;
+        }
+        else
+        {
+            float f = (float)this.heightLimit / 2.0F;
+            float f1 = f - (float)p_76490_1_;
+            float f2 = MathHelper.sqrt_float(f * f - f1 * f1);
 
-	void func_175940_a(BlockPos p_175940_1_)
-	{
-		for (int i = 0; i < this.leafDistanceLimit; ++i)
-		{
-			this.func_180712_a(p_175940_1_.up(i), this.leafSize(i), leave);
-		}
-	}
+            if (f1 == 0.0F)
+            {
+                f2 = f;
+            }
+            else if (Math.abs(f1) >= f)
+            {
+                return 0.0F;
+            }
 
-	void func_175937_a(BlockPos p_175937_1_, BlockPos p_175937_2_, Block p_175937_3_)
-	{
-		BlockPos blockpos2 = p_175937_2_.add(-p_175937_1_.getX(), -p_175937_1_.getY(), -p_175937_1_.getZ());
-		int i = this.func_175935_b(blockpos2);
-		float f = (float) blockpos2.getX() / (float) i;
-		float f1 = (float) blockpos2.getY() / (float) i;
-		float f2 = (float) blockpos2.getZ() / (float) i;
+            return f2 * 0.5F;
+        }
+    }
 
-		for (int j = 0; j <= i; ++j)
-		{
-			BlockPos blockpos3 = p_175937_1_.add(0.5F + j * f, 0.5F + j * f1, 0.5F + j * f2);
-			BlockLog.EnumAxis enumaxis = this.func_175938_b(p_175937_1_, blockpos3);
-			this.func_175903_a(this.world, blockpos3, p_175937_3_.getDefaultState().withProperty(BlockLog.LOG_AXIS, enumaxis));
-		}
-	}
+    float leafSize(int p_76495_1_)
+    {
+        return p_76495_1_ >= 0 && p_76495_1_ < this.leafDistanceLimit ? (p_76495_1_ != 0 && p_76495_1_ != this.leafDistanceLimit - 1 ? 3.0F : 2.0F) : -1.0F;
+    }
 
-	private int func_175935_b(BlockPos p_175935_1_)
-	{
-		int i = MathHelper.abs_int(p_175935_1_.getX());
-		int j = MathHelper.abs_int(p_175935_1_.getY());
-		int k = MathHelper.abs_int(p_175935_1_.getZ());
-		return k > i && k > j ? k : (j > i ? j : i);
-	}
+    void generateLeafNode(BlockPos pos)
+    {
+        for (int i = 0; i < this.leafDistanceLimit; ++i)
+        {
+            this.func_181631_a(pos.up(i), this.leafSize(i), getLeave().getDefaultState().withProperty(getLeave().CHECK_DECAY, Boolean.valueOf(false)));
+        }
+    }
 
-	private BlockLog.EnumAxis func_175938_b(BlockPos p_175938_1_, BlockPos p_175938_2_)
-	{
-		BlockLog.EnumAxis enumaxis = BlockLog.EnumAxis.Y;
-		int i = Math.abs(p_175938_2_.getX() - p_175938_1_.getX());
-		int j = Math.abs(p_175938_2_.getZ() - p_175938_1_.getZ());
-		int k = Math.max(i, j);
+    void func_175937_a(BlockPos p_175937_1_, BlockPos p_175937_2_, Block p_175937_3_)
+    {
+        BlockPos blockpos = p_175937_2_.add(-p_175937_1_.getX(), -p_175937_1_.getY(), -p_175937_1_.getZ());
+        int i = this.getGreatestDistance(blockpos);
+        float f = (float)blockpos.getX() / (float)i;
+        float f1 = (float)blockpos.getY() / (float)i;
+        float f2 = (float)blockpos.getZ() / (float)i;
 
-		if (k > 0)
-		{
-			if (i == k)
-			{
-				enumaxis = BlockLog.EnumAxis.X;
-			}
-			else if (j == k)
-			{
-				enumaxis = BlockLog.EnumAxis.Z;
-			}
-		}
+        for (int j = 0; j <= i; ++j)
+        {
+            BlockPos blockpos1 = p_175937_1_.add((double)(0.5F + (float)j * f), (double)(0.5F + (float)j * f1), (double)(0.5F + (float)j * f2));
+            BlockLog.EnumAxis blocklog$enumaxis = this.func_175938_b(p_175937_1_, blockpos1);
+            this.setBlockAndNotifyAdequately(this.world, blockpos1, p_175937_3_.getDefaultState().withProperty(BlockLog.LOG_AXIS, blocklog$enumaxis));
+        }
+    }
 
-		return enumaxis;
-	}
+    private int getGreatestDistance(BlockPos posIn)
+    {
+        int i = MathHelper.abs_int(posIn.getX());
+        int j = MathHelper.abs_int(posIn.getY());
+        int k = MathHelper.abs_int(posIn.getZ());
+        return k > i && k > j ? k : (j > i ? j : i);
+    }
 
-	void func_175941_b()
-	{
-		Iterator iterator = this.field_175948_j.iterator();
+    private BlockLog.EnumAxis func_175938_b(BlockPos p_175938_1_, BlockPos p_175938_2_)
+    {
+        BlockLog.EnumAxis blocklog$enumaxis = BlockLog.EnumAxis.Y;
+        int i = Math.abs(p_175938_2_.getX() - p_175938_1_.getX());
+        int j = Math.abs(p_175938_2_.getZ() - p_175938_1_.getZ());
+        int k = Math.max(i, j);
 
-		while (iterator.hasNext())
-		{
-			GenSakuraBigTree.FoliageCoordinates foliagecoordinates = (GenSakuraBigTree.FoliageCoordinates) iterator.next();
-			this.func_175940_a(foliagecoordinates);
-		}
-	}
+        if (k > 0)
+        {
+            if (i == k)
+            {
+                blocklog$enumaxis = BlockLog.EnumAxis.X;
+            }
+            else if (j == k)
+            {
+                blocklog$enumaxis = BlockLog.EnumAxis.Z;
+            }
+        }
 
-	boolean leafNodeNeedsBase(int p_76493_1_)
-	{
-		return p_76493_1_ >= this.heightLimit * 0.2D;
-	}
+        return blocklog$enumaxis;
+    }
 
-	void func_175942_c()
-	{
-		BlockPos blockpos = this.pos;
-		BlockPos blockpos1 = this.pos.up(this.height);
-		Block block = log;
-		this.func_175937_a(blockpos, blockpos1, block);
+    void generateLeaves()
+    {
+        for (FoliageCoordinates worldgenbigtree$foliagecoordinates : this.field_175948_j)
+        {
+            this.generateLeafNode(worldgenbigtree$foliagecoordinates);
+        }
+    }
 
-		if (this.field_175943_g == 2)
-		{
-			this.func_175937_a(blockpos.east(), blockpos1.east(), block);
-			this.func_175937_a(blockpos.east().south(), blockpos1.east().south(), block);
-			this.func_175937_a(blockpos.south(), blockpos1.south(), block);
-		}
-	}
+    boolean leafNodeNeedsBase(int p_76493_1_)
+    {
+        return (double)p_76493_1_ >= (double)this.heightLimit * 0.2D;
+    }
 
-	void func_175939_d()
-	{
-		Iterator iterator = this.field_175948_j.iterator();
+    void generateTrunk()
+    {
+        BlockPos blockpos = this.basePos;
+        BlockPos blockpos1 = this.basePos.up(this.height);
+        Block block = getLog();
+        this.func_175937_a(blockpos, blockpos1, block);
 
-		while (iterator.hasNext())
-		{
-			GenSakuraBigTree.FoliageCoordinates foliagecoordinates = (GenSakuraBigTree.FoliageCoordinates) iterator.next();
-			int i = foliagecoordinates.func_177999_q();
-			BlockPos blockpos = new BlockPos(this.pos.getX(), i, this.pos.getZ());
+        if (this.trunkSize == 2)
+        {
+            this.func_175937_a(blockpos.east(), blockpos1.east(), block);
+            this.func_175937_a(blockpos.east().south(), blockpos1.east().south(), block);
+            this.func_175937_a(blockpos.south(), blockpos1.south(), block);
+        }
+    }
 
-			if (this.leafNodeNeedsBase(i - this.pos.getY()))
-			{
-				this.func_175937_a(blockpos, foliagecoordinates, DataManager.getBlock(SakuraLog.class));
-			}
-		}
-	}
+    void generateLeafNodeBases()
+    {
+        for (FoliageCoordinates worldgenbigtree$foliagecoordinates : this.field_175948_j)
+        {
+            int i = worldgenbigtree$foliagecoordinates.func_177999_q();
+            BlockPos blockpos = new BlockPos(this.basePos.getX(), i, this.basePos.getZ());
 
-	int func_175936_a(BlockPos p_175936_1_, BlockPos p_175936_2_)
-	{
-		BlockPos blockpos2 = p_175936_2_.add(-p_175936_1_.getX(), -p_175936_1_.getY(), -p_175936_1_.getZ());
-		int i = this.func_175935_b(blockpos2);
-		float f = (float) blockpos2.getX() / (float) i;
-		float f1 = (float) blockpos2.getY() / (float) i;
-		float f2 = (float) blockpos2.getZ() / (float) i;
+            if (!blockpos.equals(worldgenbigtree$foliagecoordinates) && this.leafNodeNeedsBase(i - this.basePos.getY()))
+            {
+                this.func_175937_a(blockpos, worldgenbigtree$foliagecoordinates,getLog());
+            }
+        }
+    }
 
-		if (i == 0)
-		{
-			return -1;
-		}
-		else
-		{
-			for (int j = 0; j <= i; ++j)
-			{
-				BlockPos blockpos3 = p_175936_1_.add(0.5F + j * f, 0.5F + j * f1, 0.5F + j * f2);
+    int checkBlockLine(BlockPos posOne, BlockPos posTwo)
+    {
+        BlockPos blockpos = posTwo.add(-posOne.getX(), -posOne.getY(), -posOne.getZ());
+        int i = this.getGreatestDistance(blockpos);
+        float f = (float)blockpos.getX() / (float)i;
+        float f1 = (float)blockpos.getY() / (float)i;
+        float f2 = (float)blockpos.getZ() / (float)i;
 
-				if (!this.isReplaceable(world, blockpos3))
-				{
-					return j;
-				}
-			}
+        if (i == 0)
+        {
+            return -1;
+        }
+        else
+        {
+            for (int j = 0; j <= i; ++j)
+            {
+                BlockPos blockpos1 = posOne.add((double)(0.5F + (float)j * f), (double)(0.5F + (float)j * f1), (double)(0.5F + (float)j * f2));
 
-			return -1;
-		}
-	}
+                if (!this.isReplaceable(world, blockpos1))
+                {
+                    return j;
+                }
+            }
 
-	@Override
+            return -1;
+        }
+    }
+
     public void func_175904_e()
-	{
-		this.leafDistanceLimit = 5;
-	}
+    {
+        this.leafDistanceLimit = 5;
+    }
 
-	@Override
-	public boolean generate(World worldIn, Random rand, BlockPos pos)
-	{
-		this.world = worldIn;
-		this.pos = pos;
-		this.rand = new Random(rand.nextLong());
+    public boolean generate(World worldIn, Random rand, BlockPos position)
+    {
+        this.world = worldIn;
+        this.basePos = position;
+        this.rand = new Random(rand.nextLong());
 
-		if (this.heightLimit == 0)
-		{
-			this.heightLimit = 5 + this.rand.nextInt(this.field_175950_h);
-		}
+        if (this.heightLimit == 0)
+        {
+            this.heightLimit = 5 + this.rand.nextInt(this.heightLimitLimit);
+        }
 
-		if (!this.validTreeLocation())
-		{
-			this.world = null; // Fix vanilla Mem leak, holds latest world
-			return false;
-		}
-		else
-		{
-			this.generateLeafNodeList();
-			this.func_175941_b();
-			this.func_175942_c();
-			this.func_175939_d();
-			this.world = null; // Fix vanilla Mem leak, holds latest world
-			return true;
-		}
-	}
+        if (!this.validTreeLocation())
+        {
+            this.world = null; //Fix vanilla Mem leak, holds latest world
+            return false;
+        }
+        else
+        {
+            this.generateLeafNodeList();
+            this.generateLeaves();
+            this.generateTrunk();
+            this.generateLeafNodeBases();
+            this.world = null; //Fix vanilla Mem leak, holds latest world
+            return true;
+        }
+    }
 
-	private boolean validTreeLocation()
-	{
-		BlockPos down = this.pos.down();
-		net.minecraft.block.state.IBlockState state = this.world.getBlockState(down);
-		boolean isSoil = state.getBlock().canSustainPlant(this.world, down, net.minecraft.util.EnumFacing.UP, ((IPlantable) sapling));
+    private boolean validTreeLocation()
+    {
+        BlockPos down = this.basePos.down();
+        net.minecraft.block.state.IBlockState state = this.world.getBlockState(down);
+        boolean isSoil = state.getBlock().canSustainPlant(this.world, down, net.minecraft.util.EnumFacing.UP, getSapling());
 
-		if (!isSoil)
-		{
-			return false;
-		}
-		else
-		{
-			int i = this.func_175936_a(this.pos, this.pos.up(this.heightLimit - 1));
+        if (!isSoil)
+        {
+            return false;
+        }
+        else
+        {
+            int i = this.checkBlockLine(this.basePos, this.basePos.up(this.heightLimit - 1));
 
-			if (i == -1)
-			{
-				return true;
-			}
-			else if (i < 6)
-			{
-				return false;
-			}
-			else
-			{
-				this.heightLimit = i;
-				return true;
-			}
-		}
-	}
+            if (i == -1)
+            {
+                return true;
+            }
+            else if (i < 6)
+            {
+                return false;
+            }
+            else
+            {
+                this.heightLimit = i;
+                return true;
+            }
+        }
+    }
 
-	static class FoliageCoordinates extends BlockPos
-	{
-		private final int field_178000_b;
-		private static final String __OBFID = "CL_00002001";
+    static class FoliageCoordinates extends BlockPos
+        {
+            private final int field_178000_b;
 
-		public FoliageCoordinates(BlockPos p_i45635_1_, int p_i45635_2_)
-		{
-			super(p_i45635_1_.getX(), p_i45635_1_.getY(), p_i45635_1_.getZ());
-			this.field_178000_b = p_i45635_2_;
-		}
+            public FoliageCoordinates(BlockPos p_i45635_1_, int p_i45635_2_)
+            {
+                super(p_i45635_1_.getX(), p_i45635_1_.getY(), p_i45635_1_.getZ());
+                this.field_178000_b = p_i45635_2_;
+            }
 
-		public int func_177999_q()
-		{
-			return this.field_178000_b;
-		}
-	}
+            public int func_177999_q()
+            {
+                return this.field_178000_b;
+            }
+        }
+
 }

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import ruby.bamboo.core.DataManager;
 import ruby.bamboo.inventory.InventorySack;
 import ruby.bamboo.item.Sack;
@@ -89,7 +90,7 @@ public class ContainerSack extends Container {
             ItemStack item = itemStack;
 
             if (item != null && item.getTagCompound() != null) {
-                if (isStorage(Item.itemRegistry.getObject(item.getTagCompound().getString("type")))) {
+                if (isStorage(Item.itemRegistry.getObject(new ResourceLocation(item.getTagCompound().getString("type"))))) {
                     par1EntityPlayer.getCurrentEquippedItem().setTagCompound(item.getTagCompound());
                 } else {
                     if (!par1EntityPlayer.worldObj.isRemote) {

@@ -49,7 +49,7 @@ public class BambooRecipes {
      */
     public void craftingTableRecipes() {
         // サクラ原木→木材
-        addShapelessRecipe(getIS(SakuraPlank.class, 4, 0), SakuraLog.class);
+        addShapelessRecipe(getIS(SakuraPlank.class, 4, 0), getIS(SakuraLog.class, 1, WILD));
         // 袋開放
         addShapelessRecipe(getIS(Sack.class), getIS(Sack.class, 1, WILD));
         // つづら

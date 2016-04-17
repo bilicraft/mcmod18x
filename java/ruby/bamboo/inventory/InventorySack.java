@@ -50,7 +50,7 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
+    public ItemStack removeStackFromSlot(int i) {
         if (this.slot0 != null) {
             ItemStack itemstack = this.slot0;
             this.slot0 = null;
@@ -84,49 +84,48 @@ public class InventorySack implements IInventory {
         return false;
     }
 
-
     @Override
     public void markDirty() {
     }
 
-	@Override
-	public String getName() {
-		return null;
-	}
+    @Override
+    public String getName() {
+        return null;
+    }
 
-	@Override
-	public boolean hasCustomName() {
-		return false;
-	}
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
 
-	@Override
-	public IChatComponent getDisplayName() {
-		return null;
-	}
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
 
-	@Override
-	public void openInventory(EntityPlayer player) {
-	}
+    @Override
+    public void openInventory(EntityPlayer player) {
+    }
 
-	@Override
-	public void closeInventory(EntityPlayer player) {
-	}
+    @Override
+    public void closeInventory(EntityPlayer player) {
+    }
 
-	@Override
-	public int getField(int id) {
-		return 0;
-	}
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
 
-	@Override
-	public void setField(int id, int value) {
-	}
+    @Override
+    public void setField(int id, int value) {
+    }
 
-	@Override
-	public int getFieldCount() {
-		return 0;
-	}
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
 
-	@Override
-	public void clear() {
-	}
+    @Override
+    public void clear() {
+    }
 }

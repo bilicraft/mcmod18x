@@ -5,10 +5,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntityLockable;
+import net.minecraft.util.ITickable;
 
-public abstract class ChestBase extends TileEntityLockable implements IUpdatePlayerListBox, IInventory {
+public abstract class ChestBase extends TileEntityLockable implements ITickable, IInventory {
 	String customName;
 	private ItemStack[] chestContents = new ItemStack[getSizeInventory()];
 
@@ -63,7 +63,7 @@ public abstract class ChestBase extends TileEntityLockable implements IUpdatePla
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		if (this.chestContents[index] != null)
 		{
 			ItemStack itemstack = this.chestContents[index];

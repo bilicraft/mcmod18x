@@ -99,7 +99,7 @@ public class ClientProxy extends CommonProxy {
             try {
                 IProperty[] prop = (IProperty[]) method.invoke(obj);
                 if (prop != null) {
-                    ModelLoader.setCustomStateMapper((Block) obj, (new StateMap.Builder()).addPropertiesToIgnore(prop).build());
+                    ModelLoader.setCustomStateMapper((Block) obj, (new StateMap.Builder()).ignore(prop).build());
                 }
             } catch (Exception e) {
                 FMLLog.warning(obj.getClass().getName() + "Ignore State Error");

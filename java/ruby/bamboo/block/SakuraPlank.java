@@ -32,7 +32,7 @@ public class SakuraPlank extends AxisBase implements ICustomState {
 
 	@Override
 	public Object getCustomState() {
-		return (new StateMap.Builder()).setProperty(VARIANT).setBuilderSuffix("_planks").build();
+		return (new StateMap.Builder()).withName(VARIANT).withSuffix("_planks").build();
 	}
 
 	@Override

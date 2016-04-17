@@ -16,7 +16,7 @@ public class DecorationClientFactory extends DecorationFactory {
 
     @Override
     void registerDoubleSlab(EnumDecoration deco) {
-        ModelLoader.setCustomStateMapper(Block.getBlockFromName(deco.getModName() + EnumDecoration.DOUBLE_SLAB), (new StateMap.Builder()).addPropertiesToIgnore(DecorationSlab.SEAMLESS).build());
+        ModelLoader.setCustomStateMapper(Block.getBlockFromName(deco.getModName() + EnumDecoration.DOUBLE_SLAB), (new StateMap.Builder()).ignore(DecorationSlab.SEAMLESS).build());
         registerJson(deco.getModName() + EnumDecoration.DOUBLE_SLAB);
     }
 

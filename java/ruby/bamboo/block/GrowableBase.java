@@ -151,15 +151,24 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
         Random rand = world instanceof World ? ((World) world).rand : new Random();
 
         if (age >= this.getMaxGrowthStage()) {
-            int k = 3 + fortune;
-
             for (int i = 0; i < 3 + fortune; ++i) {
-                if (rand.nextInt(15) <= age) {
+                if (rand.nextFloat() <= getDropRate(age)) {
                     ret.add(new ItemStack(this.getSeed(), 1, 0));
                 }
             }
         }
+
+        extraDrop(world, pos, state, fortune, ret, age);
         return ret;
+    }
+
+    float getDropRate(int age) {
+
+        return (age / getMaxGrowthStage()) / 2F;
+    }
+
+    List<ItemStack> extraDrop(IBlockAccess world, BlockPos pos, IBlockState state, int fortune, List<ItemStack> list, int age) {
+        return list;
     }
 
     public abstract int getMaxGrowthStage();

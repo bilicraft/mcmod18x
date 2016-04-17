@@ -19,7 +19,7 @@ import ruby.bamboo.core.init.EnumCreateTab;
 /*
  * さくら？
  * メモ：カスタムステートでjsonの切り替えできるっぽい
- * 
+ *
  */
 
 @BambooBlock(name = "sakura_log", createiveTabs = EnumCreateTab.TAB_BAMBOO)
@@ -117,6 +117,6 @@ public class SakuraLog extends BlockLog implements ICustomState {
 
 	@Override
 	public Object getCustomState() {
-		return (new StateMap.Builder()).setProperty(VARIANT).setBuilderSuffix("_log").build();
+		return (new StateMap.Builder()).withName(VARIANT).withSuffix("_log").build();
 	}
 }
