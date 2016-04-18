@@ -5,7 +5,8 @@ import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.init.EnumCreateTab;
 
 public enum EnumDecoration {
-    KAWARA("kawara", Material.ground, EnumCreateTab.TAB_BAMBOO, 7);
+    KAWARA("kawara", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),
+    PLASTER("plaster", Material.ground, EnumCreateTab.TAB_BAMBOO, 7);
 
     public static final String SLAB = "_slab";
     public static final String DOUBLE_SLAB = "_double_slab";

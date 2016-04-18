@@ -78,8 +78,13 @@ public class BambooRecipes {
         //******デコレーション
         // 瓦
         addCircleRecipe(getBlockIS(EnumDecoration.KAWARA.getModName(), 8, 0), tudura, Items.brick);
-        addSlabRecipe(getBlockIS(EnumDecoration.KAWARA.getModName() + EnumDecoration.SLAB, 12, 0), getBlockIS(EnumDecoration.KAWARA.getModName(), 1, 0));
+        addSlabRecipe(getBlockIS(EnumDecoration.KAWARA.getModName() + EnumDecoration.SLAB, 6, 0), getBlockIS(EnumDecoration.KAWARA.getModName(), 1, 0));
         addStairsRecipe(getBlockIS(EnumDecoration.KAWARA.getModName() + EnumDecoration.STAIRS, 4, 0), getBlockIS(EnumDecoration.KAWARA.getModName(), 1, 0));
+        // 漆喰
+        addCircleRecipe(getBlockIS(EnumDecoration.PLASTER.getModName(), 8, 0), tudura, Blocks.sand);
+        addSlabRecipe(getBlockIS(EnumDecoration.PLASTER.getModName() + EnumDecoration.SLAB, 6, 0), getBlockIS(EnumDecoration.PLASTER.getModName(), 1, 0));
+        addStairsRecipe(getBlockIS(EnumDecoration.PLASTER.getModName() + EnumDecoration.STAIRS, 4, 0), getBlockIS(EnumDecoration.PLASTER.getModName(), 1, 0));
+
     }
 
     /**
@@ -127,10 +132,9 @@ public class BambooRecipes {
     /**
      * 半ブロレシピ(復元含)
      * XXX
-     * XXX
      */
     private void addSlabRecipe(ItemStack out, ItemStack itemStack) {
-        addRecipe(out, "XXX", "XXX", 'X', itemStack);
+        addRecipe(out, "XXX", 'X', itemStack);
         addRecipe(new ItemStack(itemStack.getItem(), 1, 0), "X", "X", 'X', out);
     }
 

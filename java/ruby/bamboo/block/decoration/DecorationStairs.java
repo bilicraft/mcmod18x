@@ -12,6 +12,8 @@ public class DecorationStairs extends BlockStairs{
         super(modelState);
         this.setHardness(0.5F);
         this.setResistance(300F);
+        // 他のslabと違って、255のままだと影が出すぎてしまう。どこかにバニラ半ブロックの専用処理がハードコートされている？
+        this.setLightOpacity(1);
     }
 
 }

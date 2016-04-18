@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "bamboomod:plaster_slab" },
+        "half=top": { "model": "bamboomod:plaster_upper_slab" }
+    }
+}
