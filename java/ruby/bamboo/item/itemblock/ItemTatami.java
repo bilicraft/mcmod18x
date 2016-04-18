@@ -35,7 +35,7 @@ public class ItemTatami extends MetaItem {
     }
 
     @Override
-    public IEnumTex[] getEnumTex() {
+    public IEnumTex[] getName() {
         return EnumType.values();
     }
 

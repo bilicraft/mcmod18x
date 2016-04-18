@@ -36,16 +36,4 @@ public class Constants {
 	 */
 	public static final String BLOCK_PACKAGE = "ruby.bamboo.block";
 	public static final String ITEM_PACKAGE = "ruby.bamboo.item";
-
-	public static String getModDomain(){
-	    return MODID+DMAIN_SEPARATE;
-	}
-
-	public static String getBlockTexPath(){
-	    return getModDomain()+"blocks/";
-	}
-
-	   public static String getItemTexPath(){
-	        return getModDomain()+"items/";
-	    }
 }

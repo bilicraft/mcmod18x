@@ -2,8 +2,6 @@ package ruby.bamboo.block.decoration;
 
 import java.util.Random;
 
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -16,14 +14,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.Constants;
 import ruby.bamboo.item.itemblock.ItemDecorationSlab;
-import ruby.bamboo.model.IRetexture;
 
-public class DecorationSlab extends BlockSlab implements IRetexture {
+public class DecorationSlab extends BlockSlab {
 
     public static final PropertyBool SEAMLESS = PropertyBool.create("seamless");
-    private String name;
 
     public DecorationSlab(Material materialIn) {
         super(materialIn);
@@ -112,21 +107,6 @@ public class DecorationSlab extends BlockSlab implements IRetexture {
     @Override
     protected BlockState createBlockState() {
         return this.isDouble() ? new BlockState(this, new IProperty[] { SEAMLESS }) : new BlockState(this, new IProperty[] { HALF });
-    }
-
-    public DecorationSlab setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public ImmutableMap<String, String> getTextureMap(int meta) {
-        String path = Constants.getBlockTexPath() + this.getName();
-        return ImmutableMap.of("bottom", path, "top", path, "side", path);
     }
 
 }

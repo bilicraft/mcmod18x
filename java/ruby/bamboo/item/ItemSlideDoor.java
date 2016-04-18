@@ -28,7 +28,7 @@ public class ItemSlideDoor extends Item implements ISubTexture {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
-        for (IEnumTex tex : getEnumTex()) {
+        for (IEnumTex tex : getName()) {
             subItems.add(new ItemStack(itemIn, 1, tex.getId()));
         }
     }
@@ -54,7 +54,7 @@ public class ItemSlideDoor extends Item implements ISubTexture {
     }
 
     @Override
-    public IEnumTex[] getEnumTex() {
+    public IEnumTex[] getName() {
         return EnumSlideDoor.values();
     }
 

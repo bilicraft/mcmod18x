@@ -1,6 +1,6 @@
 package ruby.bamboo.core;
 
-import net.minecraftforge.common.MinecraftForge;
+import ruby.bamboo.proxy.CommonProxy;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,8 +11,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
-import ruby.bamboo.model.ModelFactory;
-import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = Constants.MODID, name = Constants.MODID, version = "Minecraft"
 		+ Constants.MC_VER + " var" + Constants.BAMBOO_VER, useMetadata = true)
@@ -35,9 +33,6 @@ public class BambooCore {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent e) {
 		proxy.init();
-        if (e.getSide().isClient()) {
-            MinecraftForge.EVENT_BUS.register(new ModelFactory());
-        }
 	}
 
 	@Mod.EventHandler
@@ -47,7 +42,7 @@ public class BambooCore {
 
 	/**
 	 * デバッグ環境判定用
-	 *
+	 * 
 	 * @return
 	 */
 	private static boolean isDevelopment() {
@@ -61,6 +56,5 @@ public class BambooCore {
 		}
 		return result;
 	}
-
 
 }

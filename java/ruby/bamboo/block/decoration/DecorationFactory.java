@@ -27,22 +27,22 @@ public class DecorationFactory {
     }
 
     void registerNormal(EnumDecoration deco) {
-        Block block = new DecorationBlock(deco.getMaterial()).setName(deco.getName());
+        Block block = new DecorationBlock(deco.getMaterial());
         registerBlock(block, ItemBlock.class, deco.getName(), deco.getCreateTab());
     }
 
     void registerDoubleSlab(EnumDecoration deco) {
-        Block doubleSlab = new DecorationDoubleSlab(deco.getMaterial(), deco.getModName() + EnumDecoration.SLAB).setName(deco.getName());
+        Block doubleSlab = new DecorationDoubleSlab(deco.getMaterial(), deco.getModName() + EnumDecoration.SLAB);
         registerBlock(doubleSlab, ItemBlock.class, deco.getName() + EnumDecoration.DOUBLE_SLAB, EnumCreateTab.NONE);
     }
 
     void registerSlab(EnumDecoration deco) {
-        Block singleSlab = new DecorationSlab(deco.getMaterial()).setName(deco.getName());
+        Block singleSlab = new DecorationSlab(deco.getMaterial());
         registerBlock(singleSlab, ItemDecorationSlab.class, deco.getName() + EnumDecoration.SLAB, deco.getCreateTab(), singleSlab, Block.getBlockFromName(deco.getModName() + EnumDecoration.DOUBLE_SLAB));
     }
 
     void registerStair(EnumDecoration deco) {
-        Block block = new DecorationStairs(Block.getBlockFromName(deco.getModName()).getDefaultState()).setName(deco.getName());
+        Block block = new DecorationStairs(Block.getBlockFromName(deco.getModName()).getDefaultState());
         registerBlock(block, ItemBlock.class, deco.getName() + EnumDecoration.STAIRS, deco.getCreateTab());
     }
 
