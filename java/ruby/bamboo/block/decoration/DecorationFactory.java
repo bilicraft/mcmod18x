@@ -11,16 +11,16 @@ public class DecorationFactory {
 
     public void register() {
         for (EnumDecoration deco : EnumDecoration.values()) {
-            if ((deco.getTypeFlg() & 1) != 0) {
+            if (deco.isNormal()) {
                 registerNormal(deco);
             }
 
-            if ((deco.getTypeFlg() & 2) != 0) {
+            if (deco.isHalf()) {
                 registerDoubleSlab(deco);
                 registerSlab(deco);
             }
 
-            if ((deco.getTypeFlg() & 4) != 0) {
+            if (deco.isStair()) {
                 registerStair(deco);
             }
         }

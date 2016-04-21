@@ -34,6 +34,7 @@ tile.delude_height.name=Camoslab(Vertical)
 tile.delude_stair.name=Camostairs
 tile.campfire.name=Campfire
 
+#deco
 tile.kawara.name=Kawara
 tile.kawara_slab.name=Kawara_slab
 tile.kawara_stairs.name=Kawara_stairs
@@ -42,6 +43,10 @@ tile.plaster.name=plaster
 tile.plaster_slab.name=plaster_slab
 tile.plaster_stairs.name=plaster_stairs
 tile.plaster_double_slab.name=plaster_double_slab
+tile.namako.name=namako
+tile.namako_slab.name=namako_slab
+tile.namako_stairs.name=namako_stairs
+tile.namako_double_slab.name=namako_double_slab
 
 tile.twoDirDeco.0.name=Yoroiita
 tile.sakura_planks.name=SakuraWoodPlanks

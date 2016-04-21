@@ -6,7 +6,8 @@ import ruby.bamboo.core.init.EnumCreateTab;
 
 public enum EnumDecoration {
     KAWARA("kawara", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),
-    PLASTER("plaster", Material.ground, EnumCreateTab.TAB_BAMBOO, 7);
+    PLASTER("plaster", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),
+    NAMAKO("namako", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),;
 
     public static final String SLAB = "_slab";
     public static final String DOUBLE_SLAB = "_double_slab";
@@ -42,8 +43,16 @@ public enum EnumDecoration {
         return this.tab;
     }
 
-    public byte getTypeFlg() {
-        return this.typeFlg;
+    public boolean isNormal() {
+        return (typeFlg & 1) != 0;
+    }
+
+    public boolean isHalf() {
+        return (typeFlg & 1) != 2;
+    }
+
+    public boolean isStair() {
+        return (typeFlg & 1) != 4;
     }
 
 }

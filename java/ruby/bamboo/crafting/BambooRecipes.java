@@ -78,13 +78,25 @@ public class BambooRecipes {
         //******デコレーション
         // 瓦
         addCircleRecipe(getBlockIS(EnumDecoration.KAWARA.getModName(), 8, 0), tudura, Items.brick);
-        addSlabRecipe(getBlockIS(EnumDecoration.KAWARA.getModName() + EnumDecoration.SLAB, 6, 0), getBlockIS(EnumDecoration.KAWARA.getModName(), 1, 0));
-        addStairsRecipe(getBlockIS(EnumDecoration.KAWARA.getModName() + EnumDecoration.STAIRS, 4, 0), getBlockIS(EnumDecoration.KAWARA.getModName(), 1, 0));
         // 漆喰
         addCircleRecipe(getBlockIS(EnumDecoration.PLASTER.getModName(), 8, 0), tudura, Blocks.sand);
-        addSlabRecipe(getBlockIS(EnumDecoration.PLASTER.getModName() + EnumDecoration.SLAB, 6, 0), getBlockIS(EnumDecoration.PLASTER.getModName(), 1, 0));
-        addStairsRecipe(getBlockIS(EnumDecoration.PLASTER.getModName() + EnumDecoration.STAIRS, 4, 0), getBlockIS(EnumDecoration.PLASTER.getModName(), 1, 0));
+        // なまこ
+        addAltCircleRecipe(getBlockIS(EnumDecoration.NAMAKO.getModName(), 8, 0), tudura, getBlockIS(EnumDecoration.PLASTER.getModName()), getBlockIS(EnumDecoration.KAWARA.getModName()));
+        // デコレーション用半ブロと階段の登録
+        registerDeco();
 
+    }
+
+    private void registerDeco() {
+        byte typeFlag;
+        for (EnumDecoration deco : EnumDecoration.values()) {
+            if (deco.isHalf()) {
+                addSlabRecipe(getBlockIS(deco.getModName() + EnumDecoration.SLAB, 6, 0), getBlockIS(deco.getModName(), 1, 0));
+            }
+            if (deco.isStair()) {
+                addStairsRecipe(getBlockIS(deco.getModName() + EnumDecoration.STAIRS, 4, 0), getBlockIS(deco.getModName(), 1, 0));
+            }
+        }
     }
 
     /**
@@ -127,6 +139,16 @@ public class BambooRecipes {
      */
     private void addCircleRecipe(ItemStack out, Object center, Object outer) {
         addRecipe(out, "XXX", "X#X", "XXX", '#', center, 'X', outer);
+    }
+
+    /**
+     * 交互囲みレシピ
+     * XYX
+     * Y#Y
+     * XYX
+     */
+    private void addAltCircleRecipe(ItemStack out, Object center, Object one, Object two) {
+        addRecipe(out, "XYX", "Y#Y", "XYX", '#', center, 'X', one, 'Y', two);
     }
 
     /**
@@ -214,6 +236,10 @@ public class BambooRecipes {
             throw new IllegalArgumentException("Illegal recipe!" + cls.getSimpleName());
         }
         return is;
+    }
+
+    private ItemStack getBlockIS(String name) {
+        return getBlockIS(name, 1, 0);
     }
 
     private ItemStack getBlockIS(String name, int amo, int meta) {
