@@ -5,9 +5,10 @@ import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.init.EnumCreateTab;
 
 public enum EnumDecoration {
-    KAWARA("kawara", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),
-    PLASTER("plaster", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),
-    NAMAKO("namako", Material.ground, EnumCreateTab.TAB_BAMBOO, 7),;
+    KAWARA("kawara"),
+    PLASTER("plaster"),
+    NAMAKO("namako"),
+    WARA("wara"),;
 
     public static final String SLAB = "_slab";
     public static final String DOUBLE_SLAB = "_double_slab";
@@ -20,6 +21,9 @@ public enum EnumDecoration {
     private byte typeFlg;
 
     //flg 1:NOMAL 2:HALF 4:STAIR 3:ALL
+    EnumDecoration(String name){
+        this(name, Material.ground, EnumCreateTab.TAB_BAMBOO, 7);
+    }
     EnumDecoration(String name, Material material, EnumCreateTab tab, int typeFlg) {
         this.name = name;
         this.material = material;

@@ -47,6 +47,10 @@ tile.namako.name=なまこ
 tile.namako_slab.name=ハーフなまこ
 tile.namako_stairs.name=なまこ階段
 tile.namako_double_slab.name=ダブルなまこブロック
+tile.wara.name=わらブロック
+tile.wara_slab.name=ハーフわら
+tile.wara_stairs.name=わら階段
+tile.wara_double_slab.name=ダブルわらブロック
 
 tile.twoDirDeco.0.name=鎧板
 tile.twoDirDeco.2.name=桜木材

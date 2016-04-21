@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "bamboomod:blocks/wara",
+        "top": "bamboomod:blocks/wara",
+        "side": "bamboomod:blocks/wara"
+    }
+}

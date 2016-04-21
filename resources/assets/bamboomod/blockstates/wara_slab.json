@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "bamboomod:wara_slab" },
+        "half=top": { "model": "bamboomod:wara_upper_slab" }
+    }
+}

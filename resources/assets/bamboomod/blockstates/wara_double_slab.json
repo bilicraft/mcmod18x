@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": { "model": "bamboomod:wara" },
+        "all":    { "model": "bamboomod:wara" }
+    }
+}

@@ -47,6 +47,10 @@ tile.namako.name=namako
 tile.namako_slab.name=namako_slab
 tile.namako_stairs.name=namako_stairs
 tile.namako_double_slab.name=namako_double_slab
+tile.wara.name=straw block
+tile.wara_slab.name=straw_slab
+tile.wara_stairs.name=straw_stairs
+tile.wara_double_slab.name=straw_double_slab
 
 tile.twoDirDeco.0.name=Yoroiita
 tile.sakura_planks.name=SakuraWoodPlanks
