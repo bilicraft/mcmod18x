@@ -84,6 +84,8 @@ public class BambooRecipes {
         addAltCircleRecipe(getBlockIS(EnumDecoration.NAMAKO.getModName(), 8, 0), tudura, getBlockIS(EnumDecoration.PLASTER.getModName()), getBlockIS(EnumDecoration.KAWARA.getModName()));
         // ワラ
         addRecipe(getBlockIS(EnumDecoration.WARA.getModName(), 4, 0), "XXX", "XXX", "XXX", 'X', getIS(Straw.class));
+        // かやぶき
+        addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, Items.wheat);
         // デコレーション用半ブロと階段の登録
         registerDeco();
 

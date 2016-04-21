@@ -8,7 +8,8 @@ public enum EnumDecoration {
     KAWARA("kawara"),
     PLASTER("plaster"),
     NAMAKO("namako"),
-    WARA("wara"),;
+    WARA("wara"),
+    KAYA("kaya"),;
 
     public static final String SLAB = "_slab";
     public static final String DOUBLE_SLAB = "_double_slab";

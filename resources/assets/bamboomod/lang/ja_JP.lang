@@ -29,9 +29,6 @@ tile.kayabukiRoof.name=茅葺き階段
 tile.spaWater.name=spaWater
 tile.spaUnit.name=温泉ユニット
 tile.sakuraLog.name=桜の原木
-tile.delude_width.name=カメレオンブロック横
-tile.delude_height.name=カメレオンブロック縦
-tile.delude_stair.name=カメレオンブロック階段
 tile.campfire.name=囲炉裏
 
 #deco
@@ -51,23 +48,14 @@ tile.wara.name=わらブロック
 tile.wara_slab.name=ハーフわら
 tile.wara_stairs.name=わら階段
 tile.wara_double_slab.name=ダブルわらブロック
+tile.kaya.name=茅葺き
+tile.kaya_slab.name=ハーフ茅葺き
+tile.kaya_stairs.name=茅葺き階段
+tile.kaya_double_slab.name=ダブル茅葺きブロック
 
 tile.twoDirDeco.0.name=鎧板
-tile.twoDirDeco.2.name=桜木材
-tile.twoDirDeco.4.name=ワラブロック
 tile.halfTwoDirDeco.0.name=半鎧板
 tile.halfTwoDirDeco.2.name=半桜木材
-tile.halfTwoDirDeco.4.name=半ワラブロック
-tile.wara_stair.name=ワラ階段
-tile.kawara_stair.name=瓦階段
-tile.thickSakuraPillar.name=桜柱(厚)
-tile.thinSakuraPillar.name=桜柱(薄)
-tile.thickOrcPillar.name=樫柱(厚)
-tile.thinOrcPillar.name=樫柱(薄)
-tile.thickSprucePillar.name=松柱(厚)
-tile.thinSprucePillar.name=松柱(薄)
-tile.thickBirchPillar.name=白樺柱(厚)
-tile.thinBirchPillar.name=白樺柱(薄)
 tile.decoCarpet.0.name=ゴザ
 tile.decoCarpet.2.name=茅葺きカーペット
 tile.decoCarpet.4.name=ゴザ(日焼け)
