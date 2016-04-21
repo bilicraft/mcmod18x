@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "normal": { "model": "bamboomod:cpine" },
+        "all":    { "model": "bamboomod:cpine" }
+    }
+}

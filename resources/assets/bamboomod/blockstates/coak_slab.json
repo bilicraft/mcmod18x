@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "bamboomod:coak_slab" },
+        "half=top": { "model": "bamboomod:coak_upper_slab" }
+    }
+}

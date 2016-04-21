@@ -1,6 +1,7 @@
 package ruby.bamboo.crafting;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -86,6 +87,10 @@ public class BambooRecipes {
         addRecipe(getBlockIS(EnumDecoration.WARA.getModName(), 4, 0), "XXX", "XXX", "XXX", 'X', getIS(Straw.class));
         // かやぶき
         addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, Items.wheat);
+        // 市松各種
+        addCircleRecipe(getBlockIS(EnumDecoration.CBIRCH.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks,1,BlockPlanks.EnumType.BIRCH.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.COAK.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks,1,BlockPlanks.EnumType.OAK.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.CPINE.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks,1,BlockPlanks.EnumType.SPRUCE.getMetadata()));
         // デコレーション用半ブロと階段の登録
         registerDeco();
 

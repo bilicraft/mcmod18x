@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "bamboomod:cpine_slab" },
+        "half=top": { "model": "bamboomod:cpine_upper_slab" }
+    }
+}

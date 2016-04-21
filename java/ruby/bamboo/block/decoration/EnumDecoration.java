@@ -9,7 +9,10 @@ public enum EnumDecoration {
     PLASTER("plaster"),
     NAMAKO("namako"),
     WARA("wara"),
-    KAYA("kaya"),;
+    KAYA("kaya"),
+    CBIRCH("cbirch"),
+    COAK("coak"),
+    CPINE("cpine"),;
 
     public static final String SLAB = "_slab";
     public static final String DOUBLE_SLAB = "_double_slab";

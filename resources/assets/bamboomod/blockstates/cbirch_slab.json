@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "bamboomod:cbirch_slab" },
+        "half=top": { "model": "bamboomod:cbirch_upper_slab" }
+    }
+}
