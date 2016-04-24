@@ -18,21 +18,29 @@ public enum EnumDecoration {
     public static final String DOUBLE_SLAB = "_double_slab";
     public static final String STAIRS = "_stairs";
 
+    private static final byte NORMAL = 1;
+    private static final byte HALF = 2;
+    private static final byte STAIR = 4;
+
     private String name;
     private Material material;
     private EnumCreateTab tab;
 
     private byte typeFlg;
 
-    //flg 1:NOMAL 2:HALF 4:STAIR 3:ALL
-    EnumDecoration(String name){
-        this(name, Material.ground, EnumCreateTab.TAB_BAMBOO, 7);
+    EnumDecoration(String name) {
+        this(name, Material.ground, EnumCreateTab.TAB_BAMBOO, NORMAL, HALF, STAIR);
     }
-    EnumDecoration(String name, Material material, EnumCreateTab tab, int typeFlg) {
+
+    EnumDecoration(String name, Material material, EnumCreateTab tab, byte... typeFlg) {
         this.name = name;
         this.material = material;
         this.tab = tab;
-        this.typeFlg = (byte) typeFlg;
+        byte flg = 0;
+        for (byte b : typeFlg) {
+            flg += b;
+        }
+        this.typeFlg = flg;
     }
 
     public String getName() {
@@ -52,15 +60,15 @@ public enum EnumDecoration {
     }
 
     public boolean isNormal() {
-        return (typeFlg & 1) != 0;
+        return (typeFlg & NORMAL) != 0;
     }
 
     public boolean isHalf() {
-        return (typeFlg & 1) != 2;
+        return (typeFlg & HALF) != 0;
     }
 
     public boolean isStair() {
-        return (typeFlg & 1) != 4;
+        return (typeFlg & STAIR) != 0;
     }
 
 }
