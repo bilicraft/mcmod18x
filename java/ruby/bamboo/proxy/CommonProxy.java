@@ -46,11 +46,12 @@ public class CommonProxy {
         // クラフトハンドラ
         FMLCommonHandler.instance().bus().register(new CraftingHandler());
         GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
+        // えんてぃてぃ
+        new EntityRegister().entityRegist();
     }
 
     public void init() {
         this.registRecipe();
-        new EntityRegister().entityRegist();
     }
 
     public void postInit() {

@@ -1,8 +1,6 @@
 package ruby.bamboo.core.init;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -17,43 +15,50 @@ import ruby.bamboo.render.entity.RenderSlideDoor;
 import ruby.bamboo.render.entity.RenderWind;
 
 public class EntityRegister {
-	private int windEID = 0;
-	private int slideDoorEID =1;
+    private int windEID = 0;
+    private int slideDoorEID = 1;
 
-	public void entityRegist() {
-		registerEntity(Wind.class, "wind", windEID);
+    public void entityRegist() {
+        registerEntity(Wind.class, "wind", windEID);
         registerEntity(SlideDoor.class, "slideDoor", slideDoorEID);
-	}
+    }
 
-	@SideOnly(Side.CLIENT)
-	public void renderRegist() {
-		RenderManager manager = Minecraft.getMinecraft().getRenderManager();
+    @SideOnly(Side.CLIENT)
+    public void renderRegist() {
+        this.registRender(Wind.class, RenderWind.class);
+        this.registRender(SlideDoor.class, RenderSlideDoor.class);
+        this.registRender(SakuraPetal.class, RenderPetal.class);
+    }
 
-		this.registRender(Wind.class, new RenderWind(manager));
-		this.registRender(SakuraPetal.class, new RenderPetal(manager));
-        this.registRender(SlideDoor.class, new RenderSlideDoor(manager));
-	}
+    private void registerEntity(Class entityClass, String entityName, int id) {
+        this.registerEntity(entityClass, entityName, id, 80, 3, true);
+    }
 
-	private void registerEntity(Class entityClass, String entityName, int id) {
-		this.registerEntity(entityClass, entityName, id, 80, 3, true);
-	}
+    /**
+     *
+     * @param entityClass
+     * @param entityName
+     * @param id
+     * @param trackingRange 追跡範囲？
+     * @param updateFrequency 更新間隔tick？
+     * @param sendsVelocityUpdates クライアントへのmotion値送信？
+     */
+    void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 
-	/**
-	 *
-	 * @param entityClass
-	 * @param entityName
-	 * @param id
-	 * @param trackingRange 追跡範囲？
-	 * @param updateFrequency 更新間隔tick？
-	 * @param sendsVelocityUpdates クライアントへのmotion値送信？
-	 */
-	void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
+        EntityRegistry.registerModEntity(entityClass, entityName, id, BambooCore.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 
-		EntityRegistry.registerModEntity(entityClass, entityName, id, BambooCore.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+    }
 
-	}
+    private void registRender(Class<? extends Entity> cls, Class<? extends Render> render) {
+        RenderingRegistry.registerEntityRenderingHandler(cls, maneger -> {
+            try {
+                return render.getConstructor(maneger.getClass()).newInstance(maneger);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
 
-	private void registRender(Class<? extends Entity> cls, Render render) {
-		RenderingRegistry.registerEntityRenderingHandler(cls, render);
-	}
+    }
+
 }

@@ -37,12 +37,13 @@ public class ClientProxy extends CommonProxy {
         super.preInit();
         this.registJson();
         new DecorationClientFactory().register();
+        // えんてぃてぃれんだー
+        new EntityRegister().renderRegist();
     }
 
     @Override
     public void init() {
         super.init();
-        new EntityRegister().renderRegist();
     }
 
     /**
