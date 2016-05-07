@@ -13,6 +13,7 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.block.ICustomState;
@@ -61,7 +62,8 @@ public class ClientProxy extends CommonProxy {
             if (item instanceof ISubTexture) {
                 for (IEnumTex tex : ((ISubTexture) item).getName()) {
                     String jsonName = Constants.MODID + Constants.DMAIN_SEPARATE + tex.getJsonName();
-                    ModelBakery.addVariantName(item, jsonName);
+                    //ModelBakery.addVariantName(item, jsonName);
+                    ModelBakery.registerItemVariants(item, new ResourceLocation(jsonName));
                     ModelLoader.setCustomModelResourceLocation(item, tex.getId(), new ModelResourceLocation(jsonName, "inventory"));
                 }
             } else {
