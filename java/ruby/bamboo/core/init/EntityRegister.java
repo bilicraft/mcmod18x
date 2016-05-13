@@ -50,9 +50,9 @@ public class EntityRegister {
     }
 
     private void registRender(Class<? extends Entity> cls, Class<? extends Render> render) {
-        RenderingRegistry.registerEntityRenderingHandler(cls, maneger -> {
+        RenderingRegistry.registerEntityRenderingHandler(cls, manager -> {
             try {
-                return render.getConstructor(maneger.getClass()).newInstance(maneger);
+                return render.getConstructor(manager.getClass()).newInstance(manager);
             } catch (Exception e) {
                 e.printStackTrace();
             }
