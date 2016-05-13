@@ -15,13 +15,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.block.ICustomState;
 import ruby.bamboo.block.decoration.DecorationClientFactory;
-import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.DataManager;
+import ruby.bamboo.core.KeyBindFactory;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EntityRegister;
+import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
 
@@ -40,11 +42,14 @@ public class ClientProxy extends CommonProxy {
         new DecorationClientFactory().register();
         // えんてぃてぃれんだー
         new EntityRegister().renderRegist();
+        KeyBindFactory.preInit();
     }
 
     @Override
     public void init() {
         super.init();
+        KeyBindFactory.init();
+        MinecraftForge.EVENT_BUS.register(DataManager.getItem(BambooBow.class));
     }
 
     /**
@@ -60,8 +65,9 @@ public class ClientProxy extends CommonProxy {
             this.setIgnoreState(DataManager.getBlock(DataManager.getClass(name)));
             this.setCustomState(DataManager.getBlock(DataManager.getClass(name)));
             if (item instanceof ISubTexture) {
+
                 for (IEnumTex tex : ((ISubTexture) item).getName()) {
-                    String jsonName = Constants.MODID + Constants.DMAIN_SEPARATE + tex.getJsonName();
+                    String jsonName = tex.getJsonName();
                     //ModelBakery.addVariantName(item, jsonName);
                     ModelBakery.registerItemVariants(item, new ResourceLocation(jsonName));
                     ModelLoader.setCustomModelResourceLocation(item, tex.getId(), new ModelResourceLocation(jsonName, "inventory"));

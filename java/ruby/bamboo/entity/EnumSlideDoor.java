@@ -42,6 +42,6 @@ public enum EnumSlideDoor implements IEnumTex {
 
     @Override
     public String getJsonName() {
-        return iconName;
+        return Constants.RESOURCED_DOMAIN + iconName;
     }
 }

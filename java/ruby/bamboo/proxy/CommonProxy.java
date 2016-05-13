@@ -8,6 +8,7 @@ import ruby.bamboo.block.decoration.DecorationFactory;
 import ruby.bamboo.block.tile.TileJPChest;
 import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.core.Constants;
+import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.init.DataLoader;
 import ruby.bamboo.core.init.EntityRegister;
 import ruby.bamboo.crafting.BambooRecipes;
@@ -48,6 +49,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
         // えんてぃてぃ
         new EntityRegister().entityRegist();
+        PacketDispatcher.init();
     }
 
     public void init() {

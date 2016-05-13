@@ -1,6 +1,7 @@
 package ruby.bamboo.item.itemblock;
 
 import net.minecraft.block.Block;
+import ruby.bamboo.core.Constants;
 
 public class ItemTatami extends MetaItem {
 
@@ -25,7 +26,7 @@ public class ItemTatami extends MetaItem {
 
         @Override
         public String getJsonName() {
-            return name;
+            return Constants.RESOURCED_DOMAIN + name;
         }
 
     }
