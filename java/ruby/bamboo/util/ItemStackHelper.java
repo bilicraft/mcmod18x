@@ -6,46 +6,71 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+/*
+ * InventoryHelperになってきてる気がする
+ */
 public class ItemStackHelper {
+    private final static int armorSlotCount = 4;
+
     /**
      * インベントリ内部で、itemとdamageが等しい物の合算から減算可能か、NBTは考慮しない
      */
-    public static boolean hasDecrStackSize(IInventory inv, ItemStack is, int count) {
+    public static boolean hasDecrStackSize(IInventory inv, ItemStack stack, int count) {
+        return getInventoryStackSize(inv, stack) >= count;
+    }
+
+    /**
+     * 指定ItemStackのインベントリ内での合算
+     */
+    public static int getInventoryStackSize(IInventory inv, ItemStack stack) {
         int invCount = 0;
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            ItemStack stack = inv.getStackInSlot(i);
-            if (is.isItemEqual(stack)) {
-                invCount += stack.stackSize;
+        for (int i = 0; i < inv.getSizeInventory() - armorSlotCount; i++) {
+            ItemStack is = inv.getStackInSlot(i);
+            if (stack.isItemEqual(is)) {
+                invCount += is.stackSize;
             }
         }
-        return invCount >= count;
+        return invCount;
     }
 
     /**
      * インベントリ内部で、itemとdamageが等しい物から減算する、NBTは考慮しない
      * インベントリの後ろから順に消化する
      */
-    public static boolean decrStackSize(IInventory inv, ItemStack is, int count) {
+    public static boolean decrStackSize(IInventory inv, ItemStack stack, int count) {
 
-        if (!hasDecrStackSize(inv, is, count)) {
+        if (!hasDecrStackSize(inv, stack, count)) {
             return false;
         }
 
-        for (int i = inv.getSizeInventory(); 0 < i; i--) {
+        for (int i = inv.getSizeInventory() - armorSlotCount; 0 <= i; i--) {
             if (count <= 0) {
                 break;
             }
-            ItemStack stack = inv.getStackInSlot(i);
-            if (is.isItemEqual(stack)) {
-                count -= stack.stackSize;
+            ItemStack is = inv.getStackInSlot(i);
+            if (stack.isItemEqual(is)) {
+                count -= is.stackSize;
                 if (count >= 0) {
                     inv.setInventorySlotContents(i, null);
                 } else {
-                    inv.decrStackSize(i, Math.abs(count));
+                    inv.decrStackSize(i, count + is.stackSize);
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * 後方からItemとダメージが等しい物を検索
+     */
+    public static int getSlotNum(IInventory inv, ItemStack stack) {
+        for (int i = inv.getSizeInventory() - armorSlotCount; 0 <= i; i--) {
+            ItemStack is = inv.getStackInSlot(i);
+            if (stack.isItemEqual(is)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static class HashedStack {

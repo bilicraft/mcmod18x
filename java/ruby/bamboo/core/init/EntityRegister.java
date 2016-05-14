@@ -10,17 +10,19 @@ import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.entity.SakuraPetal;
 import ruby.bamboo.entity.SlideDoor;
 import ruby.bamboo.entity.Wind;
+import ruby.bamboo.entity.arrow.EntityBambooArrow;
+import ruby.bamboo.render.entity.RenderBambooArrow;
 import ruby.bamboo.render.entity.RenderPetal;
 import ruby.bamboo.render.entity.RenderSlideDoor;
 import ruby.bamboo.render.entity.RenderWind;
 
 public class EntityRegister {
-    private int windEID = 0;
-    private int slideDoorEID = 1;
 
     public void entityRegist() {
-        registerEntity(Wind.class, "wind", windEID);
-        registerEntity(SlideDoor.class, "slideDoor", slideDoorEID);
+        int entityId = 0;
+        registerEntity(Wind.class, "wind", entityId++);
+        registerEntity(SlideDoor.class, "slideDoor", entityId++);
+        registerEntity(EntityBambooArrow.class, "bambooArrow", entityId++);
     }
 
     @SideOnly(Side.CLIENT)
@@ -28,9 +30,10 @@ public class EntityRegister {
         this.registRender(Wind.class, RenderWind.class);
         this.registRender(SlideDoor.class, RenderSlideDoor.class);
         this.registRender(SakuraPetal.class, RenderPetal.class);
+        this.registRender(EntityBambooArrow.class, RenderBambooArrow.class);
     }
 
-    private void registerEntity(Class entityClass, String entityName, int id) {
+    private void registerEntity(Class<? extends Entity> entityClass, String entityName, int id) {
         this.registerEntity(entityClass, entityName, id, 80, 3, true);
     }
 
@@ -43,7 +46,7 @@ public class EntityRegister {
      * @param updateFrequency 更新間隔tick？
      * @param sendsVelocityUpdates クライアントへのmotion値送信？
      */
-    void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
+    void registerEntity(Class<? extends Entity> entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 
         EntityRegistry.registerModEntity(entityClass, entityName, id, BambooCore.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 

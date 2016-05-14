@@ -1,7 +1,7 @@
 package ruby.bamboo.item;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,6 +35,7 @@ import ruby.bamboo.item.arrow.IBambooArrow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.packet.ChangeAmmo;
+import ruby.bamboo.util.ItemStackHelper;
 import ruby.bamboo.util.ItemStackHelper.HashedStack;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
@@ -81,93 +82,19 @@ public class BambooBow extends ItemBow
                 power = 1.0F;
             }
 
-            int slotNum = getInventorySlotContainItem(inv);
+            int slotNum = getSelectedInventorySlotContainItem(inv, par1ItemStack);
             ItemStack stack = inv.getStackInSlot(slotNum);
             IBambooArrow arrow = (IBambooArrow) stack.getItem();
 
-            arrow.execute(par2World, par1ItemStack, stack, power);
+            arrow.execute(par2World, par1ItemStack, stack, power, chargeFrame, par3EntityPlayer);
+
+            par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+            //ItemStackHelper.decrStackSize(inv, stack, 1);
         }
 
         if (!isNoResource) {
             par1ItemStack.damageItem(1, par3EntityPlayer);
         }
-        //
-        //            int spearNum;
-        //            int type = 0;
-        //
-        //            if (slotNum > -1) {
-        //                type = par3EntityPlayer.inventory.mainInventory[slotNum].getItemDamage();
-        //            }
-        //
-        //            if (slotNum > -1 && !isNoResource) {
-        //                spearNum = par3EntityPlayer.inventory.mainInventory[slotNum].stackSize;
-        //            } else {
-        //                spearNum = 64;
-        //            }
-        //
-        //            spearNum--;
-        //            EntityBambooSpear ebs;
-        //            int attackCount;
-        //            attackCount = chargeFrame / chargeTime > limit ? limit : chargeFrame / chargeTime;
-        //            attackCount = attackCount < spearNum ? attackCount : spearNum;
-        //
-        //            if (par3EntityPlayer.capabilities.isCreativeMode && par3EntityPlayer.capabilities.isFlying) {
-        //                attackCount = 12;
-        //                power = 1;
-        //            }
-        //
-        //            if (!par3EntityPlayer.isSneaking()) {
-        //                ebs = new EntityBambooSpear(par2World, par3EntityPlayer, power * 2.0F);
-        //                ebs.setDamage(1.5);
-        //            } else {
-        //                ebs = new EntityBambooSpear(par2World, par3EntityPlayer, power * 4.0F);
-        //                ebs.setDamage(1 * (power > 0.8 ? power : 0.5) * 0.4);
-        //            }
-        //
-        //            if (attackCount > 0) {
-        //                ebs.setBarrage(attackCount);
-        //            }
-        //
-        //            if (power >= 1.0F) {
-        //                ebs.setIsCritical(true);
-        //            }
-        //
-        //            int enchantPower = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, par1ItemStack);
-        //
-        //            if (enchantPower > 0) {
-        //                ebs.setDamage(ebs.getDamage() + enchantPower * 0.15D);
-        //            }
-        //
-        //            int enchantPunch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack);
-        //
-        //            if (enchantPunch > 0) {
-        //                ebs.setKnockbackStrength(enchantPunch);
-        //            }
-        //
-        //            if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, par1ItemStack) > 0) {
-        //                ebs.setFire(100);
-        //            }
-        //
-        //            par1ItemStack.damageItem(1, par3EntityPlayer);
-        //            par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
-        //
-        //            if (isNoResource) {
-        //                ebs.canBePickedUp = 2;
-        //                ebs.setMaxAge(60);
-        //                par1ItemStack.damageItem(attackCount * 2, par3EntityPlayer);
-        //            } else {
-        //                par3EntityPlayer.inventory.mainInventory[slotNum].stackSize -= attackCount;
-        //                par3EntityPlayer.inventory.consumeInventoryItem(BambooInit.bambooSpear);
-        //            }
-        //
-        //            if (type == 1) {
-        //                ebs.setExplode();
-        //            }
-        //
-        //            if (!par2World.isRemote) {
-        //                par2World.spawnEntityInWorld(ebs);
-        //            }
-        //        }
     }
 
     @Override
@@ -205,6 +132,17 @@ public class BambooBow extends ItemBow
         return -1;
     }
 
+    private int getSelectedInventorySlotContainItem(IInventory inv, ItemStack stack) {
+        HashedStack[] arrows = getArrowTypes(inv).toArray(new HashedStack[0]);
+        int arrowSlotNum = getArrowSlot(stack);
+        if (arrows.length > arrowSlotNum) {
+            return ItemStackHelper.getSlotNum(inv, arrows[arrowSlotNum].getItemStack());
+        } else {
+            // こちらには基本来ないはず…
+            return 0;
+        }
+    }
+
     /**
      * 矢の合計取得
      */
@@ -226,6 +164,7 @@ public class BambooBow extends ItemBow
         return map;
     }
 
+    // 残弾表示系
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void renderTip(RenderGameOverlayEvent.Text e) {
@@ -242,7 +181,7 @@ public class BambooBow extends ItemBow
                 }
             }
 
-            byte slotPos = getAmmoSlot(player.getCurrentEquippedItem());
+            byte slotPos = getArrowSlot(player.getCurrentEquippedItem());
             byte nuwPos = 0;
             for (HashedStack stack : map.keySet()) {
                 draw(e, maxWidth, stack.item.getItemStackDisplayName(stack.getItemStack()) + ":" + map.get(stack), slotPos == nuwPos++ ? 0xE06060 : 0xE0E0E0);
@@ -266,14 +205,15 @@ public class BambooBow extends ItemBow
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
         if (par5 && par3Entity instanceof EntityPlayer && !par2World.isRemote) {
             EntityPlayer player = (EntityPlayer) par3Entity;
-            byte types = (byte) getArrowTypes(player.inventory);
+            byte types = (byte) getArrowTypes(player.inventory).size();
             // リセット処理
-            if (getAmmoSlot(par1ItemStack) >= types && types > 0) {
+            if (getArrowSlot(par1ItemStack) >= types && types > 0) {
                 par1ItemStack.getSubCompound(TAG_AMMO, true).setByte(AMMO_SLOT, --types);
             }
         }
     }
 
+    // 弓を引く時のアニメーション系
     @Override
     public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
         ModelResourceLocation modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[0], "inventory");
@@ -281,7 +221,7 @@ public class BambooBow extends ItemBow
         if (stack.getItem() == this && player.getItemInUse() != null) {
             int chargeFrame = this.getMaxItemUseDuration(stack) - useRemaining;
             if (this.hasInventoryBambooArrow(inv)) {
-                IBambooArrow arrow = (IBambooArrow) inv.mainInventory[getInventorySlotContainItem(inv)].getItem();
+                IBambooArrow arrow = (IBambooArrow) inv.getStackInSlot(getSelectedInventorySlotContainItem(inv, stack)).getItem();
                 modelresourcelocation = arrow.getBowModel(chargeFrame);
             } else {
                 if (chargeFrame >= 40) {
@@ -318,6 +258,7 @@ public class BambooBow extends ItemBow
         return ret;
     }
 
+    // 汎用キーによる弾の切り替え
     @SideOnly(Side.CLIENT)
     @Override
     public void exec(KeyBinding key) {
@@ -325,8 +266,8 @@ public class BambooBow extends ItemBow
         if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == this) {
             if (key.isPressed()) {
                 ItemStack is = player.getCurrentEquippedItem();
-                byte slotNum = getAmmoSlot(is);
-                int invArrowTypes = getArrowTypes(player.inventory);
+                byte slotNum = getArrowSlot(is);
+                int invArrowTypes = getArrowTypes(player.inventory).size();
                 if (++slotNum >= invArrowTypes) {
                     slotNum = 0;
                 }
@@ -338,7 +279,7 @@ public class BambooBow extends ItemBow
     /**
      * NBTより現在のスロットナンバー取得
      */
-    public byte getAmmoSlot(ItemStack is) {
+    public byte getArrowSlot(ItemStack is) {
         if (!is.hasTagCompound()) {
             is.getSubCompound(TAG_AMMO, true).setByte(AMMO_SLOT, (byte) 0);
         }
@@ -346,10 +287,10 @@ public class BambooBow extends ItemBow
     }
 
     /**
-     * 矢の種類数
+     * 矢の種類
      */
-    public int getArrowTypes(IInventory inv) {
-        Set<HashedStack> stackSet = new HashSet<>();
+    public Set<HashedStack> getArrowTypes(IInventory inv) {
+        Set<HashedStack> stackSet = new LinkedHashSet<>();
         ItemStack stack;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             stack = inv.getStackInSlot(i);
@@ -358,7 +299,7 @@ public class BambooBow extends ItemBow
                 stackSet.add(hashStack);
             }
         }
-        return stackSet.size();
+        return stackSet;
     }
 
     @Override
