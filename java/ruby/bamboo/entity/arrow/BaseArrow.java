@@ -19,6 +19,7 @@ import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -255,8 +256,8 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
                         }
                     }
                 } else {
-                    if (this.onGroundHit()) {
-                        BlockPos blockpos1 = movingobjectposition.getBlockPos();
+                    BlockPos blockpos1 = movingobjectposition.getBlockPos();
+                    if (this.onGroundHit(blockpos1, movingobjectposition.sideHit)) {
                         this.xTile = blockpos1.getX();
                         this.yTile = blockpos1.getY();
                         this.zTile = blockpos1.getZ();
@@ -283,9 +284,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
             }
 
             if (this.getIsCritical()) {
-                for (int k = 0; k < 4; ++k) {
-                    this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
-                }
+                this.spawnCritParticle();
             }
 
             this.posX += this.motionX;
@@ -337,6 +336,15 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     }
 
     /**
+     * クリティカル時のパーティクル
+     */
+    public void spawnCritParticle() {
+        for (int k = 0; k < 4; ++k) {
+            this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
+        }
+    }
+
+    /**
      * Entityにhitしたが、無敵時間などで攻撃が有効とならなかったパターン
      *
      * @return flase 命中処理のキャンセル
@@ -348,9 +356,12 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     /**
      * 地面命中時
      *
+     * @param sideHit
+     * @param blockpos1
+     *
      * @return flase 命中処理のキャンセル
      */
-    public boolean onGroundHit() {
+    public boolean onGroundHit(BlockPos blockpos, EnumFacing sideHit) {
         return true;
     }
 
