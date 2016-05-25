@@ -13,8 +13,8 @@ public interface IBambooArrow {
     public default void onHitEntity(World world, Entity hitEntity, Entity shooter, ItemStack arrow) {
     }
 
-    public default boolean isNoResources(EntityPlayer player){
-        return !player.capabilities.isCreativeMode;
+    public default boolean isNoResources(EntityPlayer player) {
+        return player.capabilities.isCreativeMode;
     }
 
     public default ModelResourceLocation getBowModel(int chargeFrame) {

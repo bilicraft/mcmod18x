@@ -38,7 +38,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     boolean inGround;
     int ticksInGround;
     int ticksInAir;
-    double damage = 2.0D;
+    double baseDamage = 2.0D;
     int knockbackStrength;
 
     public BaseArrow(World worldIn, double x, double y, double z) {
@@ -186,75 +186,75 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
 
             if (movingobjectposition != null) {
                 if (movingobjectposition.entityHit != null) {
-                    float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    int l = MathHelper.ceiling_double_int((double) f2 * this.damage);
 
-                    if (this.getIsCritical()) {
-                        l += this.rand.nextInt(l / 2 + 2);
-                    }
+                    int l = this.getArrowDamage(movingobjectposition.entityHit);
 
-                    DamageSource damagesource;
+                    if (0 < l) {
+                        DamageSource damagesource;
 
-                    if (this.shootingEntity == null) {
-                        // ダメージソース拡張
-                        damagesource = getDamageSource(this, this);
-                    } else {
-                        // ダメージソース拡張
-                        damagesource = getDamageSource(this, this.shootingEntity);
-                    }
+                        if (this.shootingEntity == null) {
+                            // ダメージソース拡張
+                            damagesource = getDamageSource(this, this);
+                        } else {
+                            // ダメージソース拡張
+                            damagesource = getDamageSource(this, this.shootingEntity);
+                        }
 
-                    if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman)) {
-                        movingobjectposition.entityHit.setFire(5);
-                    }
+                        if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman)) {
+                            movingobjectposition.entityHit.setFire(5);
+                        }
 
-                    if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float) l)) {
-                        // 命中時処理拡張
-                        if (this.onEntityHit(movingobjectposition.entityHit)) {
-                            if (movingobjectposition.entityHit instanceof EntityLivingBase) {
-                                EntityLivingBase entitylivingbase = (EntityLivingBase) movingobjectposition.entityHit;
+                        if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float) l)) {
+                            // 命中時処理拡張
+                            if (this.onEntityHit(movingobjectposition.entityHit)) {
+                                if (movingobjectposition.entityHit instanceof EntityLivingBase) {
+                                    EntityLivingBase entitylivingbase = (EntityLivingBase) movingobjectposition.entityHit;
 
-                                if (!this.worldObj.isRemote) {
-                                    entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
-                                }
+                                    if (!this.worldObj.isRemote) {
+                                        entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
+                                    }
 
-                                if (this.knockbackStrength > 0) {
-                                    float f7 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+                                    if (this.knockbackStrength > 0) {
+                                        float f7 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-                                    if (f7 > 0.0F) {
-                                        movingobjectposition.entityHit.addVelocity(this.motionX * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7, 0.1D, this.motionZ * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7);
+                                        if (f7 > 0.0F) {
+                                            movingobjectposition.entityHit.addVelocity(this.motionX * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7, 0.1D, this.motionZ * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7);
+                                        }
+                                    }
+
+                                    if (this.shootingEntity instanceof EntityLivingBase) {
+                                        EnchantmentHelper.applyThornEnchantments(entitylivingbase, this.shootingEntity);
+                                        EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase) this.shootingEntity, entitylivingbase);
+                                    }
+
+                                    if (this.shootingEntity != null && movingobjectposition.entityHit != this.shootingEntity && movingobjectposition.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP) {
+                                        ((EntityPlayerMP) this.shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
                                     }
                                 }
+                                this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                            }
 
-                                if (this.shootingEntity instanceof EntityLivingBase) {
-                                    EnchantmentHelper.applyThornEnchantments(entitylivingbase, this.shootingEntity);
-                                    EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase) this.shootingEntity, entitylivingbase);
-                                }
-
-                                if (this.shootingEntity != null && movingobjectposition.entityHit != this.shootingEntity && movingobjectposition.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP) {
-                                    ((EntityPlayerMP) this.shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
+                            // ダメージ後処理拡張
+                            if (this.onEntityDamaged(movingobjectposition.entityHit)) {
+                                if (!(movingobjectposition.entityHit instanceof EntityEnderman)) {
+                                    this.setDead();
                                 }
                             }
-                            this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
-                        }
 
-                        // 命中後処理拡張
-                        if (this.onEntityHited(movingobjectposition.entityHit)) {
-                            if (!(movingobjectposition.entityHit instanceof EntityEnderman)) {
-                                this.setDead();
+                        } else {
+
+                            if (this.onInvalidEntityHit()) {
+                                this.motionX *= -0.10000000149011612D;
+                                this.motionY *= -0.10000000149011612D;
+                                this.motionZ *= -0.10000000149011612D;
+                                this.rotationYaw += 180.0F;
+                                this.prevRotationYaw += 180.0F;
+                                this.ticksInAir = 0;
                             }
-                        }
-
-                    } else {
-
-                        if (this.onInvalidEntityHit()) {
-                            this.motionX *= -0.10000000149011612D;
-                            this.motionY *= -0.10000000149011612D;
-                            this.motionZ *= -0.10000000149011612D;
-                            this.rotationYaw += 180.0F;
-                            this.prevRotationYaw += 180.0F;
-                            this.ticksInAir = 0;
                         }
                     }
+                    // 命中後処理
+                    this.onEntityHited(movingobjectposition.entityHit);
                 } else {
                     BlockPos blockpos1 = movingobjectposition.getBlockPos();
                     if (this.onGroundHit(blockpos1, movingobjectposition.sideHit)) {
@@ -283,9 +283,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
                 }
             }
 
-            if (this.getIsCritical()) {
-                this.spawnCritParticle();
-            }
+            this.spawnCritParticle();
 
             this.posX += this.motionX;
             this.posY += this.motionY;
@@ -335,12 +333,31 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         }
     }
 
+    public void onEntityHited(Entity entityHit) {
+
+    }
+
+    /**
+     * ダメージ計算
+     */
+    public int getArrowDamage(Entity entity) {
+        float motionDamage = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+        int damage = MathHelper.ceiling_double_int((double) motionDamage * this.baseDamage);
+
+        if (this.getIsCritical()) {
+            damage += this.rand.nextInt(damage / 2 + 2);
+        }
+        return damage;
+    }
+
     /**
      * クリティカル時のパーティクル
      */
     public void spawnCritParticle() {
-        for (int k = 0; k < 4; ++k) {
-            this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
+        if (this.getIsCritical()) {
+            for (int k = 0; k < 4; ++k) {
+                this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
+            }
         }
     }
 
@@ -379,7 +396,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
      *
      * @return flase setDeadのキャンセル
      */
-    public boolean onEntityHited(Entity entityHit) {
+    public boolean onEntityDamaged(Entity entityHit) {
         return true;
     }
 
@@ -422,7 +439,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    public final void writeEntityToNBT(NBTTagCompound tagCompound) {
         tagCompound.setShort("xTile", (short) this.xTile);
         tagCompound.setShort("yTile", (short) this.yTile);
         tagCompound.setShort("zTile", (short) this.zTile);
@@ -433,11 +450,21 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         tagCompound.setByte("shake", (byte) this.arrowShake);
         tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
         tagCompound.setByte("pickup", (byte) this.canBePickedUp);
-        tagCompound.setDouble("damage", this.damage);
+        tagCompound.setDouble("damage", this.baseDamage);
+
+        // 追加情報
+        NBTTagCompound nbt = writeCustomNBT();
+        if (nbt != null) {
+            tagCompound.setTag("custom", nbt);
+        }
+    }
+
+    public NBTTagCompound writeCustomNBT() {
+        return null;
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    public final void readEntityFromNBT(NBTTagCompound tagCompund) {
         this.xTile = tagCompund.getShort("xTile");
         this.yTile = tagCompund.getShort("yTile");
         this.zTile = tagCompund.getShort("zTile");
@@ -454,7 +481,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         this.inGround = tagCompund.getByte("inGround") == 1;
 
         if (tagCompund.hasKey("damage", 99)) {
-            this.damage = tagCompund.getDouble("damage");
+            this.baseDamage = tagCompund.getDouble("damage");
         }
 
         if (tagCompund.hasKey("pickup", 99)) {
@@ -462,11 +489,15 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         } else if (tagCompund.hasKey("player", 99)) {
             this.canBePickedUp = tagCompund.getBoolean("player") ? 1 : 0;
         }
+        if (tagCompund.hasKey("custom")) {
+            readCustomNBT((NBTTagCompound) tagCompund.getTag("custom"));
+        }
     }
 
-    /**
-     * Called by a player entity when they collide with an entity
-     */
+    public void readCustomNBT(NBTTagCompound nbt) {
+
+    }
+
     @Override
     public void onCollideWithPlayer(EntityPlayer entityIn) {
         if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0) {
@@ -497,12 +528,12 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
      */
     @Override
     public void setDamage(double damageIn) {
-        this.damage = damageIn;
+        this.baseDamage = damageIn;
     }
 
     @Override
     public double getDamage() {
-        return this.damage;
+        return this.baseDamage;
     }
 
     @Override

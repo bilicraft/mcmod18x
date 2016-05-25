@@ -10,7 +10,9 @@ import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.entity.SakuraPetal;
 import ruby.bamboo.entity.SlideDoor;
 import ruby.bamboo.entity.Wind;
+import ruby.bamboo.entity.arrow.EntityAntiArrow;
 import ruby.bamboo.entity.arrow.EntityBambooArrow;
+import ruby.bamboo.entity.arrow.EntityLightArrow;
 import ruby.bamboo.entity.arrow.EntityTouchArrow;
 import ruby.bamboo.render.entity.RenderBambooArrow;
 import ruby.bamboo.render.entity.RenderPetal;
@@ -25,6 +27,8 @@ public class EntityRegister {
         registerEntity(SlideDoor.class, "slideDoor", entityId++);
         registerEntity(EntityBambooArrow.class, "bambooArrow", entityId++);
         registerEntity(EntityTouchArrow.class, "touchArrow", entityId++);
+        registerEntity(EntityAntiArrow.class, "antiArrow", entityId++);
+        registerEntity(EntityLightArrow.class, "lightArrow", entityId++);
     }
 
     @SideOnly(Side.CLIENT)
@@ -34,6 +38,8 @@ public class EntityRegister {
         this.registRender(SakuraPetal.class, RenderPetal.class);
         this.registRender(EntityBambooArrow.class, RenderBambooArrow.class);
         this.registRender(EntityTouchArrow.class, RenderBambooArrow.class);
+        this.registRender(EntityAntiArrow.class, RenderBambooArrow.class);
+        this.registRender(EntityLightArrow.class, RenderBambooArrow.class);
     }
 
     private void registerEntity(Class<? extends Entity> entityClass, String entityName, int id) {

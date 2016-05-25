@@ -5,6 +5,8 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.collect.ArrayListMultimap;
 
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -47,5 +49,6 @@ public class KeyBindFactory {
 
     public interface IBambooKeylistener {
         public void exec(KeyBinding key);
+        public void callback(EntityPlayer playerEntity, ItemStack is, byte data);
     }
 }

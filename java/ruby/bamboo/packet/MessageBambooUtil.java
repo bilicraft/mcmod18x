@@ -5,16 +5,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import ruby.bamboo.item.BambooBow;
+import ruby.bamboo.core.KeyBindFactory.IBambooKeylistener;
 
-public class ChangeAmmo implements IMessage {
+public class MessageBambooUtil implements IMessage {
 
     public byte data;
 
-    public ChangeAmmo() {
+    public MessageBambooUtil() {
     }
 
-    public ChangeAmmo(byte par1) {
+    public MessageBambooUtil(byte par1) {
         this.data = par1;
     }
 
@@ -28,14 +28,14 @@ public class ChangeAmmo implements IMessage {
         buf.writeByte(this.data);
     }
 
-    public static class ChangeAmmoHandler
-            implements IMessageHandler<ChangeAmmo, IMessage> {
+    public static class MessageBambooUtilHandler
+            implements IMessageHandler<MessageBambooUtil, IMessage> {
 
         @Override
-        public IMessage onMessage(ChangeAmmo message, MessageContext ctx) {
+        public IMessage onMessage(MessageBambooUtil message, MessageContext ctx) {
             ItemStack is = ctx.getServerHandler().playerEntity.getCurrentEquippedItem();
-            if (is != null && is.getItem() instanceof BambooBow) {
-                is.getSubCompound(BambooBow.TAG_AMMO, true).setByte(BambooBow.AMMO_SLOT, message.data);
+            if (is != null && is.getItem() instanceof IBambooKeylistener) {
+                ((IBambooKeylistener) is.getItem()).callback(ctx.getServerHandler().playerEntity, is, message.data);
             }
             return null;
         }

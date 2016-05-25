@@ -34,7 +34,7 @@ import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.item.arrow.IBambooArrow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
-import ruby.bamboo.packet.ChangeAmmo;
+import ruby.bamboo.packet.MessageBambooUtil;
 import ruby.bamboo.util.ItemStackHelper;
 import ruby.bamboo.util.ItemStackHelper.HashedStack;
 
@@ -104,7 +104,7 @@ public class BambooBow extends ItemBow
         if (event.isCanceled()) {
             return event.result;
         }
-        InventoryPlayer inv = par3EntityPlayer.inventory;
+        IInventory inv = par3EntityPlayer.inventory;
 
         if (par3EntityPlayer.capabilities.isCreativeMode || this.hasInventoryBambooArrow(inv) || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0) {
             par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
@@ -271,9 +271,14 @@ public class BambooBow extends ItemBow
                 if (++slotNum >= invArrowTypes) {
                     slotNum = 0;
                 }
-                PacketDispatcher.sendToServer(new ChangeAmmo(slotNum));
+                PacketDispatcher.sendToServer(new MessageBambooUtil(slotNum));
             }
         }
+    }
+
+    @Override
+    public void callback(EntityPlayer playerEntity, ItemStack is, byte data) {
+        is.getSubCompound(BambooBow.TAG_AMMO, true).setByte(BambooBow.AMMO_SLOT, data);
     }
 
     /**

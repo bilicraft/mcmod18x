@@ -43,6 +43,7 @@ public class ClientProxy extends CommonProxy {
         // えんてぃてぃれんだー
         new EntityRegister().renderRegist();
         KeyBindFactory.preInit();
+
     }
 
     @Override
