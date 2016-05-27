@@ -27,13 +27,13 @@ public class EntityExplodeArrow extends BaseArrow {
     }
 
     @Override
-    public void onEntityHited(Entity entityHit) {
+    public void onEntityHited(Entity entityHit, float power) {
         if (entityHit instanceof EntityLivingBase) {
             TimerBomb bomb = new TimerBomb(worldObj);
             if (!worldObj.isRemote) {
                 bomb.setParentEntity(entityHit);
 
-                bomb.setTimer(200);
+                bomb.setTimer((int)(200*power));
                 worldObj.spawnEntityInWorld(bomb);
             }
         }

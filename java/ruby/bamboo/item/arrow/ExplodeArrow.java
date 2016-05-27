@@ -4,11 +4,11 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityExplodeArrow;
 import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.util.ItemStackHelper;
@@ -53,7 +53,7 @@ public class ExplodeArrow extends ArrowBase {
     }
 
     @Override
-    public Class<? extends EntityArrow> getArrowClass() {
+    public Class<? extends BaseArrow> getArrowClass() {
         return EntityExplodeArrow.class;
     }
 

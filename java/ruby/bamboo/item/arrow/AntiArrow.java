@@ -29,7 +29,6 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -38,6 +37,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityAntiArrow;
 import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.item.itemblock.IEnumTex;
@@ -156,7 +156,7 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
     }
 
     @Override
-    public Class<? extends EntityArrow> getArrowClass() {
+    public Class<? extends BaseArrow> getArrowClass() {
         return EntityAntiArrow.class;
     }
 

@@ -40,6 +40,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     int ticksInAir;
     double baseDamage = 2.0D;
     int knockbackStrength;
+    float velocity;
 
     public BaseArrow(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
@@ -51,6 +52,11 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
 
     public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity) {
         super(worldIn, shooter, velocity);
+        this.velocity = velocity;
+    }
+
+    public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity, ItemStack is) {
+        this(worldIn, shooter, velocity);
     }
 
     public BaseArrow(World worldIn) {
@@ -254,7 +260,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
                         }
                     }
                     // 命中後処理
-                    this.onEntityHited(movingobjectposition.entityHit);
+                    this.onEntityHited(movingobjectposition.entityHit, velocity);
                 } else {
                     BlockPos blockpos1 = movingobjectposition.getBlockPos();
                     if (this.onGroundHit(blockpos1, movingobjectposition.sideHit)) {
@@ -333,7 +339,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         }
     }
 
-    public void onEntityHited(Entity entityHit) {
+    public void onEntityHited(Entity entityHit, float power) {
 
     }
 
@@ -451,7 +457,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
         tagCompound.setByte("pickup", (byte) this.canBePickedUp);
         tagCompound.setDouble("damage", this.baseDamage);
-
+        tagCompound.setFloat("power", velocity);
         // 追加情報
         NBTTagCompound nbt = writeCustomNBT();
         if (nbt != null) {
@@ -489,6 +495,10 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         } else if (tagCompund.hasKey("player", 99)) {
             this.canBePickedUp = tagCompund.getBoolean("player") ? 1 : 0;
         }
+        if (tagCompund.hasKey("power", 99)) {
+            this.velocity = tagCompund.getFloat("power");
+        }
+
         if (tagCompund.hasKey("custom")) {
             readCustomNBT((NBTTagCompound) tagCompund.getTag("custom"));
         }

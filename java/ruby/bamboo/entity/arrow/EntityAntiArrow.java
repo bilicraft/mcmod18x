@@ -27,8 +27,14 @@ public class EntityAntiArrow extends BaseArrow {
         super(worldIn, shooter, velocity);
     }
 
+
     public EntityAntiArrow(World worldIn) {
         super(worldIn);
+    }
+
+    public EntityAntiArrow(World worldIn, EntityLivingBase shooter, float velocity,ItemStack is) {
+        super(worldIn, shooter, velocity,is);
+        this.setArrowType(AntiType.getType(is.getItemDamage()));
     }
 
     public void setArrowType(AntiType type) {

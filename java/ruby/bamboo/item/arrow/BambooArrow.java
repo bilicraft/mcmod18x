@@ -3,11 +3,11 @@ package ruby.bamboo.item.arrow;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityBambooArrow;
 import ruby.bamboo.util.ItemStackHelper;
 
@@ -70,7 +70,7 @@ public class BambooArrow extends ArrowBase  {
     }
 
     @Override
-    public Class<? extends EntityArrow> getArrowClass() {
+    public Class<? extends BaseArrow> getArrowClass() {
         return EntityBambooArrow.class;
     }
 
