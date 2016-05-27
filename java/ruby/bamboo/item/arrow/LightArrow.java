@@ -21,9 +21,6 @@ public class LightArrow extends ArrowBase{
 
         EntityLightArrow entityArrow = new EntityLightArrow(world, player, power * 2.0f);
         entityArrow.setDamage(1);
-        if (!world.isRemote) {
-            world.spawnEntityInWorld(entityArrow);
-        }
 
         int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
 
@@ -44,6 +41,9 @@ public class LightArrow extends ArrowBase{
             entityArrow.setFire(100);
         }
 
+        if (!world.isRemote) {
+            world.spawnEntityInWorld(entityArrow);
+        }
         if (!isNoResources(player)) {
             ItemStackHelper.decrStackSize(player.inventory, arrow, 1);
         } else {

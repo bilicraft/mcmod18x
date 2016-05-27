@@ -7,15 +7,19 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.BambooCore;
+import ruby.bamboo.entity.EntityRuneEffect;
 import ruby.bamboo.entity.SakuraPetal;
 import ruby.bamboo.entity.SlideDoor;
 import ruby.bamboo.entity.Wind;
 import ruby.bamboo.entity.arrow.EntityAntiArrow;
 import ruby.bamboo.entity.arrow.EntityBambooArrow;
+import ruby.bamboo.entity.arrow.EntityExplodeArrow;
 import ruby.bamboo.entity.arrow.EntityLightArrow;
 import ruby.bamboo.entity.arrow.EntityTouchArrow;
+import ruby.bamboo.entity.arrow.TimerBomb;
 import ruby.bamboo.render.entity.RenderBambooArrow;
 import ruby.bamboo.render.entity.RenderPetal;
+import ruby.bamboo.render.entity.RenderRuneEffect;
 import ruby.bamboo.render.entity.RenderSlideDoor;
 import ruby.bamboo.render.entity.RenderWind;
 
@@ -29,6 +33,8 @@ public class EntityRegister {
         registerEntity(EntityTouchArrow.class, "touchArrow", entityId++);
         registerEntity(EntityAntiArrow.class, "antiArrow", entityId++);
         registerEntity(EntityLightArrow.class, "lightArrow", entityId++);
+        registerEntity(EntityExplodeArrow.class, "explodeArrow", entityId++);
+        registerEntity(TimerBomb.class, "timerBomb", entityId++);
     }
 
     @SideOnly(Side.CLIENT)
@@ -40,6 +46,9 @@ public class EntityRegister {
         this.registRender(EntityTouchArrow.class, RenderBambooArrow.class);
         this.registRender(EntityAntiArrow.class, RenderBambooArrow.class);
         this.registRender(EntityLightArrow.class, RenderBambooArrow.class);
+        this.registRender(EntityExplodeArrow.class, RenderBambooArrow.class);
+        this.registRender(EntityRuneEffect.class, RenderRuneEffect.class);
+        this.registRender(TimerBomb.class, RenderWind.class);
     }
 
     private void registerEntity(Class<? extends Entity> entityClass, String entityName, int id) {
