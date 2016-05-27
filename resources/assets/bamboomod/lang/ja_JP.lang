@@ -228,3 +228,5 @@ item.cookingrecipe.name=料理本
 item.bambooflour.name=小麦粉
 item.bamboodough.name=生地
 item.itemtomato.name=トマト
+#GUI
+container.jpchest=タンス

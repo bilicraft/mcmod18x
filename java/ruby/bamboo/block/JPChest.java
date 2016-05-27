@@ -21,6 +21,7 @@ public class JPChest extends BlockChest {
 		super(1);
 		setHardness(3);
 		setResistance(10);
+		this.setBlockBounds(0,0,0,1,1,1);
 	}
 
 	@Override
