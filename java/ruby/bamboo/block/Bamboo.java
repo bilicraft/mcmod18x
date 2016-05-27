@@ -66,7 +66,7 @@ public class Bamboo extends BlockBush implements IGrowable {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Block.EnumOffsetType getOffsetType() {
-		return Block.EnumOffsetType.XZ;
+		return Block.EnumOffsetType.XYZ;
 	}
 
 	@Override

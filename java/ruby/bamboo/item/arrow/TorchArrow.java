@@ -9,12 +9,12 @@ import net.minecraft.world.World;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.arrow.BaseArrow;
-import ruby.bamboo.entity.arrow.EntityTouchArrow;
+import ruby.bamboo.entity.arrow.EntityTorchArrow;
 import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class TouchArrow extends ArrowBase {
+public class TorchArrow extends ArrowBase {
 
     @Override
     public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
@@ -22,7 +22,7 @@ public class TouchArrow extends ArrowBase {
             power = 1.0F;
         }
 
-        EntityTouchArrow entityArrow = new EntityTouchArrow(world, player, power * 2.0f);
+        EntityTorchArrow entityArrow = new EntityTorchArrow(world, player, power * 2.0f);
         entityArrow.setDamage(0.25);
 
         int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
@@ -65,7 +65,7 @@ public class TouchArrow extends ArrowBase {
 
     @Override
     public Class<? extends BaseArrow> getArrowClass() {
-        return EntityTouchArrow.class;
+        return EntityTorchArrow.class;
     }
 
 }

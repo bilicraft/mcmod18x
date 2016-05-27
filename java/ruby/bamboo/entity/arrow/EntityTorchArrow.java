@@ -9,23 +9,23 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.arrow.TouchArrow;
+import ruby.bamboo.item.arrow.TorchArrow;
 
-public class EntityTouchArrow extends BaseArrow {
+public class EntityTorchArrow extends BaseArrow {
 
-    public EntityTouchArrow(World worldIn, double x, double y, double z) {
+    public EntityTorchArrow(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
     }
 
-    public EntityTouchArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_) {
+    public EntityTorchArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_) {
         super(worldIn, shooter, p_i1755_3_, p_i1755_4_, p_i1755_5_);
     }
 
-    public EntityTouchArrow(World worldIn, EntityLivingBase shooter, float velocity) {
+    public EntityTorchArrow(World worldIn, EntityLivingBase shooter, float velocity) {
         super(worldIn, shooter, velocity);
     }
 
-    public EntityTouchArrow(World worldIn) {
+    public EntityTorchArrow(World worldIn) {
         super(worldIn);
     }
 
@@ -60,7 +60,7 @@ public class EntityTouchArrow extends BaseArrow {
 
     @Override
     public ItemStack getItemArrow() {
-        return DataManager.getItemStack(TouchArrow.class, 1, 0);
+        return DataManager.getItemStack(TorchArrow.class, 1, 0);
     }
 
 }

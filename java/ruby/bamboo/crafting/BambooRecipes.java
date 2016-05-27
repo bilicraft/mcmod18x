@@ -21,12 +21,19 @@ import ruby.bamboo.block.Tatami;
 import ruby.bamboo.block.decoration.EnumDecoration;
 import ruby.bamboo.core.DataManager;
 import ruby.bamboo.entity.EnumSlideDoor;
+import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.item.FoldingFan;
 import ruby.bamboo.item.ItemSlideDoor;
 import ruby.bamboo.item.RiceSeed;
 import ruby.bamboo.item.Sack;
 import ruby.bamboo.item.Straw;
 import ruby.bamboo.item.Tudura;
+import ruby.bamboo.item.arrow.AntiArrow;
+import ruby.bamboo.item.arrow.AntiArrow.AntiType;
+import ruby.bamboo.item.arrow.BambooArrow;
+import ruby.bamboo.item.arrow.ExplodeArrow;
+import ruby.bamboo.item.arrow.LightArrow;
+import ruby.bamboo.item.arrow.TorchArrow;
 
 public class BambooRecipes {
     private int WILD = Short.MAX_VALUE;
@@ -71,9 +78,9 @@ public class BambooRecipes {
         addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', tudura, 'X', Items.stick, 'Y', Items.paper, 'Z', Blocks.glass_pane);
         addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.stick, 'Y', "plankWood");
         // きつねび
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', getIS(Items.dye, 1, 4), 'Y', tudura, '#', Blocks.lit_pumpkin);
+        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.lit_pumpkin);
         addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', Items.ender_pearl, 'Y', tudura, '#', Blocks.lit_pumpkin);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', getIS(Items.dye, 1, 4), 'Y', tudura, '#', Blocks.lit_pumpkin);
+        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.lit_pumpkin);
         addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ender_pearl, 'Y', tudura, '#', Blocks.lit_pumpkin);
 
         //******デコレーション
@@ -86,14 +93,37 @@ public class BambooRecipes {
         // ワラ
         addRecipe(getBlockIS(EnumDecoration.WARA.getModName(), 4, 0), "XXX", "XXX", "XXX", 'X', getIS(Straw.class));
         // かやぶき
-        addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, Items.wheat);
+        addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, "cropWheat");
         // 市松各種
-        addCircleRecipe(getBlockIS(EnumDecoration.CBIRCH.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks,1,BlockPlanks.EnumType.BIRCH.getMetadata()));
-        addCircleRecipe(getBlockIS(EnumDecoration.COAK.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks,1,BlockPlanks.EnumType.OAK.getMetadata()));
-        addCircleRecipe(getBlockIS(EnumDecoration.CPINE.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks,1,BlockPlanks.EnumType.SPRUCE.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.CBIRCH.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.COAK.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks, 1, BlockPlanks.EnumType.OAK.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.CPINE.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
         // デコレーション用半ブロと階段の登録
         registerDeco();
 
+        //***弓とか槍とか
+        addRecipe(getIS(BambooBow.class), " BS", "T S", " BS", 'B', bamboo, 'T', tudura, 'S', Items.string);
+        addRecipe(getIS(BambooArrow.class, 8, 0), "B", "T", "T", 'B', bamboo, 'T', tudura);
+        // アンチ系
+        addAntiArrowsRecipe(AntiType.UNDEAD, 4, Items.rotten_flesh);
+        addAntiArrowsRecipe(AntiType.MUTANT, 8, Items.gunpowder);
+        addAntiArrowsRecipe(AntiType.ENDERMAN, 8, Items.ender_pearl);
+        addAntiArrowsRecipe(AntiType.FLAME, 8, Items.flint);
+        addAntiArrowsRecipe(AntiType.AIR, 8, Items.feather);
+        addAntiArrowsRecipe(AntiType.MULTILEG, 8, Items.string);
+        addAntiArrowsRecipe(AntiType.HUMAN, 8, Items.emerald);
+        addAntiArrowsRecipe(AntiType.NONLEG, 8, Items.blaze_rod);
+        addAntiArrowsRecipe(AntiType.HARD, 16, Items.iron_ingot);
+        addAntiArrowsRecipe(AntiType.SOFT, 8, Items.slime_ball);
+        addAntiArrowsRecipe(AntiType.WATER, 8, Items.fish);
+        addShapelessRecipe(getIS(TorchArrow.class), getIS(BambooArrow.class), Blocks.torch);
+        addShapelessRecipe(getIS(LightArrow.class), getIS(BambooArrow.class), Items.feather);
+        addShapelessRecipe(getIS(ExplodeArrow.class), getIS(BambooArrow.class), Items.gunpowder);
+
+    }
+
+    private void addAntiArrowsRecipe(AntiType type, int ammo, Object material) {
+        addRecipe(getIS(AntiArrow.class, ammo, type.getID()), " B ", " T ", "MTM", 'B', bamboo, 'T', tudura, 'M', material);
     }
 
     private void registerDeco() {

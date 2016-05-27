@@ -15,7 +15,7 @@ import ruby.bamboo.entity.arrow.EntityAntiArrow;
 import ruby.bamboo.entity.arrow.EntityBambooArrow;
 import ruby.bamboo.entity.arrow.EntityExplodeArrow;
 import ruby.bamboo.entity.arrow.EntityLightArrow;
-import ruby.bamboo.entity.arrow.EntityTouchArrow;
+import ruby.bamboo.entity.arrow.EntityTorchArrow;
 import ruby.bamboo.entity.arrow.TimerBomb;
 import ruby.bamboo.render.entity.RenderBambooArrow;
 import ruby.bamboo.render.entity.RenderPetal;
@@ -30,7 +30,7 @@ public class EntityRegister {
         registerEntity(Wind.class, "wind", entityId++);
         registerEntity(SlideDoor.class, "slideDoor", entityId++);
         registerEntity(EntityBambooArrow.class, "bambooArrow", entityId++);
-        registerEntity(EntityTouchArrow.class, "touchArrow", entityId++);
+        registerEntity(EntityTorchArrow.class, "torchArrow", entityId++);
         registerEntity(EntityAntiArrow.class, "antiArrow", entityId++);
         registerEntity(EntityLightArrow.class, "lightArrow", entityId++);
         registerEntity(EntityExplodeArrow.class, "explodeArrow", entityId++);
@@ -43,7 +43,7 @@ public class EntityRegister {
         this.registRender(SlideDoor.class, RenderSlideDoor.class);
         this.registRender(SakuraPetal.class, RenderPetal.class);
         this.registRender(EntityBambooArrow.class, RenderBambooArrow.class);
-        this.registRender(EntityTouchArrow.class, RenderBambooArrow.class);
+        this.registRender(EntityTorchArrow.class, RenderBambooArrow.class);
         this.registRender(EntityAntiArrow.class, RenderBambooArrow.class);
         this.registRender(EntityLightArrow.class, RenderBambooArrow.class);
         this.registRender(EntityExplodeArrow.class, RenderBambooArrow.class);
