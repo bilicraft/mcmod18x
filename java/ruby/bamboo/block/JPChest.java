@@ -17,60 +17,55 @@ import ruby.bamboo.gui.GuiHandler;
 @BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class JPChest extends BlockChest {
 
-	public JPChest() {
-		super(1);
-		setHardness(3);
-		setResistance(10);
-		this.setBlockBounds(0,0,0,1,1,1);
-	}
+    public JPChest() {
+        super(1);
+        setHardness(3);
+        setResistance(10);
+        this.setBlockBounds(0, 0, 0, 1, 1, 1);
+    }
 
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {}
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    }
 
-	@Override
-	public boolean isOpaqueCube()
-	{
-		return true;
-	}
+    @Override
+    public boolean isOpaqueCube() {
+        return true;
+    }
 
-	@Override
-	public boolean isFullCube()
-	{
-		return true;
-	}
+    @Override
+    public boolean isFullCube() {
+        return true;
+    }
 
-	@Override
-	public int getRenderType()
-	{
-		return 3;
-	}
+    @Override
+    public int getRenderType() {
+        return 3;
+    }
 
-	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {}
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+    }
 
-	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
-	{
-		return true;
-	}
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        return true;
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
-	{
-		return new TileJPChest();
-	}
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileJPChest();
+    }
 
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
-	{
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-		ILockableContainer ilockablecontainer = (ILockableContainer) worldIn.getTileEntity(pos);
+        ILockableContainer ilockablecontainer = (ILockableContainer) worldIn.getTileEntity(pos);
 
-		if (ilockablecontainer != null)
-		{
-			GuiHandler.openGui(worldIn, playerIn, GuiHandler.GUI_JPCHEST, pos);
-		}
-		return true;
-	}
+        if (ilockablecontainer != null) {
+            GuiHandler.openGui(worldIn, playerIn, GuiHandler.GUI_JPCHEST, pos);
+        }
+        return true;
+    }
 
 }

@@ -27,6 +27,6 @@ public class CraftingHandler {
                     ((Sack) target).release(event.craftMatrix.getStackInSlot(lim), event.player.worldObj, event.player);
                 }
             }
-        } 
+        }
     }
 }

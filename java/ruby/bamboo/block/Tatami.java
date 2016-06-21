@@ -21,8 +21,7 @@ import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.item.itemblock.ItemTatami;
 
-@BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO,
-        itemBlock = ItemTatami.class)
+@BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO, itemBlock = ItemTatami.class)
 public class Tatami extends XZAxisBlock {
 
     public static final PropertyInteger META = PropertyInteger.create(Constants.META, 0, 3);

@@ -36,12 +36,12 @@ public class EntityRuneEffect extends Entity {
         prevPosZ = posZ;
         //System.out.println(parent);
         if (parent != null && !parent.isDead) {
-//            this.posX = parent.posX;
-//            this.posY = parent.posY;
-//            this.posZ = parent.posZ;
-            if(!worldObj.isRemote){
-            this.setPosition(parent.posX,parent.posY,parent.posZ);
-            }else{
+            //            this.posX = parent.posX;
+            //            this.posY = parent.posY;
+            //            this.posZ = parent.posZ;
+            if (!worldObj.isRemote) {
+                this.setPosition(parent.posX, parent.posY, parent.posZ);
+            } else {
                 this.moveEntity(parent.motionX, parent.motionY, parent.motionZ);
             }
 

@@ -1,6 +1,5 @@
 package ruby.bamboo.render.model;
 
-
 import ruby.bamboo.entity.SakuraPetal;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

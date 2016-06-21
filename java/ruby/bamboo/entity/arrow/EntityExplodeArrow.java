@@ -33,7 +33,7 @@ public class EntityExplodeArrow extends BaseArrow {
             if (!worldObj.isRemote) {
                 bomb.setParentEntity(entityHit);
 
-                bomb.setTimer((int)(200*power));
+                bomb.setTimer((int) (200 * power));
                 worldObj.spawnEntityInWorld(bomb);
             }
         }

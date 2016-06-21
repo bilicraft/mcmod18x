@@ -12,7 +12,7 @@ import ruby.bamboo.entity.arrow.EntityBambooArrow;
 import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class BambooArrow extends ArrowBase  {
+public class BambooArrow extends ArrowBase {
     private int limit = 5;
 
     @Override

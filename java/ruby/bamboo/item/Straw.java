@@ -5,6 +5,6 @@ import ruby.bamboo.core.init.BambooData.BambooItem;
 import net.minecraft.item.Item;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class Straw extends Item{
+public class Straw extends Item {
 
 }

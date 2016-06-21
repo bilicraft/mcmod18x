@@ -199,7 +199,8 @@ public class Sack extends Item {
     public String getItemStackDisplayName(ItemStack par1ItemStack) {
         String name = super.getItemStackDisplayName(par1ItemStack);
         if (par1ItemStack.getTagCompound() != null && getItem(par1ItemStack.getTagCompound().getString("type")) != null) {
-            name += (":" + getItem(par1ItemStack.getTagCompound().getString("type")).getItemStackDisplayName(new ItemStack(getItem(par1ItemStack.getTagCompound().getString("type")), 1, par1ItemStack.getTagCompound().getShort("meta"))) + ":" + par1ItemStack.getTagCompound().getShort("count")).trim();
+            name += (":" + getItem(par1ItemStack.getTagCompound().getString("type"))
+                    .getItemStackDisplayName(new ItemStack(getItem(par1ItemStack.getTagCompound().getString("type")), 1, par1ItemStack.getTagCompound().getShort("meta"))) + ":" + par1ItemStack.getTagCompound().getShort("count")).trim();
         }
 
         return name;

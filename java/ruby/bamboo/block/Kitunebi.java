@@ -76,19 +76,17 @@ public class Kitunebi extends Block {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer()
-    {
+    public EnumWorldBlockLayer getBlockLayer() {
         return EnumWorldBlockLayer.CUTOUT;
     }
-
 
     @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        setVisibleFlg(worldIn, pos, state,rand);
+        setVisibleFlg(worldIn, pos, state, rand);
     }
 
-    private void setVisibleFlg(World world, BlockPos pos, IBlockState state,Random rand) {
+    private void setVisibleFlg(World world, BlockPos pos, IBlockState state, Random rand) {
         if (world.isRemote) {
             ItemStack is = FMLClientHandler.instance().getClient().thePlayer.getCurrentEquippedItem();
             isVisible = false;
@@ -106,7 +104,7 @@ public class Kitunebi extends Block {
             if (isVisible) {
                 //world.setBlockState(pos, state.withProperty(VISIBLE, true), 3);
                 setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, pos.getX()+rand.nextFloat(), pos.getY()+rand.nextFloat(), pos.getZ()+rand.nextFloat(), 0,0,0, 0);
+                world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0, 0);
             } else {
                 setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
             }

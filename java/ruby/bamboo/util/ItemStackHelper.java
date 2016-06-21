@@ -1,10 +1,14 @@
 package ruby.bamboo.util;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagList;
 
 /*
  * InventoryHelperになってきてる気がする
@@ -102,5 +106,27 @@ public class ItemStackHelper {
         public ItemStack getItemStack() {
             return new ItemStack(item, stackSize, damage);
         }
+    }
+
+    public static <T extends NBTBase> Iterable<T> getNBTTagListIte(final NBTTagList tagList) {
+        return () -> {
+            return new Iterator<T>() {
+                int cursor;
+
+                public boolean hasNext() {
+                    return cursor != tagList.tagCount();
+                }
+
+                @Override
+                public T next() {
+                    int i = cursor;
+                    if (i >= tagList.tagCount()) {
+                        throw new NoSuchElementException();
+                    }
+                    cursor = i + 1;
+                    return (T) tagList.get(i);
+                }
+            };
+        };
     }
 }

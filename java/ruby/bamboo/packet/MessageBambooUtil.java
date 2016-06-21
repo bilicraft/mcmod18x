@@ -1,11 +1,11 @@
 package ruby.bamboo.packet;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import ruby.bamboo.core.KeyBindFactory.IBambooKeylistener;
 
 public class MessageBambooUtil implements IMessage {
 
@@ -28,16 +28,19 @@ public class MessageBambooUtil implements IMessage {
         buf.writeByte(this.data);
     }
 
-    public static class MessageBambooUtilHandler
-            implements IMessageHandler<MessageBambooUtil, IMessage> {
+    public static class MessageBambooUtilHandler implements IMessageHandler<MessageBambooUtil, IMessage> {
 
         @Override
         public IMessage onMessage(MessageBambooUtil message, MessageContext ctx) {
             ItemStack is = ctx.getServerHandler().playerEntity.getCurrentEquippedItem();
-            if (is != null && is.getItem() instanceof IBambooKeylistener) {
-                ((IBambooKeylistener) is.getItem()).callback(ctx.getServerHandler().playerEntity, is, message.data);
+            if (is != null && is.getItem() instanceof IMessagelistener) {
+                ((IMessagelistener) is.getItem()).call(ctx.getServerHandler().playerEntity, is, message.data);
             }
             return null;
         }
+    }
+
+    public interface IMessagelistener {
+        public void call(EntityPlayer playerEntity, ItemStack is, byte data);
     }
 }

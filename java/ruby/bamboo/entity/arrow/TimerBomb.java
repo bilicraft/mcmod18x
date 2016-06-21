@@ -75,7 +75,8 @@ public class TimerBomb extends Entity {
             if (parent != null) {
                 eyeHeight = parent.getEyeHeight();
             }
-            this.worldObj.spawnParticle(timer > 60 ? EnumParticleTypes.SMOKE_NORMAL : EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + eyeHeight, this.posZ, (rand.nextFloat() - 0.5F) * 0.1F, 0, (rand.nextFloat() - 0.5F) * 0.1F, new int[0]);
+            this.worldObj
+                    .spawnParticle(timer > 60 ? EnumParticleTypes.SMOKE_NORMAL : EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + eyeHeight, this.posZ, (rand.nextFloat() - 0.5F) * 0.1F, 0, (rand.nextFloat() - 0.5F) * 0.1F, new int[0]);
         }
 
         this.setTimer(timer - 1);

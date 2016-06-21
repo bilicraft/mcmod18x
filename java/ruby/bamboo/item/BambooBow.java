@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.Constants;
-import ruby.bamboo.core.KeyBindFactory.IBambooKeylistener;
+import ruby.bamboo.core.KeyBindFactory.IItemUtilKeylistener;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
@@ -35,12 +35,12 @@ import ruby.bamboo.item.arrow.IBambooArrow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.packet.MessageBambooUtil;
+import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
 import ruby.bamboo.util.ItemStackHelper;
 import ruby.bamboo.util.ItemStackHelper.HashedStack;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class BambooBow extends ItemBow
-        implements ISubTexture, IBambooKeylistener {
+public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeylistener, IMessagelistener {
     public final static String TAG_AMMO = "ammo";
     public final static String AMMO_SLOT = "slot";
     public final static String ICON_NAME = Constants.RESOURCED_DOMAIN + "bamboobow";
@@ -263,21 +263,19 @@ public class BambooBow extends ItemBow
     @Override
     public void exec(KeyBinding key) {
         EntityPlayer player = FMLClientHandler.instance().getClientPlayerEntity();
-        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == this) {
-            if (key.isPressed()) {
-                ItemStack is = player.getCurrentEquippedItem();
-                byte slotNum = getArrowSlot(is);
-                int invArrowTypes = getArrowTypes(player.inventory).size();
-                if (++slotNum >= invArrowTypes) {
-                    slotNum = 0;
-                }
-                PacketDispatcher.sendToServer(new MessageBambooUtil(slotNum));
+        if (key.isPressed()) {
+            ItemStack is = player.getCurrentEquippedItem();
+            byte slotNum = getArrowSlot(is);
+            int invArrowTypes = getArrowTypes(player.inventory).size();
+            if (++slotNum >= invArrowTypes) {
+                slotNum = 0;
             }
+            PacketDispatcher.sendToServer(new MessageBambooUtil(slotNum));
         }
     }
 
     @Override
-    public void callback(EntityPlayer playerEntity, ItemStack is, byte data) {
+    public void call(EntityPlayer playerEntity, ItemStack is, byte data) {
         is.getSubCompound(BambooBow.TAG_AMMO, true).setByte(BambooBow.AMMO_SLOT, data);
     }
 

@@ -10,8 +10,8 @@ import ruby.bamboo.core.init.EnumCreateTab;
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class RiceSeed extends ItemSeeds {
 
-	public RiceSeed() {
-		super(DataManager.getBlock(RicePlant.class), Blocks.farmland);
-	}
+    public RiceSeed() {
+        super(DataManager.getBlock(RicePlant.class), Blocks.farmland);
+    }
 
 }

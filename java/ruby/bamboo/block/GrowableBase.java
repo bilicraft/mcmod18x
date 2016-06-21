@@ -119,7 +119,8 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
         if (flag && flag1) {
             f /= 2.0F;
         } else {
-            boolean flag2 = blockIn == worldIn.getBlockState(blockpos4.north()).getBlock() || blockIn == worldIn.getBlockState(blockpos5.north()).getBlock() || blockIn == worldIn.getBlockState(blockpos5.south()).getBlock() || blockIn == worldIn.getBlockState(blockpos4.south()).getBlock();
+            boolean flag2 = blockIn == worldIn.getBlockState(blockpos4.north()).getBlock() || blockIn == worldIn.getBlockState(blockpos5.north()).getBlock() || blockIn == worldIn.getBlockState(blockpos5.south())
+                    .getBlock() || blockIn == worldIn.getBlockState(blockpos4.south()).getBlock();
 
             if (flag2) {
                 f /= 2.0F;

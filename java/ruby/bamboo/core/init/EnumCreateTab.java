@@ -9,26 +9,27 @@ import net.minecraft.util.StatCollector;
 import ruby.bamboo.core.Constants;
 
 public enum EnumCreateTab {
-	NONE, TAB_BAMBOO;
-	static HashMap<EnumCreateTab, CreativeTabs> map;
+    NONE,
+    TAB_BAMBOO;
+    static HashMap<EnumCreateTab, CreativeTabs> map;
 
-	static {
-		map = new HashMap<EnumCreateTab, CreativeTabs>();
-		map.put(NONE, null);
-		map.put(TAB_BAMBOO, new CreativeTabs(Constants.MODID) {
-			@Override
-			public String getTranslatedTabLabel() {
-				return StatCollector.translateToLocal(this.getTabLabel());
-			}
+    static {
+        map = new HashMap<EnumCreateTab, CreativeTabs>();
+        map.put(NONE, null);
+        map.put(TAB_BAMBOO, new CreativeTabs(Constants.MODID) {
+            @Override
+            public String getTranslatedTabLabel() {
+                return StatCollector.translateToLocal(this.getTabLabel());
+            }
 
-			@Override
-			public Item getTabIconItem() {
-				return Item.getItemFromBlock(Blocks.stone);//Block.getBlockFromName(BlockData.getModdedName(ItemBambooShoot.class)));
-			}
-		});
-	}
+            @Override
+            public Item getTabIconItem() {
+                return Item.getItemFromBlock(Blocks.stone);//Block.getBlockFromName(BlockData.getModdedName(ItemBambooShoot.class)));
+            }
+        });
+    }
 
-	public CreativeTabs getTabInstance() {
-		return map.get(this);
-	}
+    public CreativeTabs getTabInstance() {
+        return map.get(this);
+    }
 };

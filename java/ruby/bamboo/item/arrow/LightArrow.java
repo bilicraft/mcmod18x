@@ -14,7 +14,7 @@ import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class LightArrow extends ArrowBase{
+public class LightArrow extends ArrowBase {
 
     @Override
     public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
@@ -24,20 +24,17 @@ public class LightArrow extends ArrowBase{
 
         int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
 
-        if (j > 0)
-        {
-            entityArrow.setDamage(entityArrow.getDamage() + (double)j * 0.5D + 0.5D);
+        if (j > 0) {
+            entityArrow.setDamage(entityArrow.getDamage() + (double) j * 0.5D + 0.5D);
         }
 
         int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, bow);
 
-        if (k > 0)
-        {
+        if (k > 0) {
             entityArrow.setKnockbackStrength(k);
         }
 
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, bow) > 0)
-        {
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, bow) > 0) {
             entityArrow.setFire(100);
         }
 
@@ -54,7 +51,7 @@ public class LightArrow extends ArrowBase{
 
     @Override
     public ModelResourceLocation getBowModel(int useRemaining) {
-        String jsonName = BambooBow.ICON_PULL_NAMES[useRemaining>= 18 ? 3 : useRemaining > 13 ? 2 : 1];
+        String jsonName = BambooBow.ICON_PULL_NAMES[useRemaining >= 18 ? 3 : useRemaining > 13 ? 2 : 1];
         return new ModelResourceLocation(jsonName, "inventory");
     }
 

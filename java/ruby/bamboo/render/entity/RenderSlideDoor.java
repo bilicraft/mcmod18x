@@ -38,22 +38,21 @@ public class RenderSlideDoor extends Render {
         GL11.glScalef(0.999375F, 0.999375F, 0.999375F);
         float rotate = 0F;
         switch (dir) {
-        case EAST:
-            rotate = 90F;
-            break;
-        case NORTH:
-            rotate = 180F;
-            break;
-        case SOUTH:
-            rotate = 0F;
-            break;
-        case WEST:
-            rotate = 270F;
-            break;
-        default:
-            break;
+            case EAST:
+                rotate = 90F;
+                break;
+            case NORTH:
+                rotate = 180F;
+                break;
+            case SOUTH:
+                rotate = 0F;
+                break;
+            case WEST:
+                rotate = 270F;
+                break;
+            default:
+                break;
         }
-
 
         GL11.glRotatef(rotate, 0.0F, 1.0F, 0.0F);
         // GL11.glTranslatef((float)d, (float)d1, (float)d2);

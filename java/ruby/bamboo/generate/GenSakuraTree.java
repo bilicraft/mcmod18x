@@ -112,11 +112,10 @@ public class GenSakuraTree extends WorldGenAbstractTree {
                         Block block2 = worldIn.getBlockState(upN).getBlock();
 
                         if (block2.isAir(worldIn, upN) || block2.isLeaves(worldIn, upN) || block2.getMaterial() == Material.vine) {
-                            this.setBlockAndNotifyAdequately(worldIn, position.up(l),  this.metaWood);
+                            this.setBlockAndNotifyAdequately(worldIn, position.up(l), this.metaWood);
 
                         }
                     }
-
 
                     return true;
                 } else {

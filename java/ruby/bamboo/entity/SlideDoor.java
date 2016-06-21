@@ -72,14 +72,12 @@ public class SlideDoor extends Entity {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotation2(double p_180426_1_, double p_180426_3_, double p_180426_5_, float p_180426_7_, float p_180426_8_, int p_180426_9_, boolean p_180426_10_)
-    {
+    public void setPositionAndRotation2(double p_180426_1_, double p_180426_3_, double p_180426_5_, float p_180426_7_, float p_180426_8_, int p_180426_9_, boolean p_180426_10_) {
 
     }
 
     @Override
-    public void applyEntityCollision(Entity entityIn)
-    {
+    public void applyEntityCollision(Entity entityIn) {
 
     }
 
@@ -162,24 +160,24 @@ public class SlideDoor extends Entity {
             double offsetPosX = posX;
             double offsetPosZ = posZ;
             switch (par1DamageSource.getEntity().getHorizontalFacing()) {
-            case EAST:
-                offsetPosX += 0.05;
-                break;
-            case NORTH:
-                offsetPosZ -= 0.05;
-                break;
-            case SOUTH:
-                offsetPosZ += 0.05;
-                break;
-            case WEST:
-                offsetPosX -= 0.05;
-                break;
-            case UP:
-                break;
-            case DOWN:
-                break;
-            default:
-                break;
+                case EAST:
+                    offsetPosX += 0.05;
+                    break;
+                case NORTH:
+                    offsetPosZ -= 0.05;
+                    break;
+                case SOUTH:
+                    offsetPosZ += 0.05;
+                    break;
+                case WEST:
+                    offsetPosX -= 0.05;
+                    break;
+                case UP:
+                    break;
+                case DOWN:
+                    break;
+                default:
+                    break;
             }
 
             setPosition(offsetPosX, posY, offsetPosZ);
@@ -222,7 +220,7 @@ public class SlideDoor extends Entity {
                 }
             }
         }
-        this.noClip=true;
+        this.noClip = true;
         if (!getDataIsStop()) {
             if (closeTimer < 0 && getDataMoveflg()) {
                 doorClose();
@@ -239,16 +237,16 @@ public class SlideDoor extends Entity {
                 facing = facing.getOpposite();
             }
             switch (facing.getAxis()) {
-            case X:
-                posZ -= facing.getAxisDirection().getOffset();
-                this.setEntityBoundingBox(getEntityBoundingBox().offset(0, 0, -facing.getAxisDirection().getOffset()));
-                break;
-            case Z:
-                posX += facing.getAxisDirection().getOffset();
-                this.setEntityBoundingBox(getEntityBoundingBox().offset(facing.getAxisDirection().getOffset(), 0, 0));
-                break;
-            default:
-                break;
+                case X:
+                    posZ -= facing.getAxisDirection().getOffset();
+                    this.setEntityBoundingBox(getEntityBoundingBox().offset(0, 0, -facing.getAxisDirection().getOffset()));
+                    break;
+                case Z:
+                    posX += facing.getAxisDirection().getOffset();
+                    this.setEntityBoundingBox(getEntityBoundingBox().offset(facing.getAxisDirection().getOffset(), 0, 0));
+                    break;
+                default:
+                    break;
 
             }
             setDataMoveflg(true);
@@ -274,16 +272,16 @@ public class SlideDoor extends Entity {
                 facing = facing.getOpposite();
             }
             switch (facing.getAxis()) {
-            case X:
-                posZ += facing.getAxisDirection().getOffset();
-                this.setEntityBoundingBox(getEntityBoundingBox().offset(0, 0, facing.getAxisDirection().getOffset()));
-                break;
-            case Z:
-                posX -= facing.getAxisDirection().getOffset();
-                this.setEntityBoundingBox(getEntityBoundingBox().offset(-facing.getAxisDirection().getOffset(), 0, 0));
-                break;
-            default:
-                break;
+                case X:
+                    posZ += facing.getAxisDirection().getOffset();
+                    this.setEntityBoundingBox(getEntityBoundingBox().offset(0, 0, facing.getAxisDirection().getOffset()));
+                    break;
+                case Z:
+                    posX -= facing.getAxisDirection().getOffset();
+                    this.setEntityBoundingBox(getEntityBoundingBox().offset(-facing.getAxisDirection().getOffset(), 0, 0));
+                    break;
+                default:
+                    break;
 
             }
             setDataMoveflg(false);

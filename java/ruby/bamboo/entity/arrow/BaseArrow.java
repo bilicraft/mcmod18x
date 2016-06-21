@@ -224,7 +224,8 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
                                         float f7 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
                                         if (f7 > 0.0F) {
-                                            movingobjectposition.entityHit.addVelocity(this.motionX * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7, 0.1D, this.motionZ * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7);
+                                            movingobjectposition.entityHit
+                                                    .addVelocity(this.motionX * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7, 0.1D, this.motionZ * (double) this.knockbackStrength * 0.6000000238418579D / (double) f7);
                                         }
                                     }
 
@@ -321,7 +322,8 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
             if (this.isInWater()) {
                 for (int i1 = 0; i1 < 4; ++i1) {
                     float f8 = 0.25F;
-                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f8, this.posY - this.motionY * (double) f8, this.posZ - this.motionZ * (double) f8, this.motionX, this.motionY, this.motionZ, new int[0]);
+                    this.worldObj
+                            .spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f8, this.posY - this.motionY * (double) f8, this.posZ - this.motionZ * (double) f8, this.motionX, this.motionY, this.motionZ, new int[0]);
                 }
 
                 f4 = 0.6F;
@@ -362,7 +364,8 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     public void spawnCritParticle() {
         if (this.getIsCritical()) {
             for (int k = 0; k < 4; ++k) {
-                this.worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
+                this.worldObj
+                        .spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
             }
         }
     }

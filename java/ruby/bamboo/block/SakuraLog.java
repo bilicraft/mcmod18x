@@ -24,99 +24,99 @@ import ruby.bamboo.core.init.EnumCreateTab;
 
 @BambooBlock(name = "sakura_log", createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class SakuraLog extends BlockLog implements ICustomState {
-	public static final PropertyEnum VARIANT = PropertyEnum.create("variant", SakuraPlank.EnumType.class);
+    public static final PropertyEnum VARIANT = PropertyEnum.create("variant", SakuraPlank.EnumType.class);
 
-	public SakuraLog() {
-		super();
-		this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, SakuraPlank.EnumType.SAKURA).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-	}
+    public SakuraLog() {
+        super();
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, SakuraPlank.EnumType.SAKURA).withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
+    }
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
-		list.add(new ItemStack(itemIn, 1, SakuraPlank.EnumType.SAKURA.getMetadata()));
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
+        list.add(new ItemStack(itemIn, 1, SakuraPlank.EnumType.SAKURA.getMetadata()));
+    }
 
-	@Override
+    @Override
     public IBlockState getStateFromMeta(int meta) {
-		IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, SakuraPlank.EnumType.byMetadata((meta & 3)));
+        IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, SakuraPlank.EnumType.byMetadata((meta & 3)));
 
-		switch (meta & 12) {
-		case 0:
-			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
-			break;
-		case 4:
-			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
-			break;
-		case 8:
-			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
-			break;
-		default:
-			iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
-		}
+        switch (meta & 12) {
+            case 0:
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
+                break;
+            case 4:
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+                break;
+            case 8:
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+                break;
+            default:
+                iblockstate = iblockstate.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+        }
 
-		return iblockstate;
-	}
+        return iblockstate;
+    }
 
-	@Override
+    @Override
     public int getMetaFromState(IBlockState state) {
-		byte b0 = 0;
-		int i = b0 | ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
+        byte b0 = 0;
+        int i = b0 | ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
 
-		switch (SakuraLog.SwitchEnumAxis.AXIS_LOOKUP[((BlockLog.EnumAxis) state.getValue(LOG_AXIS)).ordinal()]) {
-		case 1:
-			i |= 4;
-			break;
-		case 2:
-			i |= 8;
-			break;
-		case 3:
-			i |= 12;
-		}
+        switch (SakuraLog.SwitchEnumAxis.AXIS_LOOKUP[((BlockLog.EnumAxis) state.getValue(LOG_AXIS)).ordinal()]) {
+            case 1:
+                i |= 4;
+                break;
+            case 2:
+                i |= 8;
+                break;
+            case 3:
+                i |= 12;
+        }
 
-		return i;
-	}
+        return i;
+    }
 
-	@Override
+    @Override
     protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { VARIANT, LOG_AXIS });
-	}
+        return new BlockState(this, new IProperty[] { VARIANT, LOG_AXIS });
+    }
 
-	@Override
+    @Override
     protected ItemStack createStackedBlock(IBlockState state) {
-		return new ItemStack(Item.getItemFromBlock(this), 1, ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata());
-	}
+        return new ItemStack(Item.getItemFromBlock(this), 1, ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata());
+    }
 
-	@Override
+    @Override
     public int damageDropped(IBlockState state) {
-		return ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
-	}
+        return ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
+    }
 
-	static final class SwitchEnumAxis {
-		static final int[] AXIS_LOOKUP = new int[BlockLog.EnumAxis.values().length];
-		static {
-			try {
-				AXIS_LOOKUP[BlockLog.EnumAxis.X.ordinal()] = 1;
-			} catch (NoSuchFieldError var3) {
-				;
-			}
+    static final class SwitchEnumAxis {
+        static final int[] AXIS_LOOKUP = new int[BlockLog.EnumAxis.values().length];
+        static {
+            try {
+                AXIS_LOOKUP[BlockLog.EnumAxis.X.ordinal()] = 1;
+            } catch (NoSuchFieldError var3) {
+                ;
+            }
 
-			try {
-				AXIS_LOOKUP[BlockLog.EnumAxis.Z.ordinal()] = 2;
-			} catch (NoSuchFieldError var2) {
-				;
-			}
+            try {
+                AXIS_LOOKUP[BlockLog.EnumAxis.Z.ordinal()] = 2;
+            } catch (NoSuchFieldError var2) {
+                ;
+            }
 
-			try {
-				AXIS_LOOKUP[BlockLog.EnumAxis.NONE.ordinal()] = 3;
-			} catch (NoSuchFieldError var1) {
-				;
-			}
-		}
-	}
+            try {
+                AXIS_LOOKUP[BlockLog.EnumAxis.NONE.ordinal()] = 3;
+            } catch (NoSuchFieldError var1) {
+                ;
+            }
+        }
+    }
 
-	@Override
-	public Object getCustomState() {
-		return (new StateMap.Builder()).withName(VARIANT).withSuffix("_log").build();
-	}
+    @Override
+    public Object getCustomState() {
+        return (new StateMap.Builder()).withName(VARIANT).withSuffix("_log").build();
+    }
 }

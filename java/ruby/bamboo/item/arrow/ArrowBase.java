@@ -13,17 +13,17 @@ public abstract class ArrowBase extends Item implements IBambooArrow {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        Class<? extends BaseArrow> arrow=getArrowClass();
-        if(arrow==null){
+        Class<? extends BaseArrow> arrow = getArrowClass();
+        if (arrow == null) {
             return itemStackIn;
         }
         float power = 0.5F;
         try {
             BaseArrow entityArrow;
-            try{
-                entityArrow=arrow.getConstructor(World.class, EntityLivingBase.class, float.class,ItemStack.class).newInstance(worldIn,playerIn,power,itemStackIn);
-            }catch(NoSuchMethodException e){
-                entityArrow=arrow.getConstructor(World.class, EntityLivingBase.class, float.class).newInstance(worldIn,playerIn,power);
+            try {
+                entityArrow = arrow.getConstructor(World.class, EntityLivingBase.class, float.class, ItemStack.class).newInstance(worldIn, playerIn, power, itemStackIn);
+            } catch (NoSuchMethodException e) {
+                entityArrow = arrow.getConstructor(World.class, EntityLivingBase.class, float.class).newInstance(worldIn, playerIn, power);
             }
             if (!worldIn.isRemote) {
                 worldIn.spawnEntityInWorld(entityArrow);
@@ -36,7 +36,6 @@ public abstract class ArrowBase extends Item implements IBambooArrow {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return itemStackIn;
     }
