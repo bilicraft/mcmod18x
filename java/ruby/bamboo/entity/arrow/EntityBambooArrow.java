@@ -4,8 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import ruby.bamboo.core.DataManager;
 import ruby.bamboo.item.arrow.BambooArrow;
@@ -18,10 +19,6 @@ public class EntityBambooArrow extends BaseArrow {
 
     public EntityBambooArrow(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
-    }
-
-    public EntityBambooArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_) {
-        super(worldIn, shooter, p_i1755_3_, p_i1755_4_, p_i1755_5_);
     }
 
     public EntityBambooArrow(World worldIn, EntityLivingBase shooter, float velocity) {
@@ -46,7 +43,7 @@ public class EntityBambooArrow extends BaseArrow {
     @Override
     public void postUpdate() {
         if (0 < --count) {
-            worldObj.playSoundAtEntity(shootingEntity, "random.bow", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+            this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 
             if (!worldObj.isRemote) {
                 EntityBambooArrow eba = new EntityBambooArrow(worldObj, (EntityLivingBase) shootingEntity, power);
@@ -55,7 +52,7 @@ public class EntityBambooArrow extends BaseArrow {
                 eba.setDamage(getDamage() * 0.7);
                 eba.setBarrage(0);
                 eba.setFire(isBurning() ? 100 : 0);
-                eba.canBePickedUp = this.canBePickedUp;
+                eba.pickupStatus = this.pickupStatus;
                 eba.setMaxAge(this.maxAge);
                 worldObj.spawnEntityInWorld(eba);
             }
@@ -98,6 +95,12 @@ public class EntityBambooArrow extends BaseArrow {
     @Override
     public ItemStack getItemArrow() {
         return DataManager.getItemStack(BambooArrow.class, 1, 0);
+    }
+
+    @Override
+    protected ItemStack getArrowStack() {
+        // TODO 自動生成されたメソッド・スタブ
+        return null;
     }
 
 }

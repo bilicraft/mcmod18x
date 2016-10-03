@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class EnchantBase {
+public abstract class EnchantBase{
     public static final byte SUB_WILD = (byte) 0xFF;
 
     enum EnchantType {

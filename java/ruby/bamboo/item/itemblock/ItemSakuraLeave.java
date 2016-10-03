@@ -26,11 +26,12 @@ public class ItemSakuraLeave extends ItemBlock {
         return damage;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
-        return this.leave.getLeaveRenderColor(this.leave.getLeaveStateFromMeta(stack.getMetadata()));
-    }
+//TODO: 色関係はjson？
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+//        return this.leave.getLeaveRenderColor(this.leave.getLeaveStateFromMeta(stack.getMetadata()));
+//    }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {

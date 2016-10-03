@@ -8,11 +8,13 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,6 +36,7 @@ import ruby.bamboo.item.itemblock.ItemBamboo;
 public class Bamboo extends BlockBush implements IGrowable {
     // 最大の長さ
     public static final PropertyInteger LENGTH = PropertyInteger.create(Constants.META, 0, 15);
+    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
 
     public Bamboo(Material material) {
         this.setDefaultState(this.blockState.getBaseState().withProperty(LENGTH, 0));
@@ -41,8 +44,12 @@ public class Bamboo extends BlockBush implements IGrowable {
         this.setTickRandomly(true);
         this.setHardness(0.75F);
         this.setResistance(1F);
-        this.setBlockBounds(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
         this.setHarvestLevel("axe", 0);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BLOCK_AABB;
     }
 
     @Override
@@ -52,12 +59,12 @@ public class Bamboo extends BlockBush implements IGrowable {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((Integer) state.getValue(LENGTH)).intValue();
+        return state.getValue(LENGTH).intValue();
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, LENGTH);
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, LENGTH);
     }
 
     /**
@@ -111,7 +118,7 @@ public class Bamboo extends BlockBush implements IGrowable {
             BlockPos pd = pos.down();
             if (DataManager.getBlock(BambooShoot.class).canBlockStay(world, pos, state)) {
                 // 天候・耕地確変
-                if (world.rand.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockState(pd).getBlock() == Blocks.farmland ? 0.25F : 0.1F)) {
+                if (world.rand.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockState(pd).getBlock() == Blocks.FARMLAND ? 0.25F : 0.1F)) {
                     return true;
                 }
             }
@@ -126,7 +133,7 @@ public class Bamboo extends BlockBush implements IGrowable {
 
             for (BlockPos target : (Iterable<BlockPos>) BlockPos.getAllInBox(p.add(-1, -1, -1), p.add(1, 1, 1))) {
                 if (this.canChildSpawn(world, target, state)) {
-                    world.setBlockState(target.down(), Blocks.dirt.getDefaultState());
+                    world.setBlockState(target.down(), Blocks.DIRT.getDefaultState());
                     world.setBlockState(target, DataManager.getState(BambooShoot.class));
                 }
             }
@@ -134,8 +141,8 @@ public class Bamboo extends BlockBush implements IGrowable {
     }
 
     @Override
-    public boolean canPlaceBlockOn(Block ground) {
-        return super.canPlaceBlockOn(ground) || ground == this;
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        return super.canPlaceBlockAt(worldIn, pos) || worldIn.getBlockState(pos).getBlock() == this;
     }
 
     @Override
@@ -163,8 +170,8 @@ public class Bamboo extends BlockBush implements IGrowable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT;
     }
 
     @StateIgnore

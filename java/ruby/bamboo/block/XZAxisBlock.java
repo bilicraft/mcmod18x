@@ -2,11 +2,11 @@ package ruby.bamboo.block;
 
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class XZAxisBlock extends BlockRotatedPillar {
@@ -36,7 +36,7 @@ public abstract class XZAxisBlock extends BlockRotatedPillar {
     abstract IBlockState setBlockMeta(IBlockState state, int meta);
 
     private int getDirMeta(IBlockState state) {
-        return ((EnumFacing.Axis) state.getValue(AXIS)) == EnumFacing.Axis.Z ? 8 : 0;
+        return (state.getValue(AXIS)) == EnumFacing.Axis.Z ? 8 : 0;
     }
 
     private IBlockState setDirMeta(IBlockState state, int meta) {
@@ -44,7 +44,7 @@ public abstract class XZAxisBlock extends BlockRotatedPillar {
     }
 
     @Override
-    protected abstract BlockState createBlockState();
+    protected abstract BlockStateContainer createBlockState();
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {

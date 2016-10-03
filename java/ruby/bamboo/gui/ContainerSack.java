@@ -3,7 +3,6 @@ package ruby.bamboo.gui;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -16,7 +15,7 @@ import ruby.bamboo.core.DataManager;
 import ruby.bamboo.inventory.InventorySack;
 import ruby.bamboo.item.Sack;
 
-public class ContainerSack extends Container {
+public class ContainerSack extends BaseContainer {
     private ItemStack itemStack;
     private InventorySack inventry;
 
@@ -38,14 +37,9 @@ public class ContainerSack extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer entityplayer) {
-        return entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().getItem() == DataManager.getItem(Sack.class);
-    }
-
-    @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
         ItemStack itemstack = null;
-        Slot slot = (Slot) this.inventorySlots.get(par2);
+        Slot slot = this.inventorySlots.get(par2);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
@@ -76,12 +70,12 @@ public class ContainerSack extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {
-        if (par1EntityPlayer.getCurrentEquippedItem() != null && par1EntityPlayer.getCurrentEquippedItem().getItem() == DataManager.getItem(Sack.class)) {
-            ItemStack slot0 = ((Slot) this.inventorySlots.get(0)).getStack();
+        if (par1EntityPlayer.getHeldItemMainhand() != null && par1EntityPlayer.getHeldItemMainhand().getItem() == DataManager.getItem(Sack.class)) {
+            ItemStack slot0 = this.inventorySlots.get(0).getStack();
             if (itemStack != null && slot0 != null) {
                 itemStack.setTagCompound(new NBTTagCompound());
                 NBTTagCompound var4 = itemStack.getTagCompound();
-                var4.setString("type", String.valueOf(Item.itemRegistry.getNameForObject(slot0.getItem())));
+                var4.setString("type", String.valueOf(Item.REGISTRY.getNameForObject(slot0.getItem())));
                 var4.setShort("count", (short) slot0.stackSize);
                 var4.setShort("meta", (short) slot0.getItemDamage());
                 itemStack.setItemDamage(itemStack.getMaxDamage() - 1);
@@ -90,8 +84,8 @@ public class ContainerSack extends Container {
             ItemStack item = itemStack;
 
             if (item != null && item.getTagCompound() != null) {
-                if (isStorage(Item.itemRegistry.getObject(new ResourceLocation(item.getTagCompound().getString("type"))))) {
-                    par1EntityPlayer.getCurrentEquippedItem().setTagCompound(item.getTagCompound());
+                if (isStorage(Item.REGISTRY.getObject(new ResourceLocation(item.getTagCompound().getString("type"))))) {
+                    par1EntityPlayer.getHeldItemMainhand().setTagCompound(item.getTagCompound());
                 } else {
                     if (!par1EntityPlayer.worldObj.isRemote) {
                         par1EntityPlayer.worldObj.spawnEntityInWorld(new EntityItem(par1EntityPlayer.worldObj, par1EntityPlayer.posX, par1EntityPlayer.posY + 0.5, par1EntityPlayer.posZ, inventry.slot0));

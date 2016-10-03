@@ -5,11 +5,11 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.PacketDispatcher;
@@ -33,10 +33,10 @@ public abstract class GuiPickaxeBase extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-        if (player.getCurrentEquippedItem() != null) {
-            String s = player.getCurrentEquippedItem().getDisplayName();
+        if (player.getHeldItemMainhand() != null) {
+            String s = player.getHeldItemMainhand().getDisplayName();
             this.fontRendererObj.drawString(s, 10, 4, 4210752);
-            this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+            this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
         }
     }
 

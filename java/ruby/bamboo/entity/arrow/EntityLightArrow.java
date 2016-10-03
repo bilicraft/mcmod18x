@@ -12,10 +12,6 @@ public class EntityLightArrow extends BaseArrow {
         super(worldIn, x, y, z);
     }
 
-    public EntityLightArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_) {
-        super(worldIn, shooter, p_i1755_3_, p_i1755_4_, p_i1755_5_);
-    }
-
     public EntityLightArrow(World worldIn, EntityLivingBase shooter, float velocity) {
         super(worldIn, shooter, velocity);
     }
@@ -26,15 +22,21 @@ public class EntityLightArrow extends BaseArrow {
 
     @Override
     public void motionUpdate(float xyzVariation, float yDecrease) {
-        this.motionX *= (double) xyzVariation;
-        this.motionY *= (double) xyzVariation;
-        this.motionZ *= (double) xyzVariation;
-        this.motionY -= (double) yDecrease * 0.5;
+        this.motionX *= xyzVariation;
+        this.motionY *= xyzVariation;
+        this.motionZ *= xyzVariation;
+        this.motionY -= yDecrease * 0.5;
     }
 
     @Override
     public ItemStack getItemArrow() {
         return DataManager.getItemStack(LightArrow.class, 1, 0);
+    }
+
+    @Override
+    protected ItemStack getArrowStack() {
+        // TODO 自動生成されたメソッド・スタブ
+        return null;
     }
 
 }

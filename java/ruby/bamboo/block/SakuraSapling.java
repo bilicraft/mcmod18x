@@ -6,10 +6,12 @@ import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -22,12 +24,17 @@ import ruby.bamboo.generate.GenSakuraTree;
 @BambooBlock(name = "sakura_sapling", createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class SakuraSapling extends BlockBush implements IGrowable {
     public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
+    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.1F, 0F, 0.1F, 0.9F, 0.8F, 0.9F);
 
     public SakuraSapling() {
         super();
         this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, Integer.valueOf(0)));
         float f = 0.4F;
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BLOCK_AABB;
     }
 
     @Override
@@ -43,7 +50,7 @@ public class SakuraSapling extends BlockBush implements IGrowable {
 
     @Override
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
-        if (((Integer) state.getValue(STAGE)).intValue() == 0) {
+        if (state.getValue(STAGE).intValue() == 0) {
             worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
         } else {
             this.generateTree(worldIn, pos, state, rand);
@@ -57,7 +64,7 @@ public class SakuraSapling extends BlockBush implements IGrowable {
         int i = 0;
         int j = 0;
         boolean flag = false;
-        worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 4);
+        worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
         if (!((WorldGenerator) object).generate(worldIn, rand, pos.add(i, 0, j))) {
             worldIn.setBlockState(pos, state, 4);
         }
@@ -74,8 +81,8 @@ public class SakuraSapling extends BlockBush implements IGrowable {
     }
 
     @Override
-    public BlockState createBlockState() {
-        return new BlockState(this, new IProperty[] { STAGE });
+    public BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { STAGE });
     }
 
     @Override
@@ -85,7 +92,7 @@ public class SakuraSapling extends BlockBush implements IGrowable {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((Integer) state.getValue(STAGE)).intValue();
+        return state.getValue(STAGE).intValue();
     }
 
     @StateIgnore

@@ -4,8 +4,8 @@ import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class AxisBase extends BlockRotatedPillar {
@@ -31,7 +31,7 @@ public class AxisBase extends BlockRotatedPillar {
     @Override
     public int getMetaFromState(IBlockState state) {
         int i = 0;
-        EnumFacing.Axis axis = (EnumFacing.Axis) state.getValue(AXIS);
+        EnumFacing.Axis axis = state.getValue(AXIS);
 
         if (axis == EnumFacing.Axis.X) {
             i |= 4;

@@ -5,9 +5,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import ruby.bamboo.entity.SakuraPetal.ICustomPetal;
 
@@ -27,15 +27,15 @@ public class Wind extends EntityThrowable {
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition var1) {
-        if (var1.entityHit instanceof EntityLivingBase) {
-            if (var1.entityHit.ridingEntity == null && var1.entityHit.riddenByEntity == null) {
-
-                var1.entityHit.motionX = this.motionX;
-                var1.entityHit.motionY = this.motionY;
-                var1.entityHit.motionZ = this.motionZ;
-            }
-        }
+    protected void onImpact(RayTraceResult var1) {
+//        if (var1.entityHit instanceof EntityLivingBase) {
+//            if (var1.entityHit.getRidingEntity() == null && var1.entityHit.riddenByEntity == null) {
+//
+//                var1.entityHit.motionX = this.motionX;
+//                var1.entityHit.motionY = this.motionY;
+//                var1.entityHit.motionZ = this.motionZ;
+//            }
+//        }
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Wind extends EntityThrowable {
     }
 
     private boolean isRemove(IBlockState state) {
-        if (state.getBlock().getMaterial() == Material.leaves || state.getBlock().getMaterial() == Material.vine) {
+        if (state.getMaterial() == Material.LEAVES || state.getMaterial() == Material.VINE) {
             return true;
         }
         if (state.getBlock() instanceof BlockDoublePlant) {
@@ -89,7 +89,8 @@ public class Wind extends EntityThrowable {
             SakuraPetal entity = new SakuraPetal(par1World);
             entity.setMotion(this.motionX, this.motionY, this.motionZ);
             entity.setPosition(pos);
-            entity.setColor(state.getBlock().getRenderColor(state));
+            // TODO 色関係
+//            entity.setColor(state.getBlock().getRenderColor(state));
 
             if (state.getBlock() instanceof ICustomPetal) {
                 entity.setCustomPetal(state);

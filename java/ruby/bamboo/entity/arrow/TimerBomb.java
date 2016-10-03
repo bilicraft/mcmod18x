@@ -5,14 +5,21 @@ import java.util.List;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class TimerBomb extends Entity {
+
+    private static final DataParameter<Integer> PARENT = EntityDataManager.<Integer> createKey(TimerBomb.class, DataSerializers.VARINT);
+    private static final DataParameter<Byte> TIMER = EntityDataManager.<Byte> createKey(TimerBomb.class, DataSerializers.BYTE);
 
     private boolean fuse;
     private float startHP;
@@ -42,12 +49,12 @@ public class TimerBomb extends Entity {
         if (fuse) {
             if (parent == null || parent.isDead) {
                 pow = startHP;
-                this.worldObj.playSoundAtEntity(this, "game.tnt.primed", 1.0F, 1.0F);
+                this.playSound(SoundEvents.ENTITY_TNT_PRIMED, 1.0F, 1.0F);
                 fuse = false;
             }
             if (parent != null && timer < 0) {
                 pow = startHP - ((EntityLivingBase) parent).getHealth();
-                this.worldObj.playSoundAtEntity(this, "game.tnt.primed", 1.0F, 1.0F);
+                this.playSound(SoundEvents.ENTITY_TNT_PRIMED, 1.0F, 1.0F);
                 fuse = false;
             }
         } else {
@@ -84,7 +91,7 @@ public class TimerBomb extends Entity {
     }
 
     public void setParentEntity(Entity entity) {
-        this.dataWatcher.updateObject(16, entity.getEntityId());
+        this.dataManager.set(PARENT, entity.getEntityId());
         this.posX = entity.posX;
         this.posY = entity.posY;
         this.posZ = entity.posZ;
@@ -101,11 +108,11 @@ public class TimerBomb extends Entity {
                 }
             } else {
                 if (!e.isImmuneToExplosions()) {
-                    Vec3 vec3 = this.getPositionVector();
-                    double distance = e.getDistance(this.posX, this.posY, this.posZ) / (double) 6;
+                    Vec3d vec3 = this.getPositionVector();
+                    double distance = e.getDistance(this.posX, this.posY, this.posZ) / 6;
 
                     double offsetX = e.posX - this.posX;
-                    double offsetY = e.posY + (double) e.getEyeHeight() - this.posY;
+                    double offsetY = e.posY + e.getEyeHeight() - this.posY;
                     double offsetZ = e.posZ - this.posZ;
                     double offsetSqrt = (double) MathHelper.sqrt_double(offsetX * offsetX + offsetY * offsetY + offsetZ * offsetZ);
 
@@ -115,8 +122,8 @@ public class TimerBomb extends Entity {
                         offsetZ = offsetZ / offsetSqrt;
                         double blockDen = (double) this.worldObj.getBlockDensity(vec3, e.getEntityBoundingBox());
                         double d10 = (1.0D - distance) * blockDen;
-                        e.attackEntityFrom(DamageSource.generic, (float) ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * (double) pow + 1.0D)));
-                        double d11 = EnchantmentProtection.func_92092_a(e, d10);
+                        e.attackEntityFrom(DamageSource.generic, ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * pow + 1.0D)));
+                        double d11 = EnchantmentProtection.getBlastDamageReduction((EntityLivingBase) e, d10);
                         e.motionX += offsetX * d11;
                         e.motionY += offsetY * d11;
                         e.motionZ += offsetZ * d11;
@@ -125,7 +132,7 @@ public class TimerBomb extends Entity {
 
             }
         }
-        this.worldObj.playSoundAtEntity(this, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         for (int i = 0; i < 4; i++) {
             this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (rand.nextInt(6) - 3), this.posY + rand.nextInt(2) - 1, this.posZ + rand.nextInt(6) - 3, 0, 0, 0, new int[0]);
         }
@@ -133,21 +140,21 @@ public class TimerBomb extends Entity {
     }
 
     public Entity getParentEntity() {
-        return worldObj.getEntityByID(this.dataWatcher.getWatchableObjectInt(16));
+        return worldObj.getEntityByID(this.dataManager.get(PARENT));
     }
 
     public void setTimer(int time) {
-        this.dataWatcher.updateObject(17, (short) time);
+        this.dataManager.set(TIMER, (byte) time);
     }
 
-    public short getTimer() {
-        return this.dataWatcher.getWatchableObjectShort(17);
+    public byte getTimer() {
+        return this.dataManager.get(TIMER);
     }
 
     @Override
     protected void entityInit() {
-        this.dataWatcher.addObject(16, 0);
-        this.dataWatcher.addObject(17, (short) 0);
+        this.dataManager.register(PARENT, 0);
+        this.dataManager.register(TIMER, (byte) 0);
     }
 
     @Override

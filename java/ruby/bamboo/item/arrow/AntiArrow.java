@@ -3,9 +3,8 @@ package ruby.bamboo.item.arrow;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
@@ -29,6 +28,7 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -108,19 +108,19 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
         EntityAntiArrow entityArrow = new EntityAntiArrow(world, player, power * 2.0f);
         entityArrow.setArrowType(AntiType.getType(arrow.getItemDamage()));
 
-        int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
+        int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, bow);
 
         if (j > 0) {
-            entityArrow.setDamage(entityArrow.getDamage() + (double) j * 0.5D + 0.5D);
+            entityArrow.setDamage(entityArrow.getDamage() + j * 0.5D + 0.5D);
         }
 
-        int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, bow);
+        int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, bow);
 
         if (k > 0) {
             entityArrow.setKnockbackStrength(k);
         }
 
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, bow) > 0) {
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, bow) > 0) {
             entityArrow.setFire(100);
         }
 

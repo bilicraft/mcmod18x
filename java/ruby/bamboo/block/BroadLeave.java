@@ -5,18 +5,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,11 +29,8 @@ import ruby.bamboo.core.DataManager;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
-import ruby.bamboo.entity.SakuraPetal;
 import ruby.bamboo.entity.SakuraPetal.ICustomPetal;
 import ruby.bamboo.item.itemblock.ItemSakuraLeave;
-
-import com.google.common.base.Predicate;
 
 @BambooBlock(name = "broad_leave", itemBlock = ItemSakuraLeave.class, createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
@@ -53,7 +52,7 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
     public BroadLeave() {
         super();
         this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumLeave.GREEN).withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
-        this.fancyGraphics = true;
+        this.leavesFancy = true;
         this.setLightLevel(0.75F);
         this.setHardness(0);
     }
@@ -63,11 +62,11 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
         byte b0 = 0;
         int i = b0 | ((EnumLeave) state.getValue(VARIANT)).getMetadata() - metaSlide;
 
-        if (!((Boolean) state.getValue(DECAYABLE)).booleanValue()) {
+        if (!state.getValue(DECAYABLE).booleanValue()) {
             i |= 4;
         }
 
-        if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue()) {
+        if (state.getValue(CHECK_DECAY).booleanValue()) {
             i |= 8;
         }
 
@@ -81,8 +80,8 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, new IProperty[] { VARIANT, DECAYABLE, CHECK_DECAY });
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { VARIANT, DECAYABLE, CHECK_DECAY });
     }
 
     @Override
@@ -120,17 +119,17 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
         return new ItemStack(Item.getItemFromBlock(this), 1, ((EnumLeave) state.getValue(VARIANT)).getMetadata() - metaSlide);
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderColor(IBlockState state) {
-        return ((EnumLeave) state.getValue(VARIANT)).getColor();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-        return ((EnumLeave) worldIn.getBlockState(pos).getValue(VARIANT)).getColor();
-    }
+    //    @Override
+    //    @SideOnly(Side.CLIENT)
+    //    public int getRenderColor(IBlockState state) {
+    //        return ((EnumLeave) state.getValue(VARIANT)).getColor();
+    //    }
+    //
+    //    @Override
+    //    @SideOnly(Side.CLIENT)
+    //    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+    //        return ((EnumLeave) worldIn.getBlockState(pos).getValue(VARIANT)).getColor();
+    //    }
 
     @StateIgnore
     public IProperty[] getIgnoreState() {
@@ -139,17 +138,17 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -167,23 +166,26 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
 
     @Override
     public int getLeaveRenderColor(IBlockState stateFromMeta) {
-        return this.getRenderColor(stateFromMeta);
+        //TODO:あとでやる
+        //return this.getRenderColor(stateFromMeta);
+        return 0;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
-        if (rand.nextInt(100) != 0) {
-            return;
-        }
-        if (world.isAirBlock(pos.down())) {
-            SakuraPetal petal = new SakuraPetal(world);
-            petal.setPosition(pos.getX() + rand.nextFloat(), pos.getY(), pos.getZ() + rand.nextFloat());
-            petal.setCustomPetal(state);
-            petal.setColor(this.getRenderColor(state));
-            world.spawnEntityInWorld(petal);
-        }
-    }
+    //TODO:あとでやる
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
+//        if (rand.nextInt(100) != 0) {
+//            return;
+//        }
+//        if (world.isAirBlock(pos.down())) {
+//            SakuraPetal petal = new SakuraPetal(world);
+//            petal.setPosition(pos.getX() + rand.nextFloat(), pos.getY(), pos.getZ() + rand.nextFloat());
+//            petal.setCustomPetal(state);
+//            petal.setColor(this.getRenderColor(state));
+//            world.spawnEntityInWorld(petal);
+//        }
+//    }
 
     @Override
     public int getTexNum(IBlockState state) {

@@ -1,6 +1,6 @@
 package ruby.bamboo.item.arrow;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public class TorchArrow extends ArrowBase {
         int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
 
         if (j > 0) {
-            entityArrow.setDamage(entityArrow.getDamage() + (double) j * 0.5D + 0.5D);
+            entityArrow.setDamage(entityArrow.getDamage() + j * 0.5D + 0.5D);
         }
 
         int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, bow);

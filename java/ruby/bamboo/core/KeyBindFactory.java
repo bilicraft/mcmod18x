@@ -35,7 +35,7 @@ public class KeyBindFactory {
         KeyBindFactory.regist(KeyBindFactory.KEY_UTIL, key -> {
             EntityPlayer player = FMLClientHandler.instance().getClientPlayerEntity();
             if (key.isKeyDown()) {
-                ItemStack stack = player.getCurrentEquippedItem();
+                ItemStack stack = player.getHeldItemMainhand();
                 if (stack != null && stack.getItem() instanceof IItemUtilKeylistener) {
                     ((IItemUtilKeylistener) stack.getItem()).exec(key);
                 }

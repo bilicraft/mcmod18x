@@ -2,12 +2,18 @@ package ruby.bamboo.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import ruby.bamboo.entity.arrow.TimerBomb;
 
 public class EntityRuneEffect extends Entity {
+
+    private static final DataParameter<Integer> PARENT = EntityDataManager.<Integer> createKey(TimerBomb.class, DataSerializers.VARINT);
 
     private float ringSize;
     public float roll;
@@ -76,14 +82,14 @@ public class EntityRuneEffect extends Entity {
     }
 
     public void setParentEntity(Entity entity) {
-        this.dataWatcher.updateObject(16, entity.getEntityId());
+        this.dataManager.set(PARENT, entity.getEntityId());
         this.posX = entity.posX;
         this.posY = entity.posY;
         this.posZ = entity.posZ;
     }
 
     public Entity getParentEntity() {
-        return worldObj.getEntityByID(this.dataWatcher.getWatchableObjectInt(16));
+        return worldObj.getEntityByID(this.dataManager.get(PARENT));
     }
 
     public void setRollSpeed(float speed) {
@@ -119,7 +125,7 @@ public class EntityRuneEffect extends Entity {
 
     @Override
     protected void entityInit() {
-        this.dataWatcher.addObject(16, 0);
+        this.dataManager.register(PARENT, 0);
     }
 
     @Override

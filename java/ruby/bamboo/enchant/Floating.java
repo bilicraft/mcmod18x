@@ -11,7 +11,7 @@ public class Floating extends EnchantBase implements ITickableEnchant {
     }
 
     @Override
-    public void onTick(ItemStack stack, EntityLivingBase ticker) {
+    public void onTick(ItemStack stack, EntityLivingBase ticker, int slotNum, boolean isSelected) {
 
     }
 

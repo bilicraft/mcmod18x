@@ -6,16 +6,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.BambooPickaxe;
 
-public class ContainerPickaxeName extends Container {
+public class ContainerPickaxeName extends BaseContainer {
 
     private ItemStack pickAxe;
     private String repairedItemName;
@@ -55,15 +52,10 @@ public class ContainerPickaxeName extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
-        return playerIn.getCurrentEquippedItem() != null && playerIn.getCurrentEquippedItem().getItem() == DataManager.getItem(BambooPickaxe.class);
-    }
-
-    @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
         ItemStack itemstack = null;
-        Slot slot = (Slot) this.inventorySlots.get(par2);
-        Slot tagSlot = (Slot) this.inventorySlots.get(TAG_SLOT_ID);
+        Slot slot = this.inventorySlots.get(par2);
+        Slot tagSlot = this.inventorySlots.get(TAG_SLOT_ID);
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1;
             if (par2 == TAG_SLOT_ID) {
@@ -111,15 +103,15 @@ public class ContainerPickaxeName extends Container {
         return itemstack;
     }
 
-    @Override
-    public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
-        return super.slotClick(slotId, clickedButton, mode, playerIn);
-    }
+//    @Override
+//    public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
+//        return super.slotClick(slotId, clickedButton, mode, playerIn);
+//    }
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {
 
-        Slot tagSlot = (Slot) this.inventorySlots.get(TAG_SLOT_ID);
+        Slot tagSlot = this.inventorySlots.get(TAG_SLOT_ID);
 
         if (tagSlot != null && tagSlot.getHasStack()) {
             if (!par1EntityPlayer.worldObj.isRemote) {

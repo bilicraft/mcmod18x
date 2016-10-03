@@ -2,10 +2,10 @@ package ruby.bamboo.enchant;
 
 import static ruby.bamboo.enchant.EnchantConstants.*;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.settings.KeyBinding;
@@ -17,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,6 +31,8 @@ import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
 import ruby.bamboo.util.ItemStackHelper;
 
 public interface IBambooEnchantable extends IItemUtilKeylistener, IMessagelistener {
+
+    static final NBTTagCompound empty = new NBTTagCompound();
 
     // Expとレベルアップ
     default void addExpChance(ItemStack stack, EntityLivingBase target) {
@@ -62,11 +64,12 @@ public interface IBambooEnchantable extends IItemUtilKeylistener, IMessagelisten
     default float getBlockBreakExp(ItemStack stack, World worldIn, Block blockIn, BlockPos pos) {
         float exp = 1;
         Item dropItem = blockIn.getItemDropped(worldIn.getBlockState(pos), worldIn.rand, 0);
-        float hardness = blockIn.getBlockHardness(worldIn, pos);
+        //        float hardness = blockIn.getBlockHardness(worldIn, pos);
+        float hardness = blockIn.getDefaultState().getBlockHardness(worldIn, pos);
         if (dropItem != null && dropItem != Item.getItemFromBlock(blockIn)) {
             //ドロップアイテムが存在し、itemBlockとドロップアイテムが違うパッタン
             exp = exp * hardness * 2F;
-            exp = (float) Math.round(exp);
+            exp = Math.round(exp);
         } else {
             //ドロップがnullもしくは同じタイプ。
             if (hardness > 1) {
@@ -133,7 +136,8 @@ public interface IBambooEnchantable extends IItemUtilKeylistener, IMessagelisten
 
     // 接尾文字列
     default String getSuffix(ItemStack stack) {
-        return " [LV:" + getLV(stack) + " Exp:" + (int) (getExpP(stack) * 100) + "%]";
+        int pow = (int) Math.ceil(getEnchntNBT(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD).getShort(ENCHANT_LV) / 50F);
+        return " [LV:" + getLV(stack) + " Exp:" + (int) (getExpP(stack) * 100) + "%]" + (pow > 0 ? " +" + pow : "");
     }
 
     // 経験値割合
@@ -192,7 +196,7 @@ public interface IBambooEnchantable extends IItemUtilKeylistener, IMessagelisten
         NBTTagList nbttaglist = this.getNBTTagEnchList(stack);
         for (int i = 0; i < nbttaglist.tagCount(); ++i) {
             short enchId = nbttaglist.getCompoundTagAt(i).getShort(ENCHANT_ID);
-            Enchantment ench = Enchantment.getEnchantmentById(enchId);
+            Enchantment ench = Enchantment.getEnchantmentByID(enchId);
             if (ench == targetEnch) {
                 short enchLv = nbttaglist.getCompoundTagAt(i).getShort(ENCHANT_LV);
                 if (level > 0) {
@@ -207,35 +211,38 @@ public interface IBambooEnchantable extends IItemUtilKeylistener, IMessagelisten
         }
         // ターゲットが発見出来ない(新規追加)
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setShort(ENCHANT_ID, (short) targetEnch.effectId);
+        nbt.setShort(ENCHANT_ID, (short) Enchantment.getEnchantmentID(targetEnch));
         nbt.setShort(ENCHANT_LV, (short) level);
         nbttaglist.appendTag(nbt);
     }
 
     // 追加エンチャント
     default void addSpecialEnchLevelLevel(ItemStack stack, EnchantBase targetEnch, int subTypeId, int addLevel) {
+
         NBTTagList nbttaglist = getNBTTagSpenchList(stack);
-        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            short enchId = nbttaglist.getCompoundTagAt(i).getShort(ENCHANT_ID);
+        Iterator<NBTTagCompound> ite = ItemStackHelper.<NBTTagCompound> getNBTTagListIte(getNBTTagSpenchList(stack)).iterator();
+        while (ite.hasNext()) {
+            NBTTagCompound nbt = ite.next();
+            short enchId = nbt.getShort(ENCHANT_ID);
             if (enchId == targetEnch.getEffectId(subTypeId)) {
-                short enchLv = nbttaglist.getCompoundTagAt(i).getShort(ENCHANT_LV);
+                short enchLv = nbt.getShort(ENCHANT_LV);
                 // 上昇値は切りあげ
-                int amount = (int) Math.ceil(addLevel / 2D);
                 if (addLevel > 0) {
                     // レベル加算、すでに存在する場合、増加量は半分。
-                    nbttaglist.getCompoundTagAt(i).setShort(ENCHANT_LV, (short) (enchLv + amount));
+                    nbt.setShort(ENCHANT_LV, (short) (enchLv + (int) Math.ceil(addLevel / 2D)));
                 } else {
                     if ((enchLv + addLevel) > 0) {
                         // レベル減算
-                        nbttaglist.getCompoundTagAt(i).setShort(ENCHANT_LV, (short) (enchLv - amount));
+                        nbt.setShort(ENCHANT_LV, (short) (enchLv - addLevel));
                     } else {
                         // 0以下の場合、エンチャント消滅
-                        nbttaglist.removeTag(i);
+                        ite.remove();
                     }
                 }
                 return;
             }
         }
+
         // ターゲットが発見出来ない(新規追加)
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setShort(ENCHANT_ID, (short) targetEnch.getEffectId(subTypeId));
@@ -261,25 +268,22 @@ public interface IBambooEnchantable extends IItemUtilKeylistener, IMessagelisten
     }
 
     static List<NBTTagCompound> getSpenchList(ItemStack stack) {
-        List<NBTTagCompound> list = new ArrayList<>();
         // NBTTagListとかいう糞、Listって名前ついてるのに、ListどころかCollectionもIteratorすら実装してないの?詐欺でしょ
-        ItemStackHelper.getNBTTagListIte(getNBTTagSpenchList(stack)).forEach(e -> list.add((NBTTagCompound) e));
-        return list;
+        return ImmutableList.copyOf(ItemStackHelper.<NBTTagCompound> getNBTTagListIte(getNBTTagSpenchList(stack)));
     }
 
-    @Nullable
     static NBTTagCompound getEnchntNBT(ItemStack stack, EnchantBase base, int subTypeId) {
         if (stack.getItem() instanceof IBambooEnchantable) {
             IBambooEnchantable item = (IBambooEnchantable) stack.getItem();
             NBTTagList nbttaglist = getNBTTagSpenchList(stack);
-            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                short enchId = nbttaglist.getCompoundTagAt(i).getShort(ENCHANT_ID);
+            for (NBTTagCompound tag : ItemStackHelper.<NBTTagCompound> getNBTTagListIte(nbttaglist)) {
+                short enchId = tag.getShort(ENCHANT_ID);
                 if (EnchantBase.isEqual(base, enchId, subTypeId)) {
-                    return (NBTTagCompound) nbttaglist.getCompoundTagAt(i).copy();
+                    return tag;
                 }
             }
         }
-        return null;
+        return empty;
     }
 
     static short getEnchLevel(ItemStack stack, EnchantBase base, int subTypeId) {

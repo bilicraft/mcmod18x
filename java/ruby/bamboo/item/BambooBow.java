@@ -5,14 +5,17 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
@@ -58,17 +61,18 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4) {
-        int chargeFrame = this.getMaxItemUseDuration(par1ItemStack) - par4;
-        ArrowLooseEvent event = new ArrowLooseEvent(par3EntityPlayer, par1ItemStack, chargeFrame);
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
+    {
+        int chargeFrame = this.getMaxItemUseDuration(stack) - timeLeft;
+        ArrowLooseEvent event = new ArrowLooseEvent(entityLiving, stack, chargeFrame);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             return;
         }
 
-        IInventory inv = par3EntityPlayer.inventory;
-        chargeFrame = event.charge;
-        boolean isNoResource = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
+        IInventory inv = entityLiving.inventory;
+        chargeFrame = event.getCharge();
+        boolean isNoResource = entityLiving.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
 
         if (this.hasInventoryBambooArrow(inv)) {
             float power = chargeFrame / 10.0F;
@@ -82,18 +86,18 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
                 power = 1.0F;
             }
 
-            int slotNum = getSelectedInventorySlotContainItem(inv, par1ItemStack);
+            int slotNum = getSelectedInventorySlotContainItem(inv, stack);
             ItemStack stack = inv.getStackInSlot(slotNum);
             IBambooArrow arrow = (IBambooArrow) stack.getItem();
 
-            arrow.execute(par2World, par1ItemStack, stack, power, chargeFrame, par3EntityPlayer);
+            arrow.execute(par2World, stack, stack, power, chargeFrame, entityLiving);
 
-            par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
+            par2World.playSoundAtEntity(entityLiving, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
             //ItemStackHelper.decrStackSize(inv, stack, 1);
         }
 
         if (!isNoResource) {
-            par1ItemStack.damageItem(1, par3EntityPlayer);
+            stack.damageItem(1, entityLiving);
         }
     }
 
@@ -195,7 +199,7 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
 
         int w = gui.getFontRenderer().getStringWidth(msg);
         int left = e.resolution.getScaledWidth() - 2 - startLeftpos;
-        gui.drawRect(1, top - 1, startLeftpos + 1, top + gui.getFontRenderer().FONT_HEIGHT - 1, -0x6FAFAFB0);
+        Gui.drawRect(1, top - 1, startLeftpos + 1, top + gui.getFontRenderer().FONT_HEIGHT - 1, -0x6FAFAFB0);
         gui.getFontRenderer().drawString(msg, 1, top, color);
         // 描画ポジション予約
         e.left.add(null);

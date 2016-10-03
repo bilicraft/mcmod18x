@@ -4,14 +4,14 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import ruby.bamboo.core.Constants;
 
 public class RenderBambooArrow extends Render {
@@ -29,19 +29,19 @@ public class RenderBambooArrow extends Render {
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
         int i = 0;
         float f = 0.0F;
         float f1 = 0.5F;
-        float f2 = (float) (0 + i * 10) / 32.0F;
-        float f3 = (float) (5 + i * 10) / 32.0F;
+        float f2 = (0 + i * 10) / 32.0F;
+        float f3 = (5 + i * 10) / 32.0F;
         float f4 = 0.0F;
         float f5 = 0.15625F;
-        float f6 = (float) (5 + i * 10) / 32.0F;
-        float f7 = (float) (10 + i * 10) / 32.0F;
+        float f6 = (5 + i * 10) / 32.0F;
+        float f7 = (10 + i * 10) / 32.0F;
         float f8 = 0.05625F;
         GlStateManager.enableRescaleNormal();
-        float f9 = (float) entity.arrowShake - partialTicks;
+        float f9 = entity.arrowShake - partialTicks;
 
         if (f9 > 0.0F) {
             float f10 = -MathHelper.sin(f9 * 3.0F) * f9;

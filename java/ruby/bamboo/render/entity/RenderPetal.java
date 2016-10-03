@@ -2,13 +2,12 @@ package ruby.bamboo.render.entity;
 
 import java.util.HashMap;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import ruby.bamboo.entity.SakuraPetal;
 import ruby.bamboo.render.model.ModelPetal;
 

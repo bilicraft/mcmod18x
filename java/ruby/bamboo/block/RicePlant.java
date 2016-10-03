@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -37,7 +37,7 @@ public class RicePlant extends GrowableBase {
 
     @Override
     public boolean canPlaceBlockOn(Block block) {
-        return block == Blocks.farmland;
+        return block == Blocks.FARMLAND;
     }
 
     @Override

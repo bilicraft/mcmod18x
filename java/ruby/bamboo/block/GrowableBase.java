@@ -6,32 +6,40 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import ruby.bamboo.core.Constants;
 
 public abstract class GrowableBase extends BlockBush implements IGrowable {
 
-    public final static PropertyInteger AGE = PropertyInteger.create(Constants.AGE, 0, 4);
+    public static final PropertyInteger AGE = PropertyInteger.create(Constants.AGE, 0, 4);
+    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0, 0, 0, 1, 0.25F, 1);
 
     public GrowableBase() {
         super();
         this.setCreativeTab((CreativeTabs) null);
         this.setHardness(0.0F);
-        this.setStepSound(soundTypeGrass);
-        float f = 0.5F;
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
+        this.setSoundType(SoundType.GLASS);
         this.disableStats();
         this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BLOCK_AABB;
     }
 
     @Override
@@ -41,12 +49,12 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((Integer) state.getValue(AGE)).intValue();
+        return state.getValue(AGE).intValue();
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, AGE);
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, AGE);
     }
 
     public void tryBonemealGrow(World world, BlockPos pos) {
@@ -92,8 +100,9 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
             for (int j = -1; j <= 1; ++j) {
                 float f1 = 0.0F;
                 IBlockState iblockstate = worldIn.getBlockState(blockpos1.add(i, 0, j));
-
-                if (iblockstate.getBlock().canSustainPlant(worldIn, blockpos1.add(i, 0, j), net.minecraft.util.EnumFacing.UP, (net.minecraftforge.common.IPlantable) blockIn)) {
+                //boolean isSutainPlant=iblockstate.getBlock().canSustainPlant(worldIn, blockpos1.add(i, 0, j), net.minecraft.util.EnumFacing.UP, (net.minecraftforge.common.IPlantable) blockIn);
+                boolean isSutainPlant = iblockstate.getBlock().canSustainPlant(iblockstate, worldIn, pos, EnumFacing.UP, (net.minecraftforge.common.IPlantable) blockIn);
+                if (isSutainPlant) {
                     f1 = 1.0F;
 
                     if (iblockstate.getBlock().isFertile(worldIn, blockpos1.add(i, 0, j))) {
@@ -137,7 +146,7 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return ((Integer) state.getValue(AGE)).intValue() == this.getMaxGrowthStage() ? this.getProduct() : this.getSeed();
+        return state.getValue(AGE).intValue() == this.getMaxGrowthStage() ? this.getProduct() : this.getSeed();
     }
 
     @Override
@@ -148,7 +157,7 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         java.util.List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
-        int age = ((Integer) state.getValue(AGE)).intValue();
+        int age = state.getValue(AGE).intValue();
         Random rand = world instanceof World ? ((World) world).rand : new Random();
 
         if (age >= this.getMaxGrowthStage()) {
@@ -174,14 +183,10 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
 
     public abstract int getMaxGrowthStage();
 
-    // blockに対して設置できるか？
-    @Override
-    public abstract boolean canPlaceBlockOn(Block block);
-
     // 最大成長状態？
     @Override
     public boolean canGrow(World world, BlockPos pos, IBlockState state, boolean isClient) {
-        return ((Integer) state.getValue(AGE)).intValue() < this.getMaxGrowthStage();
+        return state.getValue(AGE).intValue() < this.getMaxGrowthStage();
     }
 
     // 骨粉は有効か
@@ -197,7 +202,14 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(this.getSeed());
+    }
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+    {
+        return canPlaceBlockOn(worldIn.getBlockState(pos).getBlock());
+    }
+    public boolean canPlaceBlockOn(Block block) {
+        return false;
     }
 }

@@ -5,16 +5,20 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,21 +33,26 @@ import ruby.bamboo.item.itemblock.ItemBambooShoot;
 
 /**
  * たけのこ
- * 
+ *
  * @author Ruby
- * 
+ *
  */
 @BambooBlock(itemBlock = ItemBambooShoot.class, createiveTabs = EnumCreateTab.TAB_BAMBOO, material = EnumMaterial.PLANTS)
 public class BambooShoot extends BlockBush implements IGrowable {
 
     public static final PropertyInteger META = PropertyInteger.create(Constants.META, 0, 1);
+    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.3F, 0.0F, 0.3F, 0.7F, 0.5F, 0.7F);
 
     public BambooShoot(Material material) {
         super(material);
         this.setDefaultState(this.blockState.getBaseState().withProperty(META, 0));
         this.setTickRandomly(true);
         this.setHardness(0.05F);
-        this.setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 0.5F, 0.7F);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BLOCK_AABB;
     }
 
     /**
@@ -62,12 +71,12 @@ public class BambooShoot extends BlockBush implements IGrowable {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return (Integer) state.getValue(META);
+        return state.getValue(META);
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, META);
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, META);
     }
 
     public void tryBambooGrowth(World world, BlockPos pos, IBlockState state, float prob) {
@@ -91,31 +100,32 @@ public class BambooShoot extends BlockBush implements IGrowable {
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(this);
     }
 
     @Override
-    public int getMobilityFlag() {
-        return 1;
+    public EnumPushReaction getMobilityFlag(IBlockState state) {
+        return EnumPushReaction.DESTROY;
     }
 
     @Override
-    public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
         if (!canBlockStay(world, pos, state)) {
             world.setBlockToAir(pos);
         }
     }
 
     @Override
-    public boolean canPlaceBlockOn(Block ground) {
-        return ground == Blocks.grass || ground == Blocks.dirt || ground == Blocks.farmland;
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        Block ground = worldIn.getBlockState(pos).getBlock();
+        return ground == Blocks.GRASS || ground == Blocks.DIRT || ground == Blocks.FARMLAND;
     }
 
     @Override
     protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state) {
         if (!this.canBlockStay(worldIn, pos, state)) {
-            worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
         }
     }
 

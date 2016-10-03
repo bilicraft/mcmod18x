@@ -2,13 +2,10 @@ package ruby.bamboo.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.BambooPickaxe;
 
-public class ContainerPickaxeEnch extends Container {
+public class ContainerPickaxeEnch extends BaseContainer {
 
     public ContainerPickaxeEnch(InventoryPlayer par1InventoryPlayer, ItemStack stack) {
 
@@ -25,10 +22,6 @@ public class ContainerPickaxeEnch extends Container {
         }
     }
 
-    @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
-        return playerIn.getCurrentEquippedItem() != null && playerIn.getCurrentEquippedItem().getItem() == DataManager.getItem(BambooPickaxe.class);
-    }
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
@@ -53,11 +46,11 @@ public class ContainerPickaxeEnch extends Container {
 
         return null;
     }
-
-    @Override
-    public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
-        return super.slotClick(slotId, clickedButton, mode, playerIn);
-    }
+//
+//    @Override
+//    public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
+//        return super.slotClick(slotId, clickedButton, mode, playerIn);
+//    }
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {

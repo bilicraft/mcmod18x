@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
@@ -63,7 +63,7 @@ public class SakuraLog extends BlockLog implements ICustomState {
         byte b0 = 0;
         int i = b0 | ((SakuraPlank.EnumType) state.getValue(VARIANT)).getMetadata();
 
-        switch (SakuraLog.SwitchEnumAxis.AXIS_LOOKUP[((BlockLog.EnumAxis) state.getValue(LOG_AXIS)).ordinal()]) {
+        switch (SakuraLog.SwitchEnumAxis.AXIS_LOOKUP[state.getValue(LOG_AXIS).ordinal()]) {
             case 1:
                 i |= 4;
                 break;
@@ -78,8 +78,8 @@ public class SakuraLog extends BlockLog implements ICustomState {
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, new IProperty[] { VARIANT, LOG_AXIS });
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { VARIANT, LOG_AXIS });
     }
 
     @Override

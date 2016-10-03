@@ -4,15 +4,15 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -54,59 +54,64 @@ public class Kitunebi extends Block {
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
         //return new BlockState(this, META, VISIBLE);
-        return new BlockState(this, VISIBLE);
+        return new BlockStateContainer(this, VISIBLE);
     }
+    //
+    //    @Override
+    //    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+    //        return null;
+    //    }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-        return null;
-    }
-
-    @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer() {
-        return EnumWorldBlockLayer.CUTOUT;
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        setVisibleFlg(worldIn, pos, state, rand);
-    }
+    //    @SideOnly(Side.CLIENT)
+    //    @Override
+    //    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    //        setVisibleFlg(worldIn, pos, state, rand);
+    //    }
 
     private void setVisibleFlg(World world, BlockPos pos, IBlockState state, Random rand) {
         if (world.isRemote) {
-            ItemStack is = FMLClientHandler.instance().getClient().thePlayer.getCurrentEquippedItem();
+            EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
+            ItemStack[] handItems = { player.getHeldItemMainhand(), player.getHeldItemOffhand() };
             isVisible = false;
 
-            if (is != null) {
-                Item item = is.getItem();
+            for (ItemStack is : handItems) {
+                if (is != null) {
+                    Item item = is.getItem();
 
-                if (item instanceof ItemBlock) {
-                    if (Block.getBlockFromItem(item) == this) {
-                        isVisible = true;
+                    if (item instanceof ItemBlock) {
+                        if (Block.getBlockFromItem(item) == this) {
+                            isVisible = true;
+                            break;
+                        }
                     }
                 }
             }
 
+            //TODO:殴った時の当たり判定
             if (isVisible) {
                 //world.setBlockState(pos, state.withProperty(VISIBLE, true), 3);
-                setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+                //setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
                 world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0, 0);
             } else {
-                setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+                //setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
             }
         }
     }

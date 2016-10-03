@@ -47,9 +47,9 @@ public class GuiPickaxeEnch extends GuiPickaxeBase {
         tabs[0] = new Tab(0, false);
         tabs[1] = new Tab(1, false);
         tabs[2] = new Tab(2, true);
-        tabs[0].stack = new ItemStack(Items.experience_bottle);
-        tabs[1].stack = new ItemStack(Items.name_tag);
-        tabs[2].stack = new ItemStack(Items.book);
+        tabs[0].stack = new ItemStack(Items.EXPERIENCE_BOTTLE);
+        tabs[1].stack = new ItemStack(Items.NAME_TAG);
+        tabs[2].stack = new ItemStack(Items.BOOK);
     }
 
     @Override

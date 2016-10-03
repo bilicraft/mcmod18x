@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
@@ -53,8 +53,8 @@ public class SakuraPlank extends AxisBase implements ICustomState {
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, new IProperty[] { VARIANT, AXIS });
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { VARIANT, AXIS });
     }
 
     // あとから種類増やして拡張する…？

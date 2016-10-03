@@ -7,7 +7,7 @@ public class MaterialNone extends MaterialTransparent {
     public static MaterialNone instance = new MaterialNone();
 
     public MaterialNone() {
-        super(MapColor.airColor);
+        super(MapColor.AIR);
         setNoPushMobility();
     }
 

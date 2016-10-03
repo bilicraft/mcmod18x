@@ -1,10 +1,10 @@
 package ruby.bamboo.enchant;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -13,15 +13,16 @@ import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import ruby.bamboo.core.init.ClassFinder;
 import ruby.bamboo.enchant.event.IAttackEnchant;
 import ruby.bamboo.enchant.event.IBreakEnchant;
+import ruby.bamboo.enchant.event.ITickableEnchant;
 
 public class SpecialEnchant {
-    static final Map<Integer, EnchantBase> baseMap = new HashMap<>();
+    private static final Map<Integer, EnchantBase> baseMap;
     private static final Multimap<Class<?>, EnchantBase> ifMap = ArrayListMultimap.create();
 
     static {
@@ -68,9 +69,13 @@ public class SpecialEnchant {
             e1.printStackTrace();
         }
         // ベースマップ
-        enchantList.stream().forEach(base -> baseMap.put(base.getEffectId(0), base));
-        // 各呼び出し用マップ登録
-        list.stream().forEach(encha -> ifMap.putAll(encha, enchantList.stream().filter(base -> encha.isInstance(base)).collect(Collectors.toList())));
+        baseMap = enchantList.stream().collect(Collectors.toMap(base -> base.getEffectId(0), base -> base));
+
+        // I/F呼び出し用マップ登録
+        for (Class<?> c : list) {
+            ifMap.putAll(c, enchantList.parallelStream().filter(c::isInstance).collect(Collectors.toList()));
+        }
+
     }
 
     public static String getEnchantmentName(ItemStack stack, short enchId) {
@@ -82,19 +87,27 @@ public class SpecialEnchant {
     }
 
     public static EnchantBase getEnchantmentByClass(Class<? extends EnchantBase> base) {
-        return getEnchantList().stream().filter(encha -> encha.getClass() == base).findFirst().get();
+        return baseMap.values().parallelStream().filter(encha -> encha.getClass() == base).findAny().get();
     }
 
     public static ImmutableList<EnchantBase> getEnchantList() {
         return ImmutableList.<EnchantBase> builder().addAll(baseMap.values()).build();
     }
 
-    public static void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player,MovingObjectPosition mop) {
-        ifMap.get(IBreakEnchant.class).stream().filter(base -> IBambooEnchantable.isEnchantEnable(stack, base, EnchantBase.SUB_WILD)).forEach(e -> ((IBreakEnchant) e).onBreakBlock(stack, world, block, pos, player, mop));
+    public static void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player, RayTraceResult rtr) {
+        getEnchantEnableStream(IBreakEnchant.class, stack).forEach(e -> e.onBreakBlock(stack, world, block, pos, player, rtr));
     }
 
     public static void onAttackEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        ifMap.get(IAttackEnchant.class).stream().filter(base -> IBambooEnchantable.isEnchantEnable(stack, base, EnchantBase.SUB_WILD)).forEach(e -> ((IAttackEnchant) e).onEntityAttack(stack, target,attacker));
+        getEnchantEnableStream(IAttackEnchant.class, stack).forEach(e -> e.onEntityAttack(stack, target, attacker));
+    }
+
+    public static void onUpdate(ItemStack stack, EntityLivingBase ticker,int itemSlot, boolean isSelected) {
+        getEnchantEnableStream(ITickableEnchant.class, stack).forEach(e -> e.onTick(stack, ticker, itemSlot, isSelected));
+    }
+
+    private static <T> Stream<T> getEnchantEnableStream(Class<T> cls, ItemStack stack) {
+        return (Stream<T>) ifMap.get(cls).parallelStream().filter(base -> IBambooEnchantable.isEnchantEnable(stack, base, EnchantBase.SUB_WILD));
     }
 
 }

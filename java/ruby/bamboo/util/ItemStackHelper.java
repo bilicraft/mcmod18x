@@ -113,6 +113,7 @@ public class ItemStackHelper {
             return new Iterator<T>() {
                 int cursor;
 
+                @Override
                 public boolean hasNext() {
                     return cursor != tagList.tagCount();
                 }
@@ -125,6 +126,16 @@ public class ItemStackHelper {
                     }
                     cursor = i + 1;
                     return (T) tagList.get(i);
+                }
+
+                @Override
+                public void remove() {
+                    int i = cursor;
+                    if (i >= tagList.tagCount()) {
+                        throw new NoSuchElementException();
+                    }
+                    cursor = i - 1;
+                    tagList.removeTag(i);
                 }
             };
         };

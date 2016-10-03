@@ -32,7 +32,7 @@ public class MessageBambooUtil implements IMessage {
 
         @Override
         public IMessage onMessage(MessageBambooUtil message, MessageContext ctx) {
-            ItemStack is = ctx.getServerHandler().playerEntity.getCurrentEquippedItem();
+            ItemStack is = ctx.getServerHandler().playerEntity.getHeldItemMainhand();
             if (is != null && is.getItem() instanceof IMessagelistener) {
                 ((IMessagelistener) is.getItem()).call(ctx.getServerHandler().playerEntity, is, message.data);
             }

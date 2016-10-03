@@ -8,7 +8,7 @@ public class Power extends EnchantBase {
 
     @Override
     public int getMaxLevel() {
-        return 10;
+        return 32000;
     }
 
     @Override

@@ -29,7 +29,7 @@ public enum EnumDecoration {
     private byte typeFlg;
 
     EnumDecoration(String name) {
-        this(name, Material.ground, EnumCreateTab.TAB_BAMBOO, NORMAL, HALF, STAIR);
+        this(name, Material.GROUND, EnumCreateTab.TAB_BAMBOO, NORMAL, HALF, STAIR);
     }
 
     EnumDecoration(String name, Material material, EnumCreateTab tab, byte... typeFlg) {

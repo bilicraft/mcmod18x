@@ -1,15 +1,14 @@
 package ruby.bamboo.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.opengl.GL11;
-
 import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.DataManager;
 import ruby.bamboo.item.Sack;
@@ -24,9 +23,9 @@ public class GuiSack extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-        String s = StatCollector.translateToLocal(DataManager.getItem(Sack.class).getUnlocalizedName() + ".name");
+        String s = I18n.format(DataManager.getItem(Sack.class).getUnlocalizedName() + ".name");
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 
     @Override

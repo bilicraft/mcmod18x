@@ -1,6 +1,6 @@
 package ruby.bamboo.proxy;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -45,7 +45,7 @@ public class CommonProxy {
         GenerateHandler gen = new GenerateHandler();
         GameRegistry.registerWorldGenerator(gen, 1);
         // クラフトハンドラ
-        FMLCommonHandler.instance().bus().register(new CraftingHandler());
+        MinecraftForge.EVENT_BUS.register(new CraftingHandler());
         GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
         // えんてぃてぃ
         new EntityRegister().entityRegist();

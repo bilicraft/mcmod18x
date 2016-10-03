@@ -12,9 +12,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import ruby.bamboo.enchant.event.IBreakEnchant;
 import ruby.bamboo.util.BlockDestroyHelper;
@@ -26,7 +26,7 @@ public class Chain extends EnchantBase implements IBreakEnchant {
     }
 
     @Override
-    public void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player, MovingObjectPosition mop) {
+    public void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player, RayTraceResult rtr) {
         if (!world.isRemote) {
             if (block instanceof BlockOre ) {
                 int limit = (int) Math.ceil(IBambooEnchantable.getEnchLevel(stack, this, SUB_WILD) / 15) + 3;

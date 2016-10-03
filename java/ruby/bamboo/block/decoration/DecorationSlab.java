@@ -6,14 +6,10 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.item.itemblock.ItemDecorationSlab;
 
 public class DecorationSlab extends BlockSlab {
@@ -51,12 +47,12 @@ public class DecorationSlab extends BlockSlab {
     public IProperty getVariantProperty() {
         return null;
     }
-
-    @Override
-    @Deprecated
-    public Object getVariant(ItemStack stack) {
-        return null;
-    }
+//
+//    @Override
+//    @Deprecated
+//    public Object getVariant(ItemStack stack) {
+//        return null;
+//    }
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
@@ -67,15 +63,15 @@ public class DecorationSlab extends BlockSlab {
         return null;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Item getItem(World worldIn, BlockPos pos) {
-        Item item = Item.getItemFromBlock(this);
-        if (item instanceof ItemDecorationSlab) {
-            return Item.getItemFromBlock(((ItemDecorationSlab) item).getSingleSlab());
-        }
-        return null;
-    }
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public Item getItem(World worldIn, BlockPos pos) {
+//        Item item = Item.getItemFromBlock(this);
+//        if (item instanceof ItemDecorationSlab) {
+//            return Item.getItemFromBlock(((ItemDecorationSlab) item).getSingleSlab());
+//        }
+//        return null;
+//    }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
@@ -96,7 +92,7 @@ public class DecorationSlab extends BlockSlab {
         int i = 0;
 
         if (this.isDouble()) {
-            if (((Boolean) state.getValue(SEAMLESS)).booleanValue()) {
+            if (state.getValue(SEAMLESS).booleanValue()) {
                 i |= 8;
             }
         } else if (state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
@@ -107,8 +103,14 @@ public class DecorationSlab extends BlockSlab {
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return this.isDouble() ? new BlockState(this, new IProperty[] { SEAMLESS }) : new BlockState(this, new IProperty[] { HALF });
+    protected BlockStateContainer createBlockState() {
+        return this.isDouble() ? new BlockStateContainer(this, new IProperty[] { SEAMLESS }) : new BlockStateContainer(this, new IProperty[] { HALF });
+    }
+
+    @Override
+    public Comparable<?> getTypeForItem(ItemStack stack) {
+        // TODO 自動生成されたメソッド・スタブ
+        return null;
     }
 
 }

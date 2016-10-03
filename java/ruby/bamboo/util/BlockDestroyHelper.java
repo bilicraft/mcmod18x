@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,7 +29,7 @@ public class BlockDestroyHelper {
         if (!e.world.isRemote && e.world == this.world) {
             if (list != null && !list.isEmpty()) {
                 BlockPos pos = list.poll();
-                if (world.getBlockState(pos).getBlock().getBlockHardness(world, pos) > 0) {
+                if (world.getBlockState(pos).getBlock().getBlockHardness(world.getBlockState(pos), world, pos) > 0) {
                     e.world.destroyBlock(pos, true);
                 }
             } else {

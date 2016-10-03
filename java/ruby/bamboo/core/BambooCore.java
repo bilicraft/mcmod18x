@@ -1,6 +1,5 @@
 package ruby.bamboo.core;
 
-import ruby.bamboo.proxy.CommonProxy;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
+import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = Constants.MODID, name = Constants.MODID, version = "Minecraft" + Constants.MC_VER + " var" + Constants.BAMBOO_VER, useMetadata = true)
 // フォージバージョン制限、必要になれば。 dependencies = "required-after:Forge@[10.13.2.1230,)")

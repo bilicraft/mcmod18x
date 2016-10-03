@@ -4,5 +4,5 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public interface ITickableEnchant {
-    public void onTick(ItemStack stack, EntityLivingBase ticker);
+    public void onTick(ItemStack stack, EntityLivingBase ticker, int slotNum, boolean isSelected);
 }

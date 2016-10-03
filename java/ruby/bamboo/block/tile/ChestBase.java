@@ -1,12 +1,15 @@
 package ruby.bamboo.block.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 
 public abstract class ChestBase extends TileEntityLockable implements ITickable, IInventory {
     String customName;
@@ -142,22 +145,22 @@ public abstract class ChestBase extends TileEntityLockable implements ITickable,
     @Override
     public void update() {
         if (openFlg) {
-            this.worldObj.playSoundEffect(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, this.getOpenSound(), 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            this.worldObj.playSound((EntityPlayer) null, this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, this.getOpenSound(), SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
             openFlg = false;
         }
 
         if (closeFlg) {
-            this.worldObj.playSoundEffect(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, this.getCloseSound(), 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            this.worldObj.playSound((EntityPlayer) null, this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D, this.getCloseSound(), SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
             closeFlg = false;
         }
     }
 
-    public String getOpenSound() {
-        return "random.chestopen";
+    public SoundEvent getOpenSound() {
+        return SoundEvents.BLOCK_CHEST_OPEN;
     }
 
-    public String getCloseSound() {
-        return "random.chestclosed";
+    public SoundEvent getCloseSound() {
+        return SoundEvents.BLOCK_CHEST_CLOSE;
     }
 
     @Override
@@ -184,7 +187,7 @@ public abstract class ChestBase extends TileEntityLockable implements ITickable,
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         NBTTagList nbttaglist = new NBTTagList();
 
@@ -202,6 +205,7 @@ public abstract class ChestBase extends TileEntityLockable implements ITickable,
         if (this.hasCustomName()) {
             compound.setString("CustomName", this.customName);
         }
+        return compound;
     }
 
     @Override

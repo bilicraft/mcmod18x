@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.core.init.BambooData.BambooItem;
+import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.Wind;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.StatCollector;
 import ruby.bamboo.core.Constants;
 
 public enum EnumCreateTab {
@@ -17,14 +16,10 @@ public enum EnumCreateTab {
         map = new HashMap<EnumCreateTab, CreativeTabs>();
         map.put(NONE, null);
         map.put(TAB_BAMBOO, new CreativeTabs(Constants.MODID) {
-            @Override
-            public String getTranslatedTabLabel() {
-                return StatCollector.translateToLocal(this.getTabLabel());
-            }
 
             @Override
             public Item getTabIconItem() {
-                return Item.getItemFromBlock(Blocks.stone);//Block.getBlockFromName(BlockData.getModdedName(ItemBambooShoot.class)));
+                return Item.getItemFromBlock(Blocks.STONE);//Block.getBlockFromName(BlockData.getModdedName(ItemBambooShoot.class)));
             }
         });
     }

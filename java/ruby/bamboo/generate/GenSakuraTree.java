@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import ruby.bamboo.block.SakuraLeave;
@@ -73,10 +73,11 @@ public class GenSakuraTree extends WorldGenAbstractTree {
             } else {
                 BlockPos down = position.down();
                 Block block1 = worldIn.getBlockState(down).getBlock();
-                boolean isSoil = block1.canSustainPlant(worldIn, down, net.minecraft.util.EnumFacing.UP, DataManager.getBlock(SakuraSapling.class));
+                IBlockState state = worldIn.getBlockState(down);
+                boolean isSoil = block1.canSustainPlant(state, worldIn, down, net.minecraft.util.EnumFacing.UP, DataManager.getBlock(SakuraSapling.class));
 
                 if (isSoil && position.getY() < 256 - i - 1) {
-                    block1.onPlantGrow(worldIn, down, position);
+                    block1.onPlantGrow(state, worldIn, down, position);
                     b0 = 3;
                     byte b1 = 0;
                     int i1;
@@ -98,8 +99,9 @@ public class GenSakuraTree extends WorldGenAbstractTree {
                                 if (Math.abs(l1) != j1 || Math.abs(j2) != j1 || rand.nextInt(2) != 0 && i1 != 0) {
                                     blockpos1 = new BlockPos(k1, l, i2);
                                     Block block = worldIn.getBlockState(blockpos1).getBlock();
+                                    IBlockState state1 = worldIn.getBlockState(blockpos1);
 
-                                    if (block.isAir(worldIn, blockpos1) || block.isLeaves(worldIn, blockpos1) || block.getMaterial() == Material.vine) {
+                                    if (block.isAir(state1, worldIn, blockpos1) || block.isLeaves(state1, worldIn, blockpos1) || state1.getMaterial() == Material.VINE) {
                                         this.setBlockAndNotifyAdequately(worldIn, blockpos1, this.metaLeaves);
                                     }
                                 }
@@ -110,8 +112,9 @@ public class GenSakuraTree extends WorldGenAbstractTree {
                     for (l = 0; l < i; ++l) {
                         BlockPos upN = position.up(l);
                         Block block2 = worldIn.getBlockState(upN).getBlock();
+                        IBlockState state2 = worldIn.getBlockState(upN);
 
-                        if (block2.isAir(worldIn, upN) || block2.isLeaves(worldIn, upN) || block2.getMaterial() == Material.vine) {
+                        if (block2.isAir(state2, worldIn, upN) || block2.isLeaves(state2, worldIn, upN) || state2.getMaterial() == Material.VINE) {
                             this.setBlockAndNotifyAdequately(worldIn, position.up(l), this.metaWood);
 
                         }

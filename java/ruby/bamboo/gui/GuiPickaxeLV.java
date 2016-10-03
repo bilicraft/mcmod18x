@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import ruby.bamboo.core.Constants;
@@ -43,9 +44,9 @@ public class GuiPickaxeLV extends GuiPickaxeBase {
         tabs[0] = new Tab(0, true);
         tabs[1] = new Tab(1, false);
         tabs[2] = new Tab(2, false);
-        tabs[0].stack = new ItemStack(Items.experience_bottle);
-        tabs[1].stack = new ItemStack(Items.name_tag);
-        tabs[2].stack = new ItemStack(Items.book);
+        tabs[0].stack = new ItemStack(Items.EXPERIENCE_BOTTLE);
+        tabs[1].stack = new ItemStack(Items.NAME_TAG);
+        tabs[2].stack = new ItemStack(Items.BOOK);
     }
 
     @Override
@@ -121,7 +122,7 @@ public class GuiPickaxeLV extends GuiPickaxeBase {
             if (l < mouseY && mouseY < l + 57) {
                 if (isLevelUp) {
                     PacketDispatcher.sendToServer(new MessagePickaxe((byte) GuiHandler.GUI_PICKAXE_LV).setSubData((byte) (((mouseY - l) / 19) + (page * 3))));
-                    this.player.playSound("gui.button.press", 1, 1);
+                    this.player.playSound(SoundEvents.UI_BUTTON_CLICK, 1, 1);
                     isLevelUp = false;
                 }
             }

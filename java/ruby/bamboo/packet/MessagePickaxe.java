@@ -106,7 +106,7 @@ public class MessagePickaxe implements IMessage {
         }
 
         private void onGuiLvSub(EntityPlayerMP playerEntity, byte data) {
-            EnchantFactory.setEnchant(playerEntity.getCurrentEquippedItem(), data);
+            EnchantFactory.setEnchant(playerEntity.getHeldItemMainhand(), data);
         }
 
         private void onGuiNameSub(EntityPlayerMP playerEntity, String name) {
@@ -115,7 +115,7 @@ public class MessagePickaxe implements IMessage {
         }
 
         private void onGuiEnchSub(EntityPlayerMP playerEntity, byte data) {
-            ItemStack stack = playerEntity.getCurrentEquippedItem();
+            ItemStack stack = playerEntity.getHeldItemMainhand();
             List<NBTTagCompound> nbtList = IBambooEnchantable.getSpenchList(stack);
             if (data < nbtList.size()) {
                 nbtList.get(data).setBoolean(ENCHANT_ENABLE, !nbtList.get(data).getBoolean(ENCHANT_ENABLE));

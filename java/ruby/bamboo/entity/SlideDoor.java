@@ -3,29 +3,36 @@ package ruby.bamboo.entity;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.DataManager;
 import ruby.bamboo.item.ItemSlideDoor;
 
 public class SlideDoor extends Entity {
     private byte closeTimer;
 
-    private static final byte DIRECTION = 17;
-    private static final byte ISMIRROR = 18;
-    private static final byte ISMOVE = 19;
-    private static final byte DOORID = 20;
-    private static final byte ISSTOP = 22;
-    private static final byte MOVEDIR = 23;
+    private static final DataParameter<Byte> DIRECTION = EntityDataManager.<Byte> createKey(SlideDoor.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> ISMIRROR = EntityDataManager.<Byte> createKey(SlideDoor.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> ISMOVE = EntityDataManager.<Byte> createKey(SlideDoor.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DOORID = EntityDataManager.<Byte> createKey(SlideDoor.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> ISSTOP = EntityDataManager.<Byte> createKey(SlideDoor.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> MOVEDIR = EntityDataManager.<Byte> createKey(SlideDoor.class, DataSerializers.BYTE);
+
     private static EnumSlideDoor[] tex = EnumSlideDoor.values();
 
     public SlideDoor(World world) {
@@ -38,26 +45,47 @@ public class SlideDoor extends Entity {
         return isBlend() ? pass == 1 : pass == 0;
     }
 
-    @Override
-    public boolean interactFirst(EntityPlayer par1EntityPlayer) {
-        if (par1EntityPlayer.isSneaking()) {
+    //    @Override
+    //    public boolean interactFirst(EntityPlayer par1EntityPlayer) {
+    //        if (par1EntityPlayer.isSneaking()) {
+    //            setDataisStop(!getDataIsStop());
+    //            par1EntityPlayer.swingArm(EnumHand.MAIN_HAND);
+    //            return true;
+    //        }
+    //
+    //        if (getDataIsStop()) {
+    //            if (!getDataMoveflg()) {
+    //                doorOpen(par1EntityPlayer);
+    //            } else {
+    //                doorClose();
+    //            }
+    //
+    //            par1EntityPlayer.swingArm(EnumHand.MAIN_HAND);
+    //            return true;
+    //        }
+    //
+    //        return false;
+    //    }
+
+    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, @Nullable ItemStack stack, EnumHand hand) {
+        if (player.isSneaking()) {
             setDataisStop(!getDataIsStop());
-            par1EntityPlayer.swingItem();
-            return true;
+            player.swingArm(hand);
+            return EnumActionResult.SUCCESS;
         }
 
         if (getDataIsStop()) {
             if (!getDataMoveflg()) {
-                doorOpen(par1EntityPlayer);
+                doorOpen(player);
             } else {
                 doorClose();
             }
 
-            par1EntityPlayer.swingItem();
-            return true;
+            player.swingArm(hand);
+            return EnumActionResult.SUCCESS;
         }
 
-        return false;
+        return EnumActionResult.PASS;
     }
 
     @Override
@@ -70,11 +98,11 @@ public class SlideDoor extends Entity {
         return getEntityBoundingBox();
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void setPositionAndRotation2(double p_180426_1_, double p_180426_3_, double p_180426_5_, float p_180426_7_, float p_180426_8_, int p_180426_9_, boolean p_180426_10_) {
-
-    }
+    //    @Override
+    //    @SideOnly(Side.CLIENT)
+    //    public void setPositionAndRotation2(double p_180426_1_, double p_180426_3_, double p_180426_5_, float p_180426_7_, float p_180426_8_, int p_180426_9_, boolean p_180426_10_) {
+    //
+    //    }
 
     @Override
     public void applyEntityCollision(Entity entityIn) {
@@ -323,64 +351,64 @@ public class SlideDoor extends Entity {
 
     @Override
     protected void entityInit() {
-        dataWatcher.addObject(DIRECTION, (byte) 0);
-        dataWatcher.addObject(ISMIRROR, (byte) 0);
-        dataWatcher.addObject(ISMOVE, (byte) 0);
-        dataWatcher.addObject(ISSTOP, (byte) 0);
-        dataWatcher.addObject(MOVEDIR, (byte) 0);
-        dataWatcher.addObject(DOORID, (byte) 0);
+        dataManager.register(DIRECTION, (byte) 0);
+        dataManager.register(ISMIRROR, (byte) 0);
+        dataManager.register(ISMOVE, (byte) 0);
+        dataManager.register(ISSTOP, (byte) 0);
+        dataManager.register(MOVEDIR, (byte) 0);
+        dataManager.register(DOORID, (byte) 0);
     }
 
     // data getter
     private EnumFacing getDataDir() {
-        return EnumFacing.getHorizontal(dataWatcher.getWatchableObjectByte(DIRECTION));
+        return EnumFacing.getHorizontal((int) dataManager.get(DIRECTION));
     }
 
     private boolean getDataMirror() {
-        return dataWatcher.getWatchableObjectByte(ISMIRROR) == 1;
+        return dataManager.get(ISMIRROR) == 1;
     }
 
     private boolean getDataMoveflg() {
-        return dataWatcher.getWatchableObjectByte(ISMOVE) == 1;
+        return dataManager.get(ISMOVE) == 1;
     }
 
     private byte getDataMovedir() {
-        return dataWatcher.getWatchableObjectByte(MOVEDIR);
+        return dataManager.get(MOVEDIR);
     }
 
     private boolean getDataIsStop() {
-        return dataWatcher.getWatchableObjectByte(ISSTOP) == 1;
+        return dataManager.get(ISSTOP) == 1;
     }
 
     private byte getDataDoorId() {
-        return dataWatcher.getWatchableObjectByte(DOORID);
+        return dataManager.get(DOORID);
     }
 
     // data setter
     public SlideDoor setDataDir(byte b) {
-        dataWatcher.updateObject(DIRECTION, b);
+        dataManager.set(DIRECTION, b);
         return this;
     }
 
     public void setDataMirror(boolean flg) {
-        dataWatcher.updateObject(ISMIRROR, flg ? (byte) 1 : (byte) 0);
+        dataManager.set(ISMIRROR, flg ? (byte) 1 : (byte) 0);
     }
 
     public void setDataMoveflg(boolean flg) {
-        dataWatcher.updateObject(ISMOVE, flg ? (byte) 1 : (byte) 0);
+        dataManager.set(ISMOVE, flg ? (byte) 1 : (byte) 0);
     }
 
     public void setDataMovedir(byte dir) {
-        dataWatcher.updateObject(MOVEDIR, dir);
+        dataManager.set(MOVEDIR, dir);
     }
 
     public SlideDoor setDataisStop(boolean flg) {
-        dataWatcher.updateObject(ISSTOP, flg ? (byte) 1 : (byte) 0);
+        dataManager.set(ISSTOP, flg ? (byte) 1 : (byte) 0);
         return this;
     }
 
     public SlideDoor setDataDoorId(int id) {
-        dataWatcher.updateObject(DOORID, (byte) id);
+        dataManager.set(DOORID, (byte) id);
         return this;
     }
 

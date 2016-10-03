@@ -5,15 +5,12 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.Constants;
@@ -27,7 +24,7 @@ public class Tatami extends XZAxisBlock {
     public static final PropertyInteger META = PropertyInteger.create(Constants.META, 0, 3);
 
     public Tatami() {
-        super(Material.ground);
+        super(Material.GROUND);
         this.setDefaultState(this.blockState.getBaseState().withProperty(META, 0).withProperty(AXIS, EnumFacing.Axis.X));
     }
 
@@ -42,7 +39,7 @@ public class Tatami extends XZAxisBlock {
 
     @Override
     int getBlockMeta(IBlockState state) {
-        return ((Integer) state.getValue(META)).intValue() & 7;
+        return state.getValue(META).intValue() & 7;
     }
 
     @Override
@@ -51,18 +48,13 @@ public class Tatami extends XZAxisBlock {
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, new IProperty[] { META, AXIS });
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-        return false;
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { META, AXIS });
     }
 
     @Override
     public int damageDropped(IBlockState state) {
-        return ((Integer) state.getValue(META)).intValue() & 7;
+        return state.getValue(META).intValue() & 7;
     }
 
     @Override

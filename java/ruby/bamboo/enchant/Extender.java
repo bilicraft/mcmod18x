@@ -1,6 +1,5 @@
 package ruby.bamboo.enchant;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,10 +8,10 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import ruby.bamboo.enchant.event.IBreakEnchant;
 import ruby.bamboo.util.BlockDestroyHelper;
@@ -24,9 +23,9 @@ public class Extender extends EnchantBase implements IBreakEnchant {
     }
 
     @Override
-    public void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player, MovingObjectPosition mop) {
+    public void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player, RayTraceResult rtr) {
         if (!world.isRemote) {
-            EnumFacing facing = mop.sideHit;
+            EnumFacing facing = rtr.sideHit;
             int size = 1;
             int length = (int) Math.floor(IBambooEnchantable.getEnchLevel(stack, this, SUB_WILD) / 150);
             List<BlockPos> list;
@@ -49,12 +48,7 @@ public class Extender extends EnchantBase implements IBreakEnchant {
                     list = Lists.newArrayList();
                     break;
             }
-            list = list.stream().filter(target -> !world.isAirBlock(target)).sorted(new Comparator<BlockPos>() {
-                @Override
-                public int compare(BlockPos o1, BlockPos o2) {
-                    return (int) (o1.distanceSq(pos) - o2.distanceSq(pos));
-                }
-            }).collect(Collectors.toList());
+            list = list.stream().filter(target -> !world.isAirBlock(target)).sorted((o1, o2) -> (int) (o1.distanceSq(pos) - o2.distanceSq(pos))).collect(Collectors.toList());
             ((IBambooEnchantable) stack.getItem()).addExp(stack, list.size(), 1);
             BlockDestroyHelper.addQueue(world, list);
         }

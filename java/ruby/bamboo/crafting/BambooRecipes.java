@@ -63,31 +63,31 @@ public class BambooRecipes {
         // つづら
         addRecipe(getIS(Tudura.class), " B ", "B B", " B ", 'B', bamboo);
         // 扇子
-        addRecipe(getIS(FoldingFan.class), "PPB", "PPB", "BBB", 'P', Items.paper, 'B', bamboo);
+        addRecipe(getIS(FoldingFan.class), "PPB", "PPB", "BBB", 'P', Items.PAPER, 'B', bamboo);
         // 袋
-        addRecipe(getIS(Sack.class), "SSS", "WTW", "WWW", 'S', Items.string, 'T', tudura, 'W', getIS(Blocks.wool, 1, WILD));
+        addRecipe(getIS(Sack.class), "SSS", "WTW", "WWW", 'S', Items.STRING, 'T', tudura, 'W', getIS(Blocks.WOOL, 1, WILD));
         // たんす
         addCircleRecipe(getIS(JPChest.class), tudura, "logWood");
         // たたみ
         addRecipe(getIS(Tatami.class), " S ", "STS", " S ", 'S', straw, 'T', tudura);
         // 引き戸類
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.stick, 'Y', Items.paper, '#', tudura);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', tudura, 'X', Items.stick, 'Y', Items.paper);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Blocks.iron_bars, 'Y', Blocks.glass_pane);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.stick, 'Y', Blocks.glass_pane);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', tudura, 'X', Items.stick, 'Y', Items.paper, 'Z', Blocks.glass_pane);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.stick, 'Y', "plankWood");
+        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.STICK, 'Y', Items.PAPER, '#', tudura);
+        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER);
+        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Blocks.IRON_BARS, 'Y', Blocks.GLASS_PANE);
+        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Blocks.GLASS_PANE);
+        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER, 'Z', Blocks.GLASS_PANE);
+        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.STICK, 'Y', "plankWood");
         // きつねび
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.lit_pumpkin);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', Items.ender_pearl, 'Y', tudura, '#', Blocks.lit_pumpkin);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.lit_pumpkin);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ender_pearl, 'Y', tudura, '#', Blocks.lit_pumpkin);
+        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
 
         //******デコレーション
         // 瓦
-        addCircleRecipe(getBlockIS(EnumDecoration.KAWARA.getModName(), 8, 0), tudura, Items.brick);
+        addCircleRecipe(getBlockIS(EnumDecoration.KAWARA.getModName(), 8, 0), tudura, Items.BRICK);
         // 漆喰
-        addCircleRecipe(getBlockIS(EnumDecoration.PLASTER.getModName(), 8, 0), tudura, Blocks.sand);
+        addCircleRecipe(getBlockIS(EnumDecoration.PLASTER.getModName(), 8, 0), tudura, Blocks.SAND);
         // なまこ
         addAltCircleRecipe(getBlockIS(EnumDecoration.NAMAKO.getModName(), 8, 0), tudura, getBlockIS(EnumDecoration.PLASTER.getModName()), getBlockIS(EnumDecoration.KAWARA.getModName()));
         // ワラ
@@ -95,30 +95,30 @@ public class BambooRecipes {
         // かやぶき
         addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, "cropWheat");
         // 市松各種
-        addCircleRecipe(getBlockIS(EnumDecoration.CBIRCH.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
-        addCircleRecipe(getBlockIS(EnumDecoration.COAK.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks, 1, BlockPlanks.EnumType.OAK.getMetadata()));
-        addCircleRecipe(getBlockIS(EnumDecoration.CPINE.getModName(), 8, 0), tudura, new ItemStack(Blocks.planks, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.CBIRCH.getModName(), 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.COAK.getModName(), 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.OAK.getMetadata()));
+        addCircleRecipe(getBlockIS(EnumDecoration.CPINE.getModName(), 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
         // デコレーション用半ブロと階段の登録
         registerDeco();
 
         //***弓とか槍とか
-        addRecipe(getIS(BambooBow.class), " BS", "T S", " BS", 'B', bamboo, 'T', tudura, 'S', Items.string);
+        addRecipe(getIS(BambooBow.class), " BS", "T S", " BS", 'B', bamboo, 'T', tudura, 'S', Items.STRING);
         addRecipe(getIS(BambooArrow.class, 8, 0), "B", "T", "T", 'B', bamboo, 'T', tudura);
         // アンチ系
-        addAntiArrowsRecipe(AntiType.UNDEAD, 4, Items.rotten_flesh);
-        addAntiArrowsRecipe(AntiType.MUTANT, 8, Items.gunpowder);
-        addAntiArrowsRecipe(AntiType.ENDERMAN, 8, Items.ender_pearl);
-        addAntiArrowsRecipe(AntiType.FLAME, 8, Items.flint);
-        addAntiArrowsRecipe(AntiType.AIR, 8, Items.feather);
-        addAntiArrowsRecipe(AntiType.MULTILEG, 8, Items.string);
-        addAntiArrowsRecipe(AntiType.HUMAN, 8, Items.emerald);
-        addAntiArrowsRecipe(AntiType.NONLEG, 8, Items.blaze_rod);
-        addAntiArrowsRecipe(AntiType.HARD, 16, Items.iron_ingot);
-        addAntiArrowsRecipe(AntiType.SOFT, 8, Items.slime_ball);
-        addAntiArrowsRecipe(AntiType.WATER, 8, Items.fish);
-        addShapelessRecipe(getIS(TorchArrow.class), getIS(BambooArrow.class), Blocks.torch);
-        addShapelessRecipe(getIS(LightArrow.class), getIS(BambooArrow.class), Items.feather);
-        addShapelessRecipe(getIS(ExplodeArrow.class), getIS(BambooArrow.class), Items.gunpowder);
+        addAntiArrowsRecipe(AntiType.UNDEAD, 4, Items.ROTTEN_FLESH);
+        addAntiArrowsRecipe(AntiType.MUTANT, 8, Items.GUNPOWDER);
+        addAntiArrowsRecipe(AntiType.ENDERMAN, 8, Items.ENDER_PEARL);
+        addAntiArrowsRecipe(AntiType.FLAME, 8, Items.FLINT);
+        addAntiArrowsRecipe(AntiType.AIR, 8, Items.FEATHER);
+        addAntiArrowsRecipe(AntiType.MULTILEG, 8, Items.STRING);
+        addAntiArrowsRecipe(AntiType.HUMAN, 8, Items.EMERALD);
+        addAntiArrowsRecipe(AntiType.NONLEG, 8, Items.BLAZE_ROD);
+        addAntiArrowsRecipe(AntiType.HARD, 16, Items.IRON_INGOT);
+        addAntiArrowsRecipe(AntiType.SOFT, 8, Items.SLIME_BALL);
+        addAntiArrowsRecipe(AntiType.WATER, 8, Items.FISH);
+        addShapelessRecipe(getIS(TorchArrow.class), getIS(BambooArrow.class), Blocks.TORCH);
+        addShapelessRecipe(getIS(LightArrow.class), getIS(BambooArrow.class), Items.FEATHER);
+        addShapelessRecipe(getIS(ExplodeArrow.class), getIS(BambooArrow.class), Items.GUNPOWDER);
 
     }
 
@@ -142,7 +142,7 @@ public class BambooRecipes {
      * 竈
      */
     public void smeltingRecipes() {
-        GameRegistry.addSmelting(getIS(SakuraLog.class), getIS(Items.coal, 1, 1), 0.2F);
+        GameRegistry.addSmelting(getIS(SakuraLog.class), getIS(Items.COAL, 1, 1), 0.2F);
     }
 
     /**

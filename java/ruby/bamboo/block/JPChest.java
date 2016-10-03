@@ -1,12 +1,17 @@
 package ruby.bamboo.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 import ruby.bamboo.block.tile.TileJPChest;
@@ -17,30 +22,31 @@ import ruby.bamboo.gui.GuiHandler;
 @BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class JPChest extends BlockChest {
 
+    public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+
     public JPChest() {
-        super(1);
+        super(BlockChest.Type.BASIC);
         setHardness(3);
         setResistance(10);
-        this.setBlockBounds(0, 0, 0, 1, 1, 1);
     }
 
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-    }
+    //    @Override
+    //    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    //    }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return true;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return true;
     }
 
     @Override
-    public int getRenderType() {
-        return 3;
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.INVISIBLE;
     }
 
     @Override
@@ -58,12 +64,14 @@ public class JPChest extends BlockChest {
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
         ILockableContainer ilockablecontainer = (ILockableContainer) worldIn.getTileEntity(pos);
-
-        if (ilockablecontainer != null) {
-            GuiHandler.openGui(worldIn, playerIn, GuiHandler.GUI_JPCHEST, pos);
+        if (worldIn.isRemote) {
+            return true;
+        } else {
+            if (ilockablecontainer != null) {
+                GuiHandler.openGui(worldIn, playerIn, GuiHandler.GUI_JPCHEST, pos);
+            }
         }
         return true;
     }

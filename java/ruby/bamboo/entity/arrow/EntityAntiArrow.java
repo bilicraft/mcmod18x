@@ -5,6 +5,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -15,12 +18,10 @@ import ruby.bamboo.item.arrow.AntiArrow.AntiType;
 
 public class EntityAntiArrow extends BaseArrow {
 
+    private static final DataParameter<Byte> TYPE = EntityDataManager.<Byte> createKey(EntityAntiArrow.class, DataSerializers.BYTE);
+
     public EntityAntiArrow(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
-    }
-
-    public EntityAntiArrow(World worldIn, EntityLivingBase shooter, EntityLivingBase p_i1755_3_, float p_i1755_4_, float p_i1755_5_) {
-        super(worldIn, shooter, p_i1755_3_, p_i1755_4_, p_i1755_5_);
     }
 
     public EntityAntiArrow(World worldIn, EntityLivingBase shooter, float velocity) {
@@ -32,22 +33,24 @@ public class EntityAntiArrow extends BaseArrow {
     }
 
     public EntityAntiArrow(World worldIn, EntityLivingBase shooter, float velocity, ItemStack is) {
-        super(worldIn, shooter, velocity, is);
+        super(worldIn, shooter, velocity);
         this.setArrowType(AntiType.getType(is.getItemDamage()));
     }
 
     public void setArrowType(AntiType type) {
-        dataWatcher.updateObject(17, type.getID());
+        //        dataWatcher.updateObject(17, type.getID());
+        this.dataManager.set(TYPE, type.getID());
     }
 
     public AntiType getArrowType() {
-        return AntiType.getType(dataWatcher.getWatchableObjectByte(17));
+        //        return AntiType.getType(dataWatcher.getWatchableObjectByte(17));
+        return AntiType.getType(this.dataManager.get(TYPE).intValue());
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+        this.dataManager.register(TYPE, Byte.valueOf((byte) 0));
     }
 
     @Override
@@ -55,7 +58,7 @@ public class EntityAntiArrow extends BaseArrow {
         int damage = super.getArrowDamage(entity);
         for (Class<? extends Entity> clazz : getArrowType().getEntity()) {
             if (clazz.isInstance(entity)) {
-                damage *= 1 + (1.5 / (float) getArrowType().getEntity().length);
+                damage *= 1 + (1.5 / getArrowType().getEntity().length);
                 break;
             }
         }
@@ -89,16 +92,16 @@ public class EntityAntiArrow extends BaseArrow {
             // 水中用減速の無効化
             xyzVariation = 0.99F;
         }
-        this.motionX *= (double) xyzVariation;
-        this.motionY *= (double) xyzVariation;
-        this.motionZ *= (double) xyzVariation;
-        this.motionY -= (double) yDecrease * 0.5;
+        this.motionX *= xyzVariation;
+        this.motionY *= xyzVariation;
+        this.motionZ *= xyzVariation;
+        this.motionY -= yDecrease * 0.5;
     }
 
     @Override
     public void spawnCritParticle() {
         for (int k = 0; k < 4; ++k) {
-            this.worldObj.spawnParticle(EnumParticleTypes.CRIT_MAGIC, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, 0, -0.025, 0, new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.CRIT_MAGIC, this.posX + this.motionX * k / 4.0D, this.posY + this.motionY * k / 4.0D, this.posZ + this.motionZ * k / 4.0D, 0, -0.025, 0, new int[0]);
         }
     }
 
@@ -120,6 +123,12 @@ public class EntityAntiArrow extends BaseArrow {
         if (nbt.hasKey("id")) {
             setArrowType(AntiType.getType(nbt.getByte("id")));
         }
+    }
+
+    @Override
+    protected ItemStack getArrowStack() {
+        // TODO 矢筒関係？
+        return null;
     }
 
 }
