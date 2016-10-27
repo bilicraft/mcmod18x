@@ -56,6 +56,11 @@ public class ClientProxy extends CommonProxy {
 
     /**
      * json登録の自動化
+     *
+     * setCustomModelResourceLocationの登録ファイル名を変更
+     *
+     * @author defeatedcrow
+     * @date 2016.10.27
      */
     private void registJson() {
         List<ItemStack> isList = new ArrayList<ItemStack>();
@@ -78,7 +83,7 @@ public class ClientProxy extends CommonProxy {
                 }
             } else {
                 for (int i = 0; i < isList.size(); i++) {
-                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(name, "inventory"));
+                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(moddedName, "inventory"));
                 }
             }
         }
