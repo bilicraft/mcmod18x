@@ -1,5 +1,8 @@
 package ruby.bamboo.crafting;
 
+import static ruby.bamboo.api.BambooBlocks.*;
+import static ruby.bamboo.api.BambooItems.*;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.init.Blocks;
@@ -12,28 +15,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import ruby.bamboo.block.Bamboo;
-import ruby.bamboo.block.JPChest;
-import ruby.bamboo.block.Kitunebi;
-import ruby.bamboo.block.SakuraLog;
-import ruby.bamboo.block.SakuraPlank;
-import ruby.bamboo.block.Tatami;
+import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.block.decoration.EnumDecoration;
-import ruby.bamboo.core.DataManager;
 import ruby.bamboo.entity.EnumSlideDoor;
-import ruby.bamboo.item.BambooBow;
-import ruby.bamboo.item.FoldingFan;
-import ruby.bamboo.item.ItemSlideDoor;
-import ruby.bamboo.item.RiceSeed;
-import ruby.bamboo.item.Sack;
-import ruby.bamboo.item.Straw;
-import ruby.bamboo.item.Tudura;
-import ruby.bamboo.item.arrow.AntiArrow;
 import ruby.bamboo.item.arrow.AntiArrow.AntiType;
-import ruby.bamboo.item.arrow.BambooArrow;
-import ruby.bamboo.item.arrow.ExplodeArrow;
-import ruby.bamboo.item.arrow.LightArrow;
-import ruby.bamboo.item.arrow.TorchArrow;
 
 public class BambooRecipes {
     private int WILD = Short.MAX_VALUE;
@@ -45,11 +30,11 @@ public class BambooRecipes {
      * 鉱石辞書
      */
     public void oreDicRegist() {
-        OreDictionary.registerOre("logWood", getIS(SakuraLog.class));
-        OreDictionary.registerOre("plankWood", getIS(SakuraPlank.class));
-        OreDictionary.registerOre(bamboo, getIS(Bamboo.class));
-        OreDictionary.registerOre(tudura, getIS(Tudura.class));
-        OreDictionary.registerOre(straw, getIS(Straw.class));
+        OreDictionary.registerOre("logWood", getIS(SAKURA_LOG));
+        OreDictionary.registerOre("plankWood", getIS(SAKURA_PLANKS));
+        OreDictionary.registerOre(bamboo, getIS(BAMBOO));
+        OreDictionary.registerOre(tudura, getIS(TUDURA));
+        OreDictionary.registerOre(straw, getIS(STRAW));
     }
 
     /**
@@ -57,31 +42,31 @@ public class BambooRecipes {
      */
     public void craftingTableRecipes() {
         // サクラ原木→木材
-        addShapelessRecipe(getIS(SakuraPlank.class, 4, 0), getIS(SakuraLog.class, 1, WILD));
+        addShapelessRecipe(getIS(SAKURA_PLANKS, 4, 0), getIS(SAKURA_LOG, 1, WILD));
         // 袋開放
-        addShapelessRecipe(getIS(Sack.class), getIS(Sack.class, 1, WILD));
+        addShapelessRecipe(getIS(SACK), getIS(SACK, 1, WILD));
         // つづら
-        addRecipe(getIS(Tudura.class), " B ", "B B", " B ", 'B', bamboo);
+        addRecipe(getIS(TUDURA), " B ", "B B", " B ", 'B', bamboo);
         // 扇子
-        addRecipe(getIS(FoldingFan.class), "PPB", "PPB", "BBB", 'P', Items.PAPER, 'B', bamboo);
+        addRecipe(getIS(FOLDING_FAN), "PPB", "PPB", "BBB", 'P', Items.PAPER, 'B', bamboo);
         // 袋
-        addRecipe(getIS(Sack.class), "SSS", "WTW", "WWW", 'S', Items.STRING, 'T', tudura, 'W', getIS(Blocks.WOOL, 1, WILD));
+        addRecipe(getIS(SACK), "SSS", "WTW", "WWW", 'S', Items.STRING, 'T', tudura, 'W', getIS(Blocks.WOOL, 1, WILD));
         // たんす
-        addCircleRecipe(getIS(JPChest.class), tudura, "logWood");
+        addCircleRecipe(getIS(JPCHEST), tudura, "logWood");
         // たたみ
-        addRecipe(getIS(Tatami.class), " S ", "STS", " S ", 'S', straw, 'T', tudura);
+        addRecipe(getIS(TATAMI), " S ", "STS", " S ", 'S', straw, 'T', tudura);
         // 引き戸類
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.STICK, 'Y', Items.PAPER, '#', tudura);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Blocks.IRON_BARS, 'Y', Blocks.GLASS_PANE);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Blocks.GLASS_PANE);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER, 'Z', Blocks.GLASS_PANE);
-        addRecipe(getIS(ItemSlideDoor.class, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.STICK, 'Y', "plankWood");
+        addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.STICK, 'Y', Items.PAPER, '#', tudura);
+        addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER);
+        addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Blocks.IRON_BARS, 'Y', Blocks.GLASS_PANE);
+        addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Blocks.GLASS_PANE);
+        addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER, 'Z', Blocks.GLASS_PANE);
+        addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', tudura, 'X', Items.STICK, 'Y', "plankWood");
         // きつねび
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XXX", "Y#Y", "XXX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
-        addRecipe(getIS(Kitunebi.class, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(KITUNEBI, 6, 0), "XXX", "Y#Y", "XXX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(KITUNEBI, 6, 0), "XXX", "Y#Y", "XXX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(KITUNEBI, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        addRecipe(getIS(KITUNEBI, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
 
         //******デコレーション
         // 瓦
@@ -91,7 +76,7 @@ public class BambooRecipes {
         // なまこ
         addAltCircleRecipe(getBlockIS(EnumDecoration.NAMAKO.getModName(), 8, 0), tudura, getBlockIS(EnumDecoration.PLASTER.getModName()), getBlockIS(EnumDecoration.KAWARA.getModName()));
         // ワラ
-        addRecipe(getBlockIS(EnumDecoration.WARA.getModName(), 4, 0), "XXX", "XXX", "XXX", 'X', getIS(Straw.class));
+        addRecipe(getBlockIS(EnumDecoration.WARA.getModName(), 4, 0), "XXX", "XXX", "XXX", 'X', getIS(STRAW));
         // かやぶき
         addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, "cropWheat");
         // 市松各種
@@ -102,8 +87,8 @@ public class BambooRecipes {
         registerDeco();
 
         //***弓とか槍とか
-        addRecipe(getIS(BambooBow.class), " BS", "T S", " BS", 'B', bamboo, 'T', tudura, 'S', Items.STRING);
-        addRecipe(getIS(BambooArrow.class, 8, 0), "B", "T", "T", 'B', bamboo, 'T', tudura);
+        addRecipe(getIS(BAMBOO_BOW), " BS", "T S", " BS", 'B', bamboo, 'T', tudura, 'S', Items.STRING);
+        addRecipe(getIS(BAMBOO_ARROW, 8, 0), "B", "T", "T", 'B', bamboo, 'T', tudura);
         // アンチ系
         addAntiArrowsRecipe(AntiType.UNDEAD, 4, Items.ROTTEN_FLESH);
         addAntiArrowsRecipe(AntiType.MUTANT, 8, Items.GUNPOWDER);
@@ -116,14 +101,14 @@ public class BambooRecipes {
         addAntiArrowsRecipe(AntiType.HARD, 16, Items.IRON_INGOT);
         addAntiArrowsRecipe(AntiType.SOFT, 8, Items.SLIME_BALL);
         addAntiArrowsRecipe(AntiType.WATER, 8, Items.FISH);
-        addShapelessRecipe(getIS(TorchArrow.class), getIS(BambooArrow.class), Blocks.TORCH);
-        addShapelessRecipe(getIS(LightArrow.class), getIS(BambooArrow.class), Items.FEATHER);
-        addShapelessRecipe(getIS(ExplodeArrow.class), getIS(BambooArrow.class), Items.GUNPOWDER);
+        addShapelessRecipe(getIS(TORCH_ARROW), getIS(BAMBOO_ARROW), Blocks.TORCH);
+        addShapelessRecipe(getIS(LIGHT_ARROW), getIS(BAMBOO_ARROW), Items.FEATHER);
+        addShapelessRecipe(getIS(EXPLODE_ARROW), getIS(BAMBOO_ARROW), Items.GUNPOWDER);
 
     }
 
     private void addAntiArrowsRecipe(AntiType type, int ammo, Object material) {
-        addRecipe(getIS(AntiArrow.class, ammo, type.getID()), " B ", " T ", "MTM", 'B', bamboo, 'T', tudura, 'M', material);
+        addRecipe(getIS(ANTI_ARROW, ammo, type.getID()), " B ", " T ", "MTM", 'B', bamboo, 'T', tudura, 'M', material);
     }
 
     private void registerDeco() {
@@ -142,7 +127,7 @@ public class BambooRecipes {
      * 竈
      */
     public void smeltingRecipes() {
-        GameRegistry.addSmelting(getIS(SakuraLog.class), getIS(Items.COAL, 1, 1), 0.2F);
+        GameRegistry.addSmelting(getIS(SAKURA_LOG), getIS(Items.COAL, 1, 1), 0.2F);
     }
 
     /**
@@ -150,7 +135,7 @@ public class BambooRecipes {
      */
     public void registFuel() {
         IFuelHandler handler = new IFuelHandler() {
-            private Item sakuraLog = Item.getItemFromBlock(DataManager.getBlock(SakuraLog.class));
+            private Item sakuraLog = Item.getItemFromBlock(BambooBlocks.SAKURA_LOG);
 
             @Override
             public int getBurnTime(ItemStack fuel) {
@@ -167,7 +152,7 @@ public class BambooRecipes {
      * 種登録
      */
     public void registSeed() {
-        MinecraftForge.addGrassSeed(getIS(RiceSeed.class), 10);
+        MinecraftForge.addGrassSeed(getIS(RICE_SEED), 10);
     }
 
     /**
@@ -217,17 +202,11 @@ public class BambooRecipes {
     private void addShapelessRecipe(Object... objArray) {
         ItemStack output;
         Object[] params = new Object[objArray.length - 1];
-        if (objArray[0] instanceof Class) {
-            output = getIS((Class) objArray[0]);
-        } else {
-            output = (ItemStack) objArray[0];
-        }
+
+        output = (ItemStack) objArray[0];
+
         for (int i = 1; i < objArray.length; i++) {
-            if (objArray[i] instanceof Class) {
-                params[i - 1] = getIS((Class) objArray[i]);
-            } else {
-                params[i - 1] = objArray[i];
-            }
+            params[i - 1] = objArray[i];
         }
         GameRegistry.addRecipe(new ShapelessOreRecipe(output, params));
     }
@@ -254,27 +233,6 @@ public class BambooRecipes {
 
     private ItemStack getIS(Item item, int amo, int meta) {
         return new ItemStack(item, amo, meta);
-    }
-
-    private ItemStack getIS(Class cls) {
-        return this.getIS(cls, 0);
-    }
-
-    private ItemStack getIS(Class cls, int meta) {
-        return this.getIS(cls, 1, meta);
-    }
-
-    private ItemStack getIS(Class cls, int amo, int meta) {
-        ItemStack is = null;
-        if (Block.class.isAssignableFrom(cls)) {
-            is = new ItemStack(DataManager.getBlock(cls), amo, meta);
-        } else {
-            is = new ItemStack(DataManager.getItem(cls), amo, meta);
-        }
-        if (is.getItem() == null) {
-            throw new IllegalArgumentException("Illegal recipe!" + cls.getSimpleName());
-        }
-        return is;
     }
 
     private ItemStack getBlockIS(String name) {

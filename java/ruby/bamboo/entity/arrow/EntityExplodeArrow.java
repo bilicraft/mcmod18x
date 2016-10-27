@@ -5,8 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.arrow.ExplodeArrow;
+import ruby.bamboo.api.BambooItems;
 
 public class EntityExplodeArrow extends BaseArrow {
 
@@ -50,7 +49,7 @@ public class EntityExplodeArrow extends BaseArrow {
 
     @Override
     public ItemStack getItemArrow() {
-        return DataManager.getItemStack(ExplodeArrow.class, 1, 0);
+        return new ItemStack(BambooItems.EXPLODE_ARROW, 1, 0);
     }
 
     @Override

@@ -11,7 +11,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.packet.MessagePickaxe;
 

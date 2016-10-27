@@ -8,8 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.arrow.TorchArrow;
+import ruby.bamboo.api.BambooItems;
 
 public class EntityTorchArrow extends BaseArrow {
 
@@ -56,7 +55,7 @@ public class EntityTorchArrow extends BaseArrow {
 
     @Override
     public ItemStack getItemArrow() {
-        return DataManager.getItemStack(TorchArrow.class, 1, 0);
+        return new ItemStack(BambooItems.TORCH_ARROW, 1, 0);
     }
 
     @Override

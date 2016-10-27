@@ -11,9 +11,8 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import ruby.bamboo.core.DataManager;
+import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.inventory.InventorySack;
-import ruby.bamboo.item.Sack;
 
 public class ContainerSack extends BaseContainer {
     private ItemStack itemStack;
@@ -70,7 +69,7 @@ public class ContainerSack extends BaseContainer {
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {
-        if (par1EntityPlayer.getHeldItemMainhand() != null && par1EntityPlayer.getHeldItemMainhand().getItem() == DataManager.getItem(Sack.class)) {
+        if (par1EntityPlayer.getHeldItemMainhand() != null && par1EntityPlayer.getHeldItemMainhand().getItem() == BambooItems.SACK) {
             ItemStack slot0 = this.inventorySlots.get(0).getStack();
             if (itemStack != null && slot0 != null) {
                 itemStack.setTagCompound(new NBTTagCompound());

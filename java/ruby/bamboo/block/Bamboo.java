@@ -18,8 +18,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.Constants;
-import ruby.bamboo.core.DataManager;
+import ruby.bamboo.api.BambooBlocks;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
@@ -116,7 +116,7 @@ public class Bamboo extends BlockBush implements IGrowable {
     private boolean canChildSpawn(World world, BlockPos pos, IBlockState state) {
         if (world.isAirBlock(pos)) {
             BlockPos pd = pos.down();
-            if (DataManager.getBlock(BambooShoot.class).canBlockStay(world, pos, state)) {
+            if (BambooBlocks.BAMBOOSHOOT.canBlockStay(world, pos, state)) {
                 // 天候・耕地確変
                 if (world.rand.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockState(pd).getBlock() == Blocks.FARMLAND ? 0.25F : 0.1F)) {
                     return true;
@@ -131,10 +131,10 @@ public class Bamboo extends BlockBush implements IGrowable {
         if (!world.isRemote) {
             BlockPos p = pos.down(this.getMetaFromState(state));
 
-            for (BlockPos target : (Iterable<BlockPos>) BlockPos.getAllInBox(p.add(-1, -1, -1), p.add(1, 1, 1))) {
+            for (BlockPos target : BlockPos.getAllInBox(p.add(-1, -1, -1), p.add(1, 1, 1))) {
                 if (this.canChildSpawn(world, target, state)) {
                     world.setBlockState(target.down(), Blocks.DIRT.getDefaultState());
-                    world.setBlockState(target, DataManager.getState(BambooShoot.class));
+                    world.setBlockState(target, BambooBlocks.BAMBOOSHOOT.getDefaultState());
                 }
             }
         }

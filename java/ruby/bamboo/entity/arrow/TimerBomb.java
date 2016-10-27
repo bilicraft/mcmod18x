@@ -114,13 +114,13 @@ public class TimerBomb extends Entity {
                     double offsetX = e.posX - this.posX;
                     double offsetY = e.posY + e.getEyeHeight() - this.posY;
                     double offsetZ = e.posZ - this.posZ;
-                    double offsetSqrt = (double) MathHelper.sqrt_double(offsetX * offsetX + offsetY * offsetY + offsetZ * offsetZ);
+                    double offsetSqrt = MathHelper.sqrt_double(offsetX * offsetX + offsetY * offsetY + offsetZ * offsetZ);
 
                     if (offsetSqrt != 0.0D) {
                         offsetX = offsetX / offsetSqrt;
                         offsetY = offsetY / offsetSqrt;
                         offsetZ = offsetZ / offsetSqrt;
-                        double blockDen = (double) this.worldObj.getBlockDensity(vec3, e.getEntityBoundingBox());
+                        double blockDen = this.worldObj.getBlockDensity(vec3, e.getEntityBoundingBox());
                         double d10 = (1.0D - distance) * blockDen;
                         e.attackEntityFrom(DamageSource.generic, ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * pow + 1.0D)));
                         double d11 = EnchantmentProtection.getBlastDamageReduction((EntityLivingBase) e, d10);

@@ -23,9 +23,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import ruby.bamboo.api.BambooBlocks;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.SakuraLeave.EnumLeave;
-import ruby.bamboo.core.Constants;
-import ruby.bamboo.core.DataManager;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
@@ -111,7 +111,7 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal {
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Item.getItemFromBlock(DataManager.getBlock(SakuraSapling.class));
+        return Item.getItemFromBlock(BambooBlocks.SAKURA_SAPLING);
     }
 
     @Override

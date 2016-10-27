@@ -8,21 +8,12 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -30,15 +21,13 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.init.BambooData.BambooItem;
-import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.enchant.Curse;
 import ruby.bamboo.enchant.EnchantBase;
 import ruby.bamboo.enchant.IBambooEnchantable;
-import ruby.bamboo.enchant.Power;
 import ruby.bamboo.enchant.SpecialEnchant;
 
-@BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
+//TODO: コメントアウトのみ、いつかなおす
+//@BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class BambooPickaxe extends ItemPickaxe implements IBambooEnchantable {
 
     public BambooPickaxe() {
@@ -55,40 +44,40 @@ public class BambooPickaxe extends ItemPickaxe implements IBambooEnchantable {
         return true;
     }
 
-    @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
-        if (!worldIn.isRemote) {
-            this.addExpChance(stack, worldIn, blockIn, pos);
-        }
-        if (playerIn instanceof EntityPlayer) {
-            SpecialEnchant.onBreakBlock(stack, worldIn, blockIn, pos, playerIn, getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, false));
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+//        if (!worldIn.isRemote) {
+//            this.addExpChance(stack, worldIn, blockIn, pos);
+//        }
+//        if (playerIn instanceof EntityPlayer) {
+//            SpecialEnchant.onBreakBlock(stack, worldIn, blockIn, pos, playerIn, getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, false));
+//        }
+//        return true;
+//    }
 
     @Override
     public Set<String> getToolClasses(ItemStack stack) {
         return super.getToolClasses(stack);
     }
 
-    @Override
-    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-        return true;
-    }
-
-    @Override
-    public float getDigSpeed(ItemStack stack, IBlockState state) {
-        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 300;
-        float base = 1F + pow;
-        // ダイヤで8、こちらのほうがgetStrより優先？
-        return state.getBlock().getMaterial() == Material.rock ? base * 2 : base * 0.8F;
-    }
-
-    @Override
-    public float getStrVsBlock(ItemStack stack, Block block) {
-        // ダイヤで8
-        return 8;
-    }
+//    @Override
+//    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+//        return true;
+//    }
+//
+//    @Override
+//    public float getDigSpeed(ItemStack stack, IBlockState state) {
+//        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 300;
+//        float base = 1F + pow;
+//        // ダイヤで8、こちらのほうがgetStrより優先？
+//        return state.getBlock().getMaterial() == Material.rock ? base * 2 : base * 0.8F;
+//    }
+//
+//    @Override
+//    public float getStrVsBlock(ItemStack stack, Block block) {
+//        // ダイヤで8
+//        return 8;
+//    }
 
     @Override
     public int getMaxDamage(ItemStack stack) {
@@ -193,12 +182,12 @@ public class BambooPickaxe extends ItemPickaxe implements IBambooEnchantable {
         return !ItemStack.areItemsEqual(oldStack, newStack);
     }
 
-    @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
-        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 100;
-        Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier> create();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", (double) 1 + pow, 0));
-        return multimap;
-    }
+//    @Override
+//    public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
+//        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 100;
+//        Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier> create();
+//        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", (double) 1 + pow, 0));
+//        return multimap;
+//    }
 
 }

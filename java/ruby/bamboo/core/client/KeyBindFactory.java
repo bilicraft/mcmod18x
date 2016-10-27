@@ -1,4 +1,4 @@
-package ruby.bamboo.core;
+package ruby.bamboo.core.client;
 
 import java.util.HashMap;
 import java.util.Map;

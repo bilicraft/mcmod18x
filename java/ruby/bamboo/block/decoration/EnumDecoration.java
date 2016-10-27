@@ -1,9 +1,10 @@
 package ruby.bamboo.block.decoration;
 
 import net.minecraft.block.material.Material;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.EnumCreateTab;
 
+//無機能デコレーションブロック、自動生成用
 public enum EnumDecoration {
     KAWARA("kawara"),
     PLASTER("plaster"),

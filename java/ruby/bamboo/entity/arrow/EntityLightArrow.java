@@ -3,8 +3,7 @@ package ruby.bamboo.entity.arrow;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.arrow.LightArrow;
+import ruby.bamboo.api.BambooItems;
 
 public class EntityLightArrow extends BaseArrow {
 
@@ -30,7 +29,7 @@ public class EntityLightArrow extends BaseArrow {
 
     @Override
     public ItemStack getItemArrow() {
-        return DataManager.getItemStack(LightArrow.class, 1, 0);
+        return new ItemStack(BambooItems.LIGHT_ARROW, 1, 0);
     }
 
     @Override

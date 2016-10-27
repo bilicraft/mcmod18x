@@ -90,7 +90,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
             float f = MathHelper.sqrt_double(x * x + z * z);
             this.prevRotationYaw = this.rotationYaw = (float) (MathHelper.atan2(x, z) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(y, f) * 180.0D / Math.PI);
             this.prevRotationPitch = this.rotationPitch;
             this.prevRotationYaw = this.rotationYaw;
             this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
@@ -118,7 +118,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
             float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.prevRotationYaw = this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f) * 180.0D / Math.PI);
         }
 
         BlockPos blockpos = new BlockPos(this.xTile, this.yTile, this.zTile);
@@ -187,7 +187,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
                             raytraceresult.entityHit.setFire(5);
                         }
 
-                        if (raytraceresult.entityHit.attackEntityFrom(damagesource, (float) l)) {
+                        if (raytraceresult.entityHit.attackEntityFrom(damagesource, l)) {
                             // 命中時処理拡張
                             if (this.onEntityHit(raytraceresult.entityHit)) {
                                 if (raytraceresult.entityHit instanceof EntityLivingBase) {
@@ -274,7 +274,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
             float f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-            for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f3) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+            for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f3) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
                 ;
             }
 
@@ -428,7 +428,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
         tagCompound.setShort("yTile", (short) this.yTile);
         tagCompound.setShort("zTile", (short) this.zTile);
         tagCompound.setShort("life", (short) this.ticksInGround);
-        ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(this.inTile);
+        ResourceLocation resourcelocation = Block.REGISTRY.getNameForObject(this.inTile);
         tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
         tagCompound.setByte("inData", (byte) this.inData);
         tagCompound.setByte("shake", (byte) this.arrowShake);
@@ -537,6 +537,14 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     @Override
     public float getEyeHeight() {
         return 0.0F;
+    }
+
+    public void setPickedUpStatus(EntityArrow.PickupStatus stat) {
+        this.pickupStatus = stat;
+    }
+
+    public void setNoPick() {
+        this.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
     }
 
     //    @Override

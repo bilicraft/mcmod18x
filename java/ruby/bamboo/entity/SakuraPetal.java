@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 
 public class SakuraPetal extends Entity {
 

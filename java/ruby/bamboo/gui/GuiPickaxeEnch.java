@@ -15,7 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.enchant.Entry;
 import ruby.bamboo.enchant.IBambooEnchantable;

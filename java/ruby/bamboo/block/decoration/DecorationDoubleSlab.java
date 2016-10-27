@@ -10,8 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DecorationDoubleSlab extends DecorationSlab {
 
@@ -33,11 +31,11 @@ public class DecorationDoubleSlab extends DecorationSlab {
         return Item.getItemFromBlock(Block.getBlockFromName(singleName));
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Item getItem(World worldIn, BlockPos pos) {
-        return Item.getItemFromBlock(Block.getBlockFromName(singleName));
-    }
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public Item getItem(World worldIn, BlockPos pos) {
+//        return Item.getItemFromBlock(Block.getBlockFromName(singleName));
+//    }
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {

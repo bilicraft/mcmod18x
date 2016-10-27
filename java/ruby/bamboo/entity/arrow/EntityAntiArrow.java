@@ -12,8 +12,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.arrow.AntiArrow;
+import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.item.arrow.AntiArrow.AntiType;
 
 public class EntityAntiArrow extends BaseArrow {
@@ -107,7 +106,7 @@ public class EntityAntiArrow extends BaseArrow {
 
     @Override
     public ItemStack getItemArrow() {
-        return DataManager.getItemStack(AntiArrow.class, 1, getArrowType().getID());
+        return new ItemStack(BambooItems.ANTI_ARROW, 1, getArrowType().getID());
     }
 
     @Override

@@ -8,15 +8,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.block.SakuraLeave;
 import ruby.bamboo.block.SakuraLeave.EnumLeave;
-import ruby.bamboo.block.SakuraLog;
-import ruby.bamboo.block.SakuraSapling;
-import ruby.bamboo.core.DataManager;
 
 public class GenSakuraTree extends WorldGenAbstractTree {
-    private static final IBlockState field_181653_a = DataManager.getState(SakuraLog.class);
-    private static final IBlockState field_181654_b = DataManager.getState(SakuraLeave.class).withProperty(SakuraLeave.VARIANT, EnumLeave.WHITE).withProperty(SakuraLeave.CHECK_DECAY, Boolean.valueOf(false));
+    private static final IBlockState field_181653_a = BambooBlocks.SAKURA_LOG.getDefaultState();
+    private static final IBlockState field_181654_b = BambooBlocks.SAKURA_LEAVE.getDefaultState().withProperty(SakuraLeave.VARIANT, EnumLeave.WHITE).withProperty(SakuraLeave.CHECK_DECAY, Boolean.valueOf(false));
 
     private final int minTreeHeight;
     private final boolean vinesGrow;
@@ -74,7 +72,7 @@ public class GenSakuraTree extends WorldGenAbstractTree {
                 BlockPos down = position.down();
                 Block block1 = worldIn.getBlockState(down).getBlock();
                 IBlockState state = worldIn.getBlockState(down);
-                boolean isSoil = block1.canSustainPlant(state, worldIn, down, net.minecraft.util.EnumFacing.UP, DataManager.getBlock(SakuraSapling.class));
+                boolean isSoil = block1.canSustainPlant(state, worldIn, down, net.minecraft.util.EnumFacing.UP, BambooBlocks.SAKURA_SAPLING);
 
                 if (isSoil && position.getY() < 256 - i - 1) {
                     block1.onPlantGrow(state, worldIn, down, position);

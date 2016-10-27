@@ -6,18 +6,15 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockSapling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import ruby.bamboo.block.SakuraLeave;
-import ruby.bamboo.block.SakuraLog;
-import ruby.bamboo.block.SakuraSapling;
-import ruby.bamboo.core.DataManager;
+import ruby.bamboo.api.BambooBlocks;
 
 public class GenSakuraBigTree extends WorldGenAbstractTree {
     private Random rand;
@@ -33,10 +30,6 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
     int heightLimitLimit = 12;
     int leafDistanceLimit = 4;
     List<FoliageCoordinates> field_175948_j;
-
-    BlockLeaves leave;
-    BlockLog log;
-    BlockBush sapling;
 
     public GenSakuraBigTree(boolean p_i2008_1_) {
         super(p_i2008_1_);
@@ -69,13 +62,13 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
                     double d1 = this.rand.nextFloat() * 2.0F * Math.PI;
                     double d2 = d0 * Math.sin(d1) + 0.5D;
                     double d3 = d0 * Math.cos(d1) + 0.5D;
-                    BlockPos blockpos = this.basePos.add(d2, (double) (k - 1), d3);
+                    BlockPos blockpos = this.basePos.add(d2, k - 1, d3);
                     BlockPos blockpos1 = blockpos.up(this.leafDistanceLimit);
 
                     if (this.checkBlockLine(blockpos, blockpos1) == -1) {
                         int i1 = this.basePos.getX() - blockpos.getX();
                         int j1 = this.basePos.getZ() - blockpos.getZ();
-                        double d4 = (double) blockpos.getY() - Math.sqrt(i1 * i1 + j1 * j1) * this.branchSlope;
+                        double d4 = blockpos.getY() - Math.sqrt(i1 * i1 + j1 * j1) * this.branchSlope;
                         int k1 = d4 > j ? j : (int) d4;
                         BlockPos blockpos2 = new BlockPos(this.basePos.getX(), k1, this.basePos.getZ());
 
@@ -89,24 +82,15 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
     }
 
     public BlockLeaves getLeave() {
-        if (leave == null) {
-            leave = DataManager.getBlock(SakuraLeave.class);
-        }
-        return leave;
+        return BambooBlocks.SAKURA_LEAVE;
     }
 
     public BlockLog getLog() {
-        if (log == null) {
-            log = DataManager.getBlock(SakuraLog.class);
-        }
-        return log;
+        return BambooBlocks.SAKURA_LOG;
     }
 
-    public BlockBush getSapling() {
-        if (sapling == null) {
-            sapling = DataManager.getBlock(SakuraSapling.class);
-        }
-        return sapling;
+    public BlockSapling getSapling() {
+        return BambooBlocks.SAKURA_SAPLING;
     }
 
     void func_181631_a(BlockPos p_181631_1_, float p_181631_2_, IBlockState p_181631_3_) {
@@ -163,7 +147,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
         float f2 = (float) blockpos.getZ() / i;
 
         for (int j = 0; j <= i; ++j) {
-            BlockPos blockpos1 = p_175937_1_.add((double) (0.5F + j * f), (double) (0.5F + j * f1), (double) (0.5F + j * f2));
+            BlockPos blockpos1 = p_175937_1_.add(0.5F + j * f, 0.5F + j * f1, 0.5F + j * f2);
             BlockLog.EnumAxis blocklog$enumaxis = this.func_175938_b(p_175937_1_, blockpos1);
             this.setBlockAndNotifyAdequately(this.world, blockpos1, p_175937_3_.getDefaultState().withProperty(BlockLog.LOG_AXIS, blocklog$enumaxis));
         }
@@ -238,7 +222,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
             return -1;
         } else {
             for (int j = 0; j <= i; ++j) {
-                BlockPos blockpos1 = posOne.add((double) (0.5F + j * f), (double) (0.5F + j * f1), (double) (0.5F + j * f2));
+                BlockPos blockpos1 = posOne.add(0.5F + j * f, 0.5F + j * f1, 0.5F + j * f2);
 
                 if (!this.isReplaceable(world, blockpos1)) {
                     return j;
@@ -253,6 +237,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
         this.leafDistanceLimit = 5;
     }
 
+    @Override
     public boolean generate(World worldIn, Random rand, BlockPos position) {
         this.world = worldIn;
         this.basePos = position;

@@ -11,23 +11,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
-import ruby.bamboo.core.DataManager;
+import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumCreateTab;
-import ruby.bamboo.item.RiceSeed;
-import ruby.bamboo.item.Straw;
 
 @BambooBlock(createiveTabs = EnumCreateTab.NONE)
 public class RicePlant extends GrowableBase {
 
     @Override
     public Item getSeed() {
-        return DataManager.getItem(RiceSeed.class);
+        return BambooItems.RICE_SEED;
     }
 
     @Override
     public Item getProduct() {
-        return DataManager.getItem(Straw.class);
+        return BambooItems.STRAW;
     }
 
     @Override

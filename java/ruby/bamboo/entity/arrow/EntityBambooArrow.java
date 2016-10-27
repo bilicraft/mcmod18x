@@ -8,8 +8,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.arrow.BambooArrow;
+import ruby.bamboo.api.BambooItems;
 
 public class EntityBambooArrow extends BaseArrow {
     private int count = 0;
@@ -94,7 +93,7 @@ public class EntityBambooArrow extends BaseArrow {
 
     @Override
     public ItemStack getItemArrow() {
-        return DataManager.getItemStack(BambooArrow.class, 1, 0);
+        return new ItemStack(BambooItems.BAMBOO_ARROW, 1, 0);
     }
 
     @Override

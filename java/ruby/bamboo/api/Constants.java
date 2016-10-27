@@ -1,14 +1,11 @@
-package ruby.bamboo.core;
+package ruby.bamboo.api;
 
 /**
  * てきとーな定数
- *
- * @author Ruby
- *
  */
 public class Constants {
 
-    public static final String MODID = "BambooMod";
+    public static final String MODID = "bamboomod";
     public static final String MC_VER = "@MC_VERSION@";
     public static final String BAMBOO_VER = "@VERSION@";
     public static final String RESOURCED_DOMAIN = "bamboomod:";

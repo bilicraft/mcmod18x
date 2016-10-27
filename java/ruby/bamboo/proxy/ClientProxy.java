@@ -17,13 +17,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
+import ruby.bamboo.api.BambooItems;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.ICustomState;
 import ruby.bamboo.block.decoration.DecorationClientFactory;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.core.KeyBindFactory;
+import ruby.bamboo.core.client.KeyBindFactory;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EntityRegister;
-import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
 
@@ -43,14 +43,15 @@ public class ClientProxy extends CommonProxy {
         // えんてぃてぃれんだー
         new EntityRegister().renderRegist();
         KeyBindFactory.preInit();
-
+        //多分使わないのでクリア
+        registedList = null;
     }
 
     @Override
     public void init() {
         super.init();
         KeyBindFactory.init();
-        MinecraftForge.EVENT_BUS.register(DataManager.getItem(BambooBow.class));
+        MinecraftForge.EVENT_BUS.register(BambooItems.BAMBOO_BOW);
     }
 
     /**
@@ -59,12 +60,14 @@ public class ClientProxy extends CommonProxy {
     private void registJson() {
         List<ItemStack> isList = new ArrayList<ItemStack>();
         List<String> tmpNameList = new ArrayList<String>();
-        for (String name : DataManager.getRegstedNameArray()) {
-            Item item = Item.getByNameOrId(name);
+        for (String name : registedList) {
+            String moddedName = Constants.RESOURCED_DOMAIN + name;
+            Item item = Item.getByNameOrId(moddedName);
             isList.clear();
             item.getSubItems(item, item.getCreativeTab(), isList);
-            this.setIgnoreState(DataManager.getBlock(DataManager.getClass(name)));
-            this.setCustomState(DataManager.getBlock(DataManager.getClass(name)));
+            Block block = Block.getBlockFromName(moddedName);
+            this.setIgnoreState(block);
+            this.setCustomState(block);
             if (item instanceof ISubTexture) {
 
                 for (IEnumTex tex : ((ISubTexture) item).getName()) {

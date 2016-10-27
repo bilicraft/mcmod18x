@@ -20,8 +20,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import ruby.bamboo.core.DataManager;
-import ruby.bamboo.item.ItemSlideDoor;
+import ruby.bamboo.api.BambooItems;
 
 public class SlideDoor extends Entity {
     private byte closeTimer;
@@ -67,6 +66,7 @@ public class SlideDoor extends Entity {
     //        return false;
     //    }
 
+    @Override
     public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, @Nullable ItemStack stack, EnumHand hand) {
         if (player.isSneaking()) {
             setDataisStop(!getDataIsStop());
@@ -214,7 +214,7 @@ public class SlideDoor extends Entity {
     }
 
     private void dropItem(short damage) {
-        this.entityDropItem(new ItemStack(DataManager.getItem(ItemSlideDoor.class), 1, damage), 1F);
+        this.entityDropItem(new ItemStack(BambooItems.ITEM_SLIDE_DOOR, 1, damage), 1F);
     }
 
     @Override

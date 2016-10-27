@@ -1,8 +1,8 @@
 package ruby.bamboo.item.arrow;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import ruby.bamboo.core.init.BambooData.BambooItem;
@@ -34,7 +34,7 @@ public class BambooArrow extends ArrowBase {
             }
             entityArrow = new EntityBambooArrow(world, player, power * 2.0f);
             entityArrow.setMaxAge(60);
-            entityArrow.canBePickedUp = 0;
+            entityArrow.setNoPick();
         } else {
             entityArrow = new EntityBambooArrow(world, player, power * 2.0f);
         }
@@ -45,19 +45,19 @@ public class BambooArrow extends ArrowBase {
             entityArrow.setIsCritical(true);
         }
 
-        int enchantPower = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
+        int enchantPower = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, bow);
 
         if (enchantPower > 0) {
             entityArrow.setDamage(entityArrow.getDamage() + enchantPower * 0.15D);
         }
 
-        int enchantPunch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, bow);
+        int enchantPunch = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, bow);
 
         if (enchantPunch > 0) {
             entityArrow.setKnockbackStrength(enchantPunch);
         }
 
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, bow) > 0) {
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, bow) > 0) {
             entityArrow.setFire(100);
         }
         if (!world.isRemote) {

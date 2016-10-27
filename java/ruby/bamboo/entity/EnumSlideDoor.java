@@ -1,6 +1,6 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.item.itemblock.IEnumTex;
 
 public enum EnumSlideDoor implements IEnumTex {

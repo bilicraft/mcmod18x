@@ -5,7 +5,7 @@ import java.util.HashMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 
 public enum EnumCreateTab {
     NONE,

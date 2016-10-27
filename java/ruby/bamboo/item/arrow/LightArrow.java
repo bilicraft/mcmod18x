@@ -1,9 +1,9 @@
 package ruby.bamboo.item.arrow;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import ruby.bamboo.core.init.BambooData.BambooItem;
@@ -22,19 +22,19 @@ public class LightArrow extends ArrowBase {
         EntityLightArrow entityArrow = new EntityLightArrow(world, player, power * 2.0f);
         entityArrow.setDamage(1);
 
-        int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, bow);
+        int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, bow);
 
         if (j > 0) {
             entityArrow.setDamage(entityArrow.getDamage() + j * 0.5D + 0.5D);
         }
 
-        int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, bow);
+        int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, bow);
 
         if (k > 0) {
             entityArrow.setKnockbackStrength(k);
         }
 
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, bow) > 0) {
+        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, bow) > 0) {
             entityArrow.setFire(100);
         }
 
@@ -44,7 +44,7 @@ public class LightArrow extends ArrowBase {
         if (!isNoResources(player)) {
             ItemStackHelper.decrStackSize(player.inventory, arrow, 1);
         } else {
-            entityArrow.canBePickedUp = 0;
+            entityArrow.setNoPick();
         }
 
     }

@@ -1,7 +1,7 @@
 package ruby.bamboo.item.itemblock;
 
 import net.minecraft.block.Block;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 
 public class ItemTatami extends MetaItem {
 

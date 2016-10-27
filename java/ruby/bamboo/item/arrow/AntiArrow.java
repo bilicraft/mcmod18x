@@ -34,7 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.arrow.BaseArrow;
@@ -130,7 +130,7 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
         if (!isNoResources(player)) {
             ItemStackHelper.decrStackSize(player.inventory, arrow, 1);
         } else {
-            entityArrow.canBePickedUp = 0;
+            entityArrow.setNoPick();
         }
     }
 

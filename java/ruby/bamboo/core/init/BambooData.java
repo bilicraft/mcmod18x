@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import net.minecraft.item.ItemBlock;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 
 public @interface BambooData {
 

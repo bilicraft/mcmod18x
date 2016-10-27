@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = Constants.MODID, name = Constants.MODID, version = "Minecraft" + Constants.MC_VER + " var" + Constants.BAMBOO_VER, useMetadata = true)

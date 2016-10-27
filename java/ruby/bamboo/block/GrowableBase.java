@@ -21,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import ruby.bamboo.core.Constants;
+import ruby.bamboo.api.Constants;
 
 public abstract class GrowableBase extends BlockBush implements IGrowable {
 
@@ -205,6 +205,7 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return new ItemStack(this.getSeed());
     }
+    @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
         return canPlaceBlockOn(worldIn.getBlockState(pos).getBlock());

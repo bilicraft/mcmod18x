@@ -23,8 +23,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.Constants;
-import ruby.bamboo.core.DataManager;
+import ruby.bamboo.api.BambooBlocks;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
@@ -82,7 +82,7 @@ public class BambooShoot extends BlockBush implements IGrowable {
     public void tryBambooGrowth(World world, BlockPos pos, IBlockState state, float prob) {
         if (!world.isRemote) {
             if (world.rand.nextFloat() < prob && canChildGrow(world, pos, state)) {
-                world.setBlockState(pos, DataManager.getState(Bamboo.class));
+                world.setBlockState(pos, BambooBlocks.BAMBOO.getDefaultState());
             }
         }
     }

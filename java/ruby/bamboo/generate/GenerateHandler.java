@@ -11,9 +11,8 @@ import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import ruby.bamboo.block.BambooShoot;
+import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.block.SakuraSapling;
-import ruby.bamboo.core.DataManager;
 
 public class GenerateHandler implements IWorldGenerator {
 
@@ -57,7 +56,7 @@ public class GenerateHandler implements IWorldGenerator {
                 IBlockState block = world.getBlockState(pos.down());
                 if (world.isAirBlock(pos)) {
                     if (block.getBlock() == Blocks.GRASS_PATH || block.getBlock() == Blocks.DIRT) {
-                        world.setBlockState(pos, DataManager.getState(BambooShoot.class));
+                        world.setBlockState(pos, BambooBlocks.BAMBOOSHOOT.getDefaultState());
                     }
                 }
             }
@@ -72,7 +71,7 @@ public class GenerateHandler implements IWorldGenerator {
                 IBlockState block = world.getBlockState(pos.down());
                 if (world.isAirBlock(pos)) {
                     if (block.getBlock() == Blocks.GRASS || block.getBlock() == Blocks.DIRT) {
-                        DataManager.getBlock(SakuraSapling.class).generateTree(world, pos, DataManager.getState(SakuraSapling.class), random);
+                        ((SakuraSapling) BambooBlocks.SAKURA_SAPLING).generateTree(world, pos, BambooBlocks.SAKURA_SAPLING.getDefaultState(), random);
                         return;
                     }
                 }

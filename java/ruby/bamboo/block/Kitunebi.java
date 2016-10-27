@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.EnumCreateTab;
 
 @BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)

@@ -1,13 +1,17 @@
 package ruby.bamboo.proxy;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.decoration.DecorationFactory;
 import ruby.bamboo.block.tile.TileJPChest;
 import ruby.bamboo.core.BambooCore;
-import ruby.bamboo.core.Constants;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.init.DataLoader;
 import ruby.bamboo.core.init.EntityRegister;
@@ -23,19 +27,21 @@ import ruby.bamboo.gui.GuiHandler;
  *
  */
 public class CommonProxy {
+    List<String> registedList = Lists.newArrayList();
+
     public void preInit() {
         // ブロックアイテム初期化
         try {
             FMLLog.info("********** BambooMod Data Init Start **********");
             // アノテーション付きブロック
             DataLoader loader = new DataLoader();
-            loader.init(Constants.BLOCK_PACKAGE);
+            registedList.addAll(loader.init(Constants.BLOCK_PACKAGE));
 
             // デコレーチョンブロック
             new DecorationFactory().register();
 
             // あいてむ
-            loader.init(Constants.ITEM_PACKAGE);
+            registedList.addAll(loader.init(Constants.ITEM_PACKAGE));
 
             FMLLog.info("********** BambooMod Data Init END **********");
         } catch (Exception e) {
