@@ -1,5 +1,5 @@
 {
-    "parent": "block/column_side",
+    "parent": "block/cube_column",
     "textures": {
         "end": "bamboomod:blocks/sakuraplank_x",
         "side": "bamboomod:blocks/sakuraplank_y"
