@@ -8,7 +8,7 @@ public abstract class BaseContainer extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return playerIn.getHeldItemMainhand() != null && playerIn.getHeldItemMainhand().getItem() == BambooItems.BAMBOO_PICKAXE;
+        return playerIn.getHeldItem(playerIn.getActiveHand()) != null && playerIn.getHeldItem(playerIn.getActiveHand()).getItem() == BambooItems.BAMBOO_PICKAXE;
     }
 
 }

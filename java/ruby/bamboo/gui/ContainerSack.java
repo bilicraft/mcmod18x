@@ -3,6 +3,7 @@ package ruby.bamboo.gui;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -10,11 +11,14 @@ import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.inventory.InventorySack;
+import ruby.bamboo.item.Sack;
+import ruby.bamboo.util.ItemStackHelper;
 
-public class ContainerSack extends BaseContainer {
+public class ContainerSack extends Container {
     private ItemStack itemStack;
     private InventorySack inventry;
 
@@ -33,6 +37,11 @@ public class ContainerSack extends BaseContainer {
         for (i = 0; i < 9; ++i) {
             this.addSlotToContainer(new Slot(par1InventoryPlayer, i, 8 + i * 18, 142));
         }
+    }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        return playerIn.getHeldItem(playerIn.getActiveHand()) != null && playerIn.getHeldItem(playerIn.getActiveHand()).getItem() == BambooItems.SACK;
     }
 
     @Override
@@ -68,38 +77,42 @@ public class ContainerSack extends BaseContainer {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer par1EntityPlayer) {
-        if (par1EntityPlayer.getHeldItemMainhand() != null && par1EntityPlayer.getHeldItemMainhand().getItem() == BambooItems.SACK) {
+    public void onContainerClosed(EntityPlayer player) {
+        EnumHand hand = ItemStackHelper.getHandItemEq(player, BambooItems.SACK);
+        if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() == BambooItems.SACK) {
             ItemStack slot0 = this.inventorySlots.get(0).getStack();
             if (itemStack != null && slot0 != null) {
+                //                ((Sack) BambooItems.SACK).setContainerItem(itemStack, slot0);
                 itemStack.setTagCompound(new NBTTagCompound());
                 NBTTagCompound var4 = itemStack.getTagCompound();
                 var4.setString("type", String.valueOf(Item.REGISTRY.getNameForObject(slot0.getItem())));
                 var4.setShort("count", (short) slot0.stackSize);
                 var4.setShort("meta", (short) slot0.getItemDamage());
                 itemStack.setItemDamage(itemStack.getMaxDamage() - 1);
+            } else {
+                ((Sack) BambooItems.SACK).clearContainer(itemStack);
             }
 
             ItemStack item = itemStack;
 
             if (item != null && item.getTagCompound() != null) {
                 if (isStorage(Item.REGISTRY.getObject(new ResourceLocation(item.getTagCompound().getString("type"))))) {
-                    par1EntityPlayer.getHeldItemMainhand().setTagCompound(item.getTagCompound());
+                    player.getHeldItem(hand).setTagCompound(item.getTagCompound());
                 } else {
-                    if (!par1EntityPlayer.worldObj.isRemote) {
-                        par1EntityPlayer.worldObj.spawnEntityInWorld(new EntityItem(par1EntityPlayer.worldObj, par1EntityPlayer.posX, par1EntityPlayer.posY + 0.5, par1EntityPlayer.posZ, inventry.slot0));
+                    if (!player.worldObj.isRemote) {
+                        player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 0.5, player.posZ, inventry.slot0));
                     }
                 }
             }
         } else {
             if (inventry.slot0 != null) {
-                if (!par1EntityPlayer.worldObj.isRemote) {
-                    par1EntityPlayer.worldObj.spawnEntityInWorld(new EntityItem(par1EntityPlayer.worldObj, par1EntityPlayer.posX, par1EntityPlayer.posY + 0.5, par1EntityPlayer.posZ, inventry.slot0));
+                if (!player.worldObj.isRemote) {
+                    player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 0.5, player.posZ, inventry.slot0));
                 }
             }
         }
 
-        super.onContainerClosed(par1EntityPlayer);
+        super.onContainerClosed(player);
     }
 
     private boolean isStorage(Object object) {

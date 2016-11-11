@@ -4,11 +4,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumHand;
 
 /*
  * InventoryHelperになってきてる気がする
@@ -139,5 +141,9 @@ public class ItemStackHelper {
                 }
             };
         };
+    }
+
+    public static EnumHand getHandItemEq(EntityPlayer player, Item target) {
+        return player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == target ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
     }
 }
