@@ -24,6 +24,7 @@ public class FoldingFan extends Item {
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         itemStack.damageItem(1, player);
         Wind entity = new Wind(world, player);
+        entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
         world.spawnEntityInWorld(entity);
         return new ActionResult(EnumActionResult.PASS, itemStack);
     }

@@ -160,8 +160,6 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal, IBl
 
     @Override
     public int getLeaveRenderColor(IBlockState state) {
-        //TODO:あとでやる
-        //return this.getRenderColor(stateFromMeta);
         return ((EnumLeave) state.getValue(VARIANT)).getColor();
     }
 
