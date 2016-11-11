@@ -70,19 +70,19 @@ public class BambooRecipes {
 
         //******デコレーション
         // 瓦
-        addCircleRecipe(getBlockIS(EnumDecoration.KAWARA.getModName(), 8, 0), tudura, Items.BRICK);
+        addCircleRecipe(getIS(KAWARA, 8, 0), tudura, Items.BRICK);
         // 漆喰
-        addCircleRecipe(getBlockIS(EnumDecoration.PLASTER.getModName(), 8, 0), tudura, Blocks.SAND);
+        addCircleRecipe(getIS(PLASTER, 8, 0), tudura, Blocks.SAND);
         // なまこ
-        addAltCircleRecipe(getBlockIS(EnumDecoration.NAMAKO.getModName(), 8, 0), tudura, getBlockIS(EnumDecoration.PLASTER.getModName()), getBlockIS(EnumDecoration.KAWARA.getModName()));
+        addAltCircleRecipe(getIS(NAMAKO, 8, 0), tudura, getIS(PLASTER), getIS(KAWARA));
         // ワラ
-        addRecipe(getBlockIS(EnumDecoration.WARA.getModName(), 4, 0), "XXX", "XXX", "XXX", 'X', getIS(STRAW));
+        addRecipe(getIS(WARA, 4, 0), "XXX", "XXX", "XXX", 'X', getIS(STRAW));
         // かやぶき
-        addCircleRecipe(getBlockIS(EnumDecoration.KAYA.getModName(), 8, 0), tudura, "cropWheat");
+        addCircleRecipe(getIS(KAYA, 8, 0), tudura, "cropWheat");
         // 市松各種
-        addCircleRecipe(getBlockIS(EnumDecoration.CBIRCH.getModName(), 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
-        addCircleRecipe(getBlockIS(EnumDecoration.COAK.getModName(), 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.OAK.getMetadata()));
-        addCircleRecipe(getBlockIS(EnumDecoration.CPINE.getModName(), 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
+        addCircleRecipe(getIS(CBIRCH, 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.BIRCH.getMetadata()));
+        addCircleRecipe(getIS(COAK, 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.OAK.getMetadata()));
+        addCircleRecipe(getIS(CPINE, 8, 0), tudura, new ItemStack(Blocks.PLANKS, 1, BlockPlanks.EnumType.SPRUCE.getMetadata()));
         // デコレーション用半ブロと階段の登録
         registerDeco();
 

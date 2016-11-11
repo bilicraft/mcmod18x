@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 
@@ -65,8 +66,9 @@ public class DataLoader extends ClassFinder {
             }
             instance.setUnlocalizedName(name);
             GameRegistry.registerBlock(instance, anoData.itemBlock(), name);
+
             FMLLog.info("BLOCK: %s to Registed", name);
-            registedList.add(name);
+            registedList.add(Constants.RESOURCED_DOMAIN + name);
         } catch (Exception e) {
             FMLLog.warning("ブロックインスタンス登録例外:" + cls.getName());
             e.printStackTrace();
@@ -95,7 +97,7 @@ public class DataLoader extends ClassFinder {
             GameRegistry.registerItem(instance, name);
             FMLLog.info("ITEM: %s to Registed", name);
 
-            registedList.add(name);
+            registedList.add(Constants.RESOURCED_DOMAIN + name);
         } catch (Exception e) {
             FMLLog.warning("アイテムインスタンス登録例外:" + cls.getName());
             e.printStackTrace();

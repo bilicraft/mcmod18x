@@ -52,11 +52,12 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity) {
         super(worldIn, shooter);
         this.velocity = velocity;
+        setAim(shooter, shooter.rotationPitch, shooter.rotationYaw, 0.0F,velocity, 1.0F);
     }
 
-    //    public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity, ItemStack is) {
-    //        this(worldIn, shooter, velocity);
-    //    }
+    public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity, ItemStack is) {
+        this(worldIn, shooter, velocity);
+    }
 
     public BaseArrow(World worldIn) {
         super(worldIn);
@@ -64,6 +65,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
 
     @Override
     protected void entityInit() {
+        super.entityInit();
         //        this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
     }
 

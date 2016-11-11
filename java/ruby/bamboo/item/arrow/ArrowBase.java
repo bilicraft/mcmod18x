@@ -30,6 +30,8 @@ public abstract class ArrowBase extends Item implements IBambooArrow {
             } catch (NoSuchMethodException e) {
                 entityArrow = arrow.getConstructor(World.class, EntityLivingBase.class, float.class).newInstance(worldIn, playerIn, power);
             }
+
+            entityArrow.setAim(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, power * 2.0F, 1.0F);
             if (!worldIn.isRemote) {
                 worldIn.spawnEntityInWorld(entityArrow);
             }
