@@ -1,8 +1,8 @@
 {
     "variants": {
-        "variant=red":  { "model": "bamboomod:sakura_leave" },
-        "variant=green":  { "model": "bamboomod:sakura_leave" },
-        "variant=yellow":  { "model": "bamboomod:sakura_leave" },
-        "variant=orange":  { "model": "bamboomod:sakura_leave" }
+        "variant=red":  { "model": "bamboomod:broad_leave" },
+        "variant=green":  { "model": "bamboomod:broad_leave" },
+        "variant=yellow":  { "model": "bamboomod:broad_leave" },
+        "variant=orange":  { "model": "bamboomod:broad_leave" }
     }
 }

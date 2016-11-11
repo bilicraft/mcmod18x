@@ -3,6 +3,7 @@ package ruby.bamboo.item.itemblock;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -10,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.block.ILeave;
 
-public class ItemSakuraLeave extends ItemBlock {
+public class ItemSakuraLeave extends ItemBlock implements IItemColor {
 
     private final ILeave leave;
 
@@ -26,13 +27,6 @@ public class ItemSakuraLeave extends ItemBlock {
         return damage;
     }
 
-//TODO: 色関係はjson？
-//    @Override
-//    @SideOnly(Side.CLIENT)
-//    public int getColorFromItemStack(ItemStack stack, int renderPass) {
-//        return this.leave.getLeaveRenderColor(this.leave.getLeaveStateFromMeta(stack.getMetadata()));
-//    }
-
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName();
@@ -43,5 +37,10 @@ public class ItemSakuraLeave extends ItemBlock {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
         super.addInformation(stack, playerIn, tooltip, advanced);
         tooltip.add(this.leave.getLeaveName(stack.getMetadata()));
+    }
+
+    @Override
+    public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+        return this.leave.getLeaveRenderColor(this.leave.getLeaveStateFromMeta(stack.getMetadata()));
     }
 }

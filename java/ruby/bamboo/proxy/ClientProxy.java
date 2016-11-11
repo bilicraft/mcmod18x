@@ -4,13 +4,17 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +22,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.api.BambooItems;
-import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.ICustomState;
 import ruby.bamboo.block.decoration.DecorationClientFactory;
 import ruby.bamboo.core.client.KeyBindFactory;
@@ -43,8 +46,6 @@ public class ClientProxy extends CommonProxy {
         // えんてぃてぃれんだー
         new EntityRegister().renderRegist();
         KeyBindFactory.preInit();
-        //多分使わないのでクリア
-        registedList = null;
     }
 
     @Override
@@ -52,6 +53,14 @@ public class ClientProxy extends CommonProxy {
         super.init();
         KeyBindFactory.init();
         MinecraftForge.EVENT_BUS.register(BambooItems.BAMBOO_BOW);
+        registColors();
+    }
+
+    @Override
+    public void postInit() {
+        super.postInit();
+        //多分使わないのでクリア
+        registedList = null;
     }
 
     /**
@@ -59,18 +68,16 @@ public class ClientProxy extends CommonProxy {
      *
      * setCustomModelResourceLocationの登録ファイル名を変更
      *
-     * @author defeatedcrow
-     * @date 2016.10.27
+     * thx PR defeatedcrow
      */
     private void registJson() {
         List<ItemStack> isList = new ArrayList<ItemStack>();
         List<String> tmpNameList = new ArrayList<String>();
         for (String name : registedList) {
-            String moddedName = Constants.RESOURCED_DOMAIN + name;
-            Item item = Item.getByNameOrId(moddedName);
+            Item item = Item.getByNameOrId(name);
             isList.clear();
             item.getSubItems(item, item.getCreativeTab(), isList);
-            Block block = Block.getBlockFromName(moddedName);
+            Block block = Block.getBlockFromName(name);
             this.setIgnoreState(block);
             this.setCustomState(block);
             if (item instanceof ISubTexture) {
@@ -83,7 +90,7 @@ public class ClientProxy extends CommonProxy {
                 }
             } else {
                 for (int i = 0; i < isList.size(); i++) {
-                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(moddedName, "inventory"));
+                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(name, "inventory"));
                 }
             }
         }
@@ -144,5 +151,15 @@ public class ClientProxy extends CommonProxy {
             }
         }
         return method;
+    }
+
+    private void registColors() {
+        List<Block> colorBlockList = registedList.stream().map(Block::getBlockFromName).filter(ins -> ins instanceof IBlockColor).collect(Collectors.toList());
+        List<Item> colorItemList = registedList.stream().map(Item::getByNameOrId).filter(ins -> ins instanceof IItemColor).collect(Collectors.toList());
+
+        colorBlockList.forEach(colorBlock -> Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((IBlockColor) colorBlock, colorBlock));
+        //colorBlockList.forEach(colorBlock -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((IItemColor) colorBlock, Item.getItemFromBlock(colorBlock)));
+        colorItemList.forEach(colorItem -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((IItemColor) colorItem, colorItem));
+
     }
 }
