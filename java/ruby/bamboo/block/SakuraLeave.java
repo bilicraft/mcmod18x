@@ -154,10 +154,12 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
         RED(5, 0xc80010, 2, 1),
         YELLOW(6, 0xf5e600, 3, 11),
         ORANGE(7, 0xFFC600, 3, 14),;
+
         EnumLeave(int meta, int color, int petal, int dyeCode) {
             this.meta = (byte) meta;
             this.color = color;
             this.petal = (byte) petal;
+            this.dyeCode = dyeCode;
         }
 
         public static final EnumLeave[] SAKURA_LEAVES = { WHITE, PURPLE, MAGENTA, PINK };
@@ -165,9 +167,21 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
         private byte meta;
         private int color;
         private byte petal;
+        private int dyeCode;
 
         public static EnumLeave getLeave(int meta) {
             return meta < SAKURA_LEAVES.length ? SAKURA_LEAVES[meta] : BROAD_LEAVES[meta % 4];
+        }
+
+        public static EnumLeave getLeaveFromDye(int dye) {
+            EnumLeave leave = EnumLeave.WHITE;
+            for (EnumLeave l : EnumLeave.values()) {
+                if (l.dyeCode == dye) {
+                    leave = l;
+                    break;
+                }
+            }
+            return leave;
         }
 
         public byte getMetadata() {
@@ -240,8 +254,7 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
 
     @Override
     public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-        // TODO 自動生成されたメソッド・スタブ
-        return ((EnumLeave) worldIn.getBlockState(pos).getValue(VARIANT)).getColor();
+        return ((EnumLeave) state.getValue(VARIANT)).getColor();
     }
 
 }

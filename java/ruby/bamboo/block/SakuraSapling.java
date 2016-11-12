@@ -1,5 +1,6 @@
 package ruby.bamboo.block;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -7,18 +8,25 @@ import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import ruby.bamboo.api.BambooBlocks;
+import ruby.bamboo.block.SakuraLeave.EnumLeave;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
@@ -56,14 +64,21 @@ public class SakuraSapling extends BlockSapling implements IGrowable {
 
     @Override
     public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos)) {
+            return;
+        }
+        WorldGenAbstractTree object = rand.nextInt(10) == 0 ? new GenSakuraBigTree(true) : new GenSakuraTree(true);
+        generate(worldIn, pos, state, rand, object);
+    }
+
+    private void generate(World worldIn, BlockPos pos, IBlockState state, Random rand, WorldGenAbstractTree tree) {
         if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos))
             return;
-        WorldGenAbstractTree object = rand.nextInt(1) == 0 ? new GenSakuraBigTree(true) : new GenSakuraTree(true);
         int i = 0;
         int j = 0;
         boolean flag = false;
         worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
-        if (!((WorldGenerator) object).generate(worldIn, rand, pos.add(i, 0, j))) {
+        if (!((WorldGenerator) tree).generate(worldIn, rand, pos.add(i, 0, j))) {
             worldIn.setBlockState(pos, state, 4);
         }
     }
@@ -80,7 +95,7 @@ public class SakuraSapling extends BlockSapling implements IGrowable {
 
     @Override
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { STAGE ,TYPE});
+        return new BlockStateContainer(this, new IProperty[] { STAGE, TYPE });
     }
 
     @Override
@@ -91,6 +106,28 @@ public class SakuraSapling extends BlockSapling implements IGrowable {
     @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(STAGE).intValue();
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (!worldIn.isRemote && heldItem != null && heldItem.getItem() == Items.DYE) {
+            Random rand = worldIn.rand;
+            if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos)) {
+                return false;
+            }
+            EnumLeave leave = EnumLeave.getLeaveFromDye(heldItem.getItemDamage());
+            IBlockState leaveState = BambooBlocks.SAKURA_LEAVE.getDefaultState();
+            PropertyEnum<EnumLeave> prop = SakuraLeave.VARIANT;
+
+            if (Arrays.binarySearch(EnumLeave.BROAD_LEAVES, leave) > 0) {
+                leaveState = BambooBlocks.BROAD_LEAVE.getDefaultState();
+                prop = BroadLeave.VARIANT;
+            }
+
+            WorldGenAbstractTree object = rand.nextInt(10) == 0 ? new GenSakuraBigTree(true, leaveState.withProperty(prop, leave)) : new GenSakuraTree(true, leaveState.withProperty(prop, leave));
+            generate(worldIn, pos, state, rand, object);
+        }
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -111,6 +148,6 @@ public class SakuraSapling extends BlockSapling implements IGrowable {
 
     @StateIgnore
     public IProperty[] getIgnoreState() {
-        return new IProperty[] { STAGE,TYPE };
+        return new IProperty[] { STAGE, TYPE };
     }
 }

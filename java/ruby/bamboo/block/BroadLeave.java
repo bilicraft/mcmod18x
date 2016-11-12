@@ -118,13 +118,6 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal, IBl
         return new ItemStack(Item.getItemFromBlock(this), 1, ((EnumLeave) state.getValue(VARIANT)).getMetadata() - metaSlide);
     }
 
-    //    @Override
-    //    @SideOnly(Side.CLIENT)
-    //    public int getRenderColor(IBlockState state) {
-    //        return ((EnumLeave) state.getValue(VARIANT)).getColor();
-    //    }
-    //
-
     @StateIgnore
     public IProperty[] getIgnoreState() {
         return new IProperty[] { DECAYABLE, CHECK_DECAY };
@@ -190,7 +183,8 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal, IBl
 
     @Override
     public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-        return ((EnumLeave) worldIn.getBlockState(pos).getValue(VARIANT)).getColor();
+
+        return ((EnumLeave) state.getValue(VARIANT)).getColor();
     }
 
 }

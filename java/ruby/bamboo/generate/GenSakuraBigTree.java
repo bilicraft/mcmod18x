@@ -6,7 +6,6 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.state.IBlockState;
@@ -20,6 +19,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
     private Random rand;
     private World world;
     private BlockPos basePos = BlockPos.ORIGIN;
+    private IBlockState leave;
     int heightLimit;
     int height;
     double heightAttenuation = 0.618D;
@@ -33,7 +33,14 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
 
     public GenSakuraBigTree(boolean p_i2008_1_) {
         super(p_i2008_1_);
+        leave=BambooBlocks.SAKURA_LEAVE.getDefaultState();
     }
+
+    public GenSakuraBigTree(boolean p_i2008_1_,IBlockState state) {
+        super(p_i2008_1_);
+        this.leave=state;
+    }
+
 
     void generateLeafNodeList() {
         this.height = (int) (this.heightLimit * this.heightAttenuation);
@@ -81,8 +88,8 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
         }
     }
 
-    public BlockLeaves getLeave() {
-        return BambooBlocks.SAKURA_LEAVE;
+    public IBlockState getLeaveState() {
+        return leave;
     }
 
     public BlockLog getLog() {
@@ -134,8 +141,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
 
     void generateLeafNode(BlockPos pos) {
         for (int i = 0; i < this.leafDistanceLimit; ++i) {
-            getLeave();
-            this.func_181631_a(pos.up(i), this.leafSize(i), getLeave().getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false)));
+            this.func_181631_a(pos.up(i), this.leafSize(i), getLeaveState());
         }
     }
 

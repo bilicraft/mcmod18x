@@ -24,6 +24,9 @@ public class GenSakuraTree extends WorldGenAbstractTree {
     public GenSakuraTree(boolean blockNotify) {
         this(blockNotify, 4, field_181653_a, field_181654_b, false);
     }
+    public GenSakuraTree(boolean blockNotify,IBlockState metaLeaves) {
+        this(blockNotify, 4, field_181653_a, metaLeaves, false);
+    }
 
     public GenSakuraTree(boolean blockNotify, int minHeight, IBlockState metaWood, IBlockState metaLeaves, boolean isVineGrow) {
         super(blockNotify);
