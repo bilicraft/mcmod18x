@@ -118,7 +118,7 @@ public class BambooShoot extends BlockBush implements IGrowable {
 
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        Block ground = worldIn.getBlockState(pos).getBlock();
+        Block ground = worldIn.getBlockState(pos.down()).getBlock();
         return ground == Blocks.GRASS || ground == Blocks.DIRT || ground == Blocks.FARMLAND;
     }
 

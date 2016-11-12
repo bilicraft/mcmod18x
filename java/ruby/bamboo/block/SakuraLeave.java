@@ -213,20 +213,6 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
         return ((EnumLeave) state.getValue(VARIANT)).getColor();
     }
 
-    //    @SideOnly(Side.CLIENT)
-    //    @Override
-    //    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
-    //        if (rand.nextInt(100) != 0) {
-    //            return;
-    //        }
-    //        if (world.isAirBlock(pos.down())) {
-    //            SakuraPetal petal = new SakuraPetal(world);
-    //            petal.setPosition(pos.getX() + rand.nextFloat(), pos.getY(), pos.getZ() + rand.nextFloat());
-    //            petal.setCustomPetal(state);
-    //            petal.setColor(this.getRenderColor(state));
-    //            world.spawnEntityInWorld(petal);
-    //        }
-    //    }
     @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
