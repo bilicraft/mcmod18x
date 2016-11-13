@@ -2,10 +2,13 @@ package ruby.bamboo.item;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
@@ -43,6 +46,7 @@ import ruby.bamboo.packet.MessageBambooUtil;
 import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
 import ruby.bamboo.util.ItemStackHelper;
 import ruby.bamboo.util.ItemStackHelper.HashedStack;
+import scala.actors.threadpool.Arrays;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeylistener, IMessagelistener {
@@ -161,7 +165,9 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
     private Map<HashedStack, Integer> getArrowMap(InventoryPlayer inv) {
         Map<HashedStack, Integer> map = new LinkedHashMap<>();
 
-        for (ItemStack stack : inv.mainInventory) {
+        List<ItemStack> invAndOffHand = Lists.newArrayList(inv.mainInventory);
+        invAndOffHand.addAll(Arrays.asList(inv.offHandInventory));
+        for (ItemStack stack : invAndOffHand) {
             if (stack != null && stack.getItem() instanceof IBambooArrow) {
                 Item item = stack.getItem();
                 int size = stack.stackSize;
@@ -181,7 +187,7 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
     @SideOnly(Side.CLIENT)
     public void renderTip(RenderGameOverlayEvent.Text e) {
         EntityPlayer player = FMLClientHandler.instance().getClientPlayerEntity();
-        ItemStack handStack=findBow(player);
+        ItemStack handStack = findBow(player);
         if (handStack != null && handStack.getItem() == this) {
             Map<HashedStack, Integer> map = getArrowMap(player.inventory);
             GuiIngame gui = FMLClientHandler.instance().getClient().ingameGUI;
@@ -228,27 +234,27 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
 
     // 弓を引く時のアニメーション系
     // TODO:消えた、どこ行きやがったクソが
-//    @Override
-//    public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
-//        ModelResourceLocation modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[0], "inventory");
-//        InventoryPlayer inv = player.inventory;
-//        if (stack.getItem() == this && player.getItemInUse() != null) {
-//            int chargeFrame = this.getMaxItemUseDuration(stack) - useRemaining;
-//            if (this.hasInventoryBambooArrow(inv)) {
-//                IBambooArrow arrow = (IBambooArrow) inv.getStackInSlot(getSelectedInventorySlotContainItem(inv, stack)).getItem();
-//                modelresourcelocation = arrow.getBowModel(chargeFrame);
-//            } else {
-//                if (chargeFrame >= 40) {
-//                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[3], "inventory");
-//                } else if (chargeFrame > 25) {
-//                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[2], "inventory");
-//                } else if (chargeFrame > 0) {
-//                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[1], "inventory");
-//                }
-//            }
-//        }
-//        return modelresourcelocation;
-//    }
+    //    @Override
+    //    public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+    //        ModelResourceLocation modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[0], "inventory");
+    //        InventoryPlayer inv = player.inventory;
+    //        if (stack.getItem() == this && player.getItemInUse() != null) {
+    //            int chargeFrame = this.getMaxItemUseDuration(stack) - useRemaining;
+    //            if (this.hasInventoryBambooArrow(inv)) {
+    //                IBambooArrow arrow = (IBambooArrow) inv.getStackInSlot(getSelectedInventorySlotContainItem(inv, stack)).getItem();
+    //                modelresourcelocation = arrow.getBowModel(chargeFrame);
+    //            } else {
+    //                if (chargeFrame >= 40) {
+    //                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[3], "inventory");
+    //                } else if (chargeFrame > 25) {
+    //                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[2], "inventory");
+    //                } else if (chargeFrame > 0) {
+    //                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[1], "inventory");
+    //                }
+    //            }
+    //        }
+    //        return modelresourcelocation;
+    //    }
 
     @Override
     public IEnumTex[] getName() {

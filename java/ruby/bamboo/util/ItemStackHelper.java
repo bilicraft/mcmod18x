@@ -3,6 +3,7 @@ package ruby.bamboo.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -16,7 +17,7 @@ import net.minecraft.util.EnumHand;
  * InventoryHelperになってきてる気がする
  */
 public class ItemStackHelper {
-    private final static int armorSlotCount = 4;
+    private final static int armorSlotCount = 0;
 
     /**
      * インベントリ内部で、itemとdamageが等しい物の合算から減算可能か、NBTは考慮しない
@@ -37,6 +38,10 @@ public class ItemStackHelper {
             }
         }
         return invCount;
+    }
+
+    public static int getInventoryStackSize(ItemStack[] inv, ItemStack stack) {
+        return (int) Stream.of(inv).map(is->stack.isItemEqual(is)).count();
     }
 
     /**
