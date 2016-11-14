@@ -11,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.api.Constants;
@@ -21,7 +22,7 @@ import ruby.bamboo.item.itemblock.ItemBambooPane;
 import ruby.bamboo.texture.IMultiTextuer;
 
 @BambooBlock(itemBlock = ItemBambooPane.class, createiveTabs = EnumCreateTab.TAB_BAMBOO, material = EnumMaterial.GROUND)
-public class BambooPane extends BlockPane implements IMultiTextuer{
+public class BambooPane extends BlockPane implements IMultiTextuer {
 
     public static final PropertyInteger META = PropertyInteger.create(Constants.META, 0, 3);
 
@@ -54,15 +55,17 @@ public class BambooPane extends BlockPane implements IMultiTextuer{
     }
 
     @Override
-    public String getTexName(String variant) {
-        if(variant.indexOf("meta=1,")>0){
-            return "bamboomod:blocks/bamboopane2";
-        }
-        if(variant.indexOf("meta=2,")>0){
-            return "bamboomod:blocks/bamboopane3";
-        }
-        if(variant.indexOf("meta=3,")>0){
-            return "bamboomod:blocks/ranma";
+    public String getTexName(IBlockState state, EnumFacing side) {
+        int meta = state.getValue(META).intValue();
+        switch (meta) {
+            case 0:
+                return "bamboomod:blocks/bamboopane";
+            case 1:
+                return "bamboomod:blocks/bamboopane2";
+            case 2:
+                return "bamboomod:blocks/bamboopane3";
+            case 3:
+                return "bamboomod:blocks/ranma";
         }
         return "bamboomod:blocks/bamboopane";
     }

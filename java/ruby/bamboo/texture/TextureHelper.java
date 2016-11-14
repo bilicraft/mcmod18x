@@ -1,11 +1,22 @@
 package ruby.bamboo.texture;
 
+import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -17,7 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ruby.bamboo.api.Constants;
 
 public class TextureHelper {
-
+    Set<String> texSet=Sets.newHashSet();
     public TextureHelper() {
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -50,11 +61,10 @@ public class TextureHelper {
                     } else {
                         // block
                         if (block instanceof IMultiTextuer) {
+
                             // 生Modelを取得し、適当なスプライトをぶっこんで焼く。
                             IModel rawModel = ModelLoaderRegistry.getModel(ml);
-                            IBakedModel bakedModel = rawModel
-                                    .bake(rawModel.getDefaultState(), Attributes.DEFAULT_BAKED_FORMAT, (rl) -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(((IMultiTextuer) block).getTexName(ml.getVariant())));
-                            event.getModelRegistry().putObject(ml, bakedModel);
+                            event.getModelRegistry().putObject(ml, new BakedWrapper(rawModel));
                         }
 
                     }
@@ -66,14 +76,82 @@ public class TextureHelper {
         }
     }
 
+    class BakedWrapper implements IBakedModel {
+        IBakedModel bakedModel;
+        IModel rawModel;
+
+        BakedWrapper(IModel rawModel) {
+            this.rawModel = rawModel;
+        }
+
+        @Override
+        public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
+            if (bakedModel == null) {
+                String texPath = ((IMultiTextuer) state.getBlock()).getTexName(state, side);
+                texSet.add(texPath);
+                bakedModel = rawModel.bake(rawModel.getDefaultState(), Attributes.DEFAULT_BAKED_FORMAT, rl -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(texPath));
+            }
+            return bakedModel.getQuads(state, side, rand);
+        }
+
+        @Override
+        public boolean isAmbientOcclusion() {
+            if (bakedModel != null) {
+                return bakedModel.isAmbientOcclusion();
+            }
+            return false;
+        }
+
+        @Override
+        public boolean isGui3d() {
+            if (bakedModel != null) {
+                return bakedModel.isGui3d();
+            }
+            return false;
+        }
+
+        @Override
+        public boolean isBuiltInRenderer() {
+            if (bakedModel != null) {
+                return bakedModel.isBuiltInRenderer();
+            }
+            return false;
+        }
+
+        @Override
+        public TextureAtlasSprite getParticleTexture() {
+            if (bakedModel != null) {
+                return bakedModel.getParticleTexture();
+            }
+            return Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+        }
+
+        @Override
+        public ItemCameraTransforms getItemCameraTransforms() {
+            if (bakedModel != null) {
+                return bakedModel.getItemCameraTransforms();
+            }
+            return ItemCameraTransforms.DEFAULT;
+        }
+
+        @Override
+        public ItemOverrideList getOverrides() {
+            if (bakedModel != null) {
+                return bakedModel.getOverrides();
+            }
+            return ItemOverrideList.NONE;
+        }
+
+    }
+
     @SubscribeEvent
     public void textureStitch(TextureStitchEvent.Pre event) {
-        String[] TEX = new String[] { "bamboopane2", "bamboopane3", "ranma" };
         TextureMap textureMap = event.getMap();
-        for (String s : TEX) {
-            ResourceLocation ret = new ResourceLocation(Constants.RESOURCED_DOMAIN + "blocks/" + s);
+        for (String s : texSet) {
+            ResourceLocation ret = new ResourceLocation(s);
             textureMap.registerSprite(ret);
         }
+        texSet.clear();
     }
 
 }
