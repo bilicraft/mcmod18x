@@ -77,6 +77,13 @@ public class Bamboo extends BlockBush implements IGrowable {
     }
 
     @Override
+    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
+    {
+
+        return this.canSustainBush(worldIn.getBlockState(pos.down()))||worldIn.getBlockState(pos.down()).getBlock()==this;
+    }
+
+    @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         super.breakBlock(worldIn, pos, state);
         BlockPos p = pos.down(this.getMetaFromState(state));
@@ -142,7 +149,7 @@ public class Bamboo extends BlockBush implements IGrowable {
 
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        return super.canPlaceBlockAt(worldIn, pos) || worldIn.getBlockState(pos).getBlock() == this;
+        return super.canPlaceBlockAt(worldIn, pos) || worldIn.getBlockState(pos.down()).getBlock() == this;
     }
 
     @Override
