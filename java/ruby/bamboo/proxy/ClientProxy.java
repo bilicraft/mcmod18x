@@ -29,6 +29,7 @@ import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EntityRegister;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
+import ruby.bamboo.texture.TextureHelper;
 
 /**
  * クライアントプロクシ
@@ -54,6 +55,8 @@ public class ClientProxy extends CommonProxy {
         KeyBindFactory.init();
         MinecraftForge.EVENT_BUS.register(BambooItems.BAMBOO_BOW);
         registColors();
+
+        new TextureHelper();
     }
 
     @Override
@@ -93,6 +96,7 @@ public class ClientProxy extends CommonProxy {
                     ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(name, "inventory"));
                 }
             }
+
         }
     }
 

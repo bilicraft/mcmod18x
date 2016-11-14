@@ -52,5 +52,5 @@ public class BambooBlocks {
     public static final Block CPINE_DOUBLE_SLAB = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "cpine_double_slab");
     public static final Block CPINE_SLAB = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "cpine_slab");
     public static final Block CPINE_STAIRS = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "cpine_stairs");
-
+    public static final Block BAMBOO_PANE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "bamboopane");
 }

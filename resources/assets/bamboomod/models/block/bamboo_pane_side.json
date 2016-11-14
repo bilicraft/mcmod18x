@@ -1,0 +1,8 @@
+{
+    "parent": "block/iron_bars_side",
+    "textures": {
+        "particle": "bamboomod:blocks/bamboopane",
+        "bars": "bamboomod:blocks/bamboopane",
+        "edge": "bamboomod:blocks/bamboopane"
+    }
+}
