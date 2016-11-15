@@ -55,7 +55,7 @@ public class GenerateHandler implements IWorldGenerator {
                 BlockPos pos = new BlockPos(posX, posY, posZ);
                 IBlockState block = world.getBlockState(pos.down());
                 if (world.isAirBlock(pos)) {
-                    if (block.getBlock() == Blocks.GRASS_PATH || block.getBlock() == Blocks.DIRT) {
+                    if (block.getBlock() == Blocks.GRASS || block.getBlock() == Blocks.DIRT) {
                         world.setBlockState(pos, BambooBlocks.BAMBOOSHOOT.getDefaultState());
                     }
                 }
