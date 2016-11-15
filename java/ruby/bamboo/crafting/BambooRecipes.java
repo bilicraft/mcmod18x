@@ -25,6 +25,7 @@ public class BambooRecipes {
     private String bamboo = "bamboo";
     private String tudura = "tudura";
     private String straw = "straw";
+    private String plankWood = "plankWood";
 
     /**
      * 鉱石辞書
@@ -67,6 +68,12 @@ public class BambooRecipes {
         addRecipe(getIS(KITUNEBI, 6, 0), "XXX", "Y#Y", "XXX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
         addRecipe(getIS(KITUNEBI, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
         addRecipe(getIS(KITUNEBI, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
+        // 柵
+        addRecipe(getIS(BAMBOO_PANE, 8, 0), "XXX", "XXX",  'X', bamboo);
+        addRecipe(getIS(BAMBOO_PANE, 8, 1), "XYX", "XYX",  'X', bamboo, 'Y',getIS(BAMBOO_PANE, 8, 0));
+        addRecipe(getIS(BAMBOO_PANE, 8, 2), "XYX", "XYX",  'X', bamboo, 'Y',getIS(BAMBOO_PANE, 8, 1));
+        addRecipe(getIS(BAMBOO_PANE, 8, 3), "XYX", "XXX",  'X',plankWood , 'Y', tudura);
+
 
         //******デコレーション
         // 瓦

@@ -4,12 +4,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -17,7 +19,6 @@ import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
@@ -39,6 +40,8 @@ import ruby.bamboo.texture.TextureHelper;
  */
 public class ClientProxy extends CommonProxy {
 
+    Map<ModelResourceLocation, Item> modelMap = Maps.newHashMap();
+
     @Override
     public void preInit() {
         super.preInit();
@@ -56,7 +59,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(BambooItems.BAMBOO_BOW);
         registColors();
 
-        new TextureHelper();
+        new TextureHelper(modelMap);
     }
 
     @Override
@@ -85,15 +88,22 @@ public class ClientProxy extends CommonProxy {
             this.setCustomState(block);
             if (item instanceof ISubTexture) {
 
+                //                List<ResourceLocation> locList = Lists.newArrayList();
                 for (IEnumTex tex : ((ISubTexture) item).getName()) {
                     String jsonName = tex.getJsonName();
                     //ModelBakery.addVariantName(item, jsonName);
-                    ModelBakery.registerItemVariants(item, new ResourceLocation(jsonName));
-                    ModelLoader.setCustomModelResourceLocation(item, tex.getId(), new ModelResourceLocation(jsonName, "inventory"));
+                    //                    locList.add(new ResourceLocation(jsonName));
+                    ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
+
+                    ModelLoader.setCustomModelResourceLocation(item, tex.getId(), mrl);
+                    modelMap.put(mrl, item);
                 }
+                //                ModelBakery.registerItemVariants(item, locList.toArray(new ResourceLocation[0]));
             } else {
                 for (int i = 0; i < isList.size(); i++) {
-                    ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(name, "inventory"));
+                    ModelResourceLocation mrl = new ModelResourceLocation(name, "inventory");
+                    ModelLoader.setCustomModelResourceLocation(item, i, mrl);
+                    modelMap.put(mrl, item);
                 }
             }
 

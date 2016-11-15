@@ -19,10 +19,10 @@ import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.core.init.EnumMaterial;
 import ruby.bamboo.item.itemblock.ItemBambooPane;
-import ruby.bamboo.texture.IMultiTextuer;
+import ruby.bamboo.texture.IMultiTextuerBlock;
 
 @BambooBlock(itemBlock = ItemBambooPane.class, createiveTabs = EnumCreateTab.TAB_BAMBOO, material = EnumMaterial.GROUND)
-public class BambooPane extends BlockPane implements IMultiTextuer {
+public class BambooPane extends BlockPane implements IMultiTextuerBlock {
 
     public static final PropertyInteger META = PropertyInteger.create(Constants.META, 0, 3);
 
