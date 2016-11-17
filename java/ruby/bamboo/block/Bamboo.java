@@ -39,7 +39,7 @@ public class Bamboo extends BlockBush implements IGrowable {
     public static final AxisAlignedBB BLOCK_AABB = new AxisAlignedBB(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
 
     public Bamboo(Material material) {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LENGTH, 0));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(LENGTH, 10));
         this.setLightOpacity(0);
         this.setTickRandomly(true);
         this.setHardness(0.75F);
@@ -77,17 +77,19 @@ public class Bamboo extends BlockBush implements IGrowable {
     }
 
     @Override
-    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
-    {
+    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
 
-        return this.canSustainBush(worldIn.getBlockState(pos.down()))||worldIn.getBlockState(pos.down()).getBlock()==this;
+        return this.canSustainBush(worldIn.getBlockState(pos.down())) || worldIn.getBlockState(pos.down()).getBlock() == this;
     }
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         super.breakBlock(worldIn, pos, state);
-        BlockPos p = pos.down(this.getMetaFromState(state));
-        worldIn.destroyBlock(p, true);
+        BlockPos p = pos.down();
+        if (worldIn.getBlockState(p).getBlock() == this) {
+            this.dropBlockAsItem(worldIn, p, state, 0);
+            worldIn.setBlockState(p, Blocks.AIR.getDefaultState(), 3);
+        }
     }
 
     private void tryBambooGrowth(World world, BlockPos pos, IBlockState state, float probability) {
@@ -95,7 +97,7 @@ public class Bamboo extends BlockBush implements IGrowable {
             if (world.isAirBlock(pos.up())) {
                 if (world.rand.nextFloat() < probability) {
                     int meta = this.getMetaFromState(state);
-                    if (meta < this.getLength()) {
+                    if (meta > 0) {
                         this.growBamboo(world, pos, meta);
                     } else {
                         if (world.isRaining() || world.rand.nextFloat() < probability) {
@@ -107,8 +109,8 @@ public class Bamboo extends BlockBush implements IGrowable {
         }
     }
 
-    int getLength() {
-        return 10;
+    int getLength(IBlockState state) {
+        return state.getValue(LENGTH);
     }
 
     @Override
@@ -117,7 +119,7 @@ public class Bamboo extends BlockBush implements IGrowable {
     }
 
     private void growBamboo(World world, BlockPos pos, int meta) {
-        world.setBlockState(pos.up(), this.getStateFromMeta(++meta));
+        world.setBlockState(pos.up(), this.getStateFromMeta(--meta));
     }
 
     private boolean canChildSpawn(World world, BlockPos pos, IBlockState state) {
@@ -136,8 +138,10 @@ public class Bamboo extends BlockBush implements IGrowable {
 
     private void tryChildSpawn(World world, BlockPos pos, IBlockState state) {
         if (!world.isRemote) {
-            BlockPos p = pos.down(this.getMetaFromState(state));
+            BlockPos p = pos.down();
 
+            for (; !this.canSustainBush(world.getBlockState(p)); p = p.down())
+                ;
             for (BlockPos target : BlockPos.getAllInBox(p.add(-1, -1, -1), p.add(1, 1, 1))) {
                 if (this.canChildSpawn(world, target, state)) {
                     world.setBlockState(target.down(), Blocks.DIRT.getDefaultState());
@@ -154,6 +158,9 @@ public class Bamboo extends BlockBush implements IGrowable {
 
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        if (this.canSustainBush(worldIn.getBlockState(pos.down()))) {
+            worldIn.setBlockState(pos, state.withProperty(LENGTH, 8 + worldIn.rand.nextInt(5)));
+        }
     }
 
     @Override
