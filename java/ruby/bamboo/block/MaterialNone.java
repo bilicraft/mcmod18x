@@ -9,10 +9,17 @@ public class MaterialNone extends MaterialTransparent {
     public MaterialNone() {
         super(MapColor.AIR);
         setNoPushMobility();
+
     }
 
     @Override
     public boolean blocksMovement() {
         return true;
+    }
+
+    @Override
+    public boolean isReplaceable()
+    {
+        return false;
     }
 }

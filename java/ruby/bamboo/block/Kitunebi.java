@@ -2,6 +2,8 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -11,8 +13,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,6 +28,8 @@ import ruby.bamboo.core.init.EnumCreateTab;
 @BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 
 public class Kitunebi extends Block {
+
+    public static final AxisAlignedBB INVISIBLE_BLOCK_AABB = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
     private boolean isVisible = false;
 
@@ -43,7 +49,7 @@ public class Kitunebi extends Block {
     @Override
     public IBlockState getStateFromMeta(int meta) {
         //return this.getDefaultState().withProperty(META, meta & 7).withProperty(VISIBLE, (meta & 8) > 0);
-        return this.getDefaultState().withProperty(VISIBLE, (meta & 8) > 0);
+        return this.getDefaultState();
     }
 
     @Override
@@ -58,11 +64,20 @@ public class Kitunebi extends Block {
         //return new BlockState(this, META, VISIBLE);
         return new BlockStateContainer(this, VISIBLE);
     }
-    //
-    //    @Override
-    //    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-    //        return null;
-    //    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        if (state.getValue(VISIBLE)) {
+            return FULL_BLOCK_AABB;
+        } else {
+            return INVISIBLE_BLOCK_AABB;
+        }
+    }
+
+    @Nullable
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+        return NULL_AABB;
+    }
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
@@ -79,12 +94,6 @@ public class Kitunebi extends Block {
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
-
-    //    @SideOnly(Side.CLIENT)
-    //    @Override
-    //    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-    //        setVisibleFlg(worldIn, pos, state, rand);
-    //    }
 
     private void setVisibleFlg(World world, BlockPos pos, IBlockState state, Random rand) {
         if (world.isRemote) {
@@ -105,15 +114,30 @@ public class Kitunebi extends Block {
                 }
             }
 
-            //TODO:殴った時の当たり判定
-            if (isVisible) {
-                //world.setBlockState(pos, state.withProperty(VISIBLE, true), 3);
-                //setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-                world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0, 0, 0, 0);
-            } else {
-                //setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            if (isVisible != state.getValue(VISIBLE)) {
+                world.setBlockState(pos, state.withProperty(VISIBLE, isVisible), 3);
             }
         }
     }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return super.canRenderInLayer(state, layer);
+    }
+
+    @Override
+    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        this.setVisibleFlg(worldIn, pos, stateIn, rand);
+    }
+
+    //    @Override
+    //    public String getTexName(IBlockState state, EnumFacing side) {
+    //        return "bamboomod:blocks/kitunebi";
+    //    }
 
 }
