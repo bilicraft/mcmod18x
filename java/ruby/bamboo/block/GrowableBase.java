@@ -32,7 +32,7 @@ public abstract class GrowableBase extends BlockBush implements IGrowable {
         super();
         this.setCreativeTab((CreativeTabs) null);
         this.setHardness(0.0F);
-        this.setSoundType(SoundType.GLASS);
+        this.setSoundType(SoundType.PLANT);
         this.disableStats();
         this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
     }
