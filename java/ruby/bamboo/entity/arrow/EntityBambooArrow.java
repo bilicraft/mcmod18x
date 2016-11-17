@@ -1,12 +1,9 @@
 package ruby.bamboo.entity.arrow;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import ruby.bamboo.api.BambooItems;
 
@@ -14,7 +11,6 @@ public class EntityBambooArrow extends BaseArrow {
     private int count = 0;
     private float power = 1;
     private boolean isDie;
-    private int maxAge = 600;
 
     public EntityBambooArrow(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
@@ -61,19 +57,6 @@ public class EntityBambooArrow extends BaseArrow {
                 setDead();
             }
         }
-    }
-
-    @Override
-    public void onGround(BlockPos pos, Block block, IBlockState iblockstate) {
-        super.onGround(pos, block, iblockstate);
-        if (this.ticksInGround > maxAge) {
-            this.setDead();
-        }
-    }
-
-    // クリエイティブ連射負荷対策
-    public void setMaxAge(int maxAge) {
-        this.maxAge = maxAge;
     }
 
     @Override

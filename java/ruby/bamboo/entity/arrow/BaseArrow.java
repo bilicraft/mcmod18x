@@ -40,6 +40,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     double baseDamage = 2.0D;
     int knockbackStrength;
     float velocity;
+    int maxAge = 1200;
 
     public BaseArrow(World worldIn, double x, double y, double z) {
         super(worldIn, x, y, z);
@@ -407,6 +408,10 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
             this.ticksInGround = 0;
             this.ticksInAir = 0;
         }
+
+        if (this.ticksInGround > maxAge) {
+            this.setDead();
+        }
     }
 
     public void motionUpdate(float xyzVariation, float yDecrease) {
@@ -548,7 +553,9 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     public void setNoPick() {
         this.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
     }
-
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
+    }
     //    @Override
     //    public void setIsCritical(boolean critical) {
     //        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
