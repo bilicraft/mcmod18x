@@ -21,12 +21,14 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -34,14 +36,12 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.api.Constants;
+import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.client.KeyBindFactory.IItemUtilKeylistener;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.item.arrow.IBambooArrow;
-import ruby.bamboo.item.itemblock.IEnumTex;
-import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.packet.MessageBambooUtil;
 import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
 import ruby.bamboo.util.ItemStackHelper;
@@ -49,21 +49,41 @@ import ruby.bamboo.util.ItemStackHelper.HashedStack;
 import scala.actors.threadpool.Arrays;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeylistener, IMessagelistener {
+public class BambooBow extends ItemBow implements IItemUtilKeylistener, IMessagelistener {
     public final static String TAG_AMMO = "ammo";
     public final static String AMMO_SLOT = "slot";
-    public final static String ICON_NAME = Constants.RESOURCED_DOMAIN + "bamboobow";
-    public final static String[] ICON_PULL_NAMES = new String[4];
-
-    static {
-        for (int i = 0; i < ICON_PULL_NAMES.length; i++) {
-            ICON_PULL_NAMES[i] = ICON_NAME + "_pull_" + i;
-        }
-    }
 
     public BambooBow() {
         super();
         this.setMaxDamage(400);
+        this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+                if (entityIn == null) {
+                    return 0.0F;
+                } else if (entityIn instanceof EntityPlayer) {
+                    InventoryPlayer inv = ((EntityPlayer) entityIn).inventory;
+                    ItemStack itemstack = entityIn.getActiveItemStack();
+                    int chargeFrame = stack.getMaxItemUseDuration() - entityIn.getItemInUseCount();
+                    BambooBow bowIn = ((BambooBow) BambooItems.BAMBOO_BOW);
+                    float f = (float) (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F;
+                    if (hasInventoryBambooArrow(inv)) {
+                        IBambooArrow arrow = (IBambooArrow) inv.getStackInSlot(getSelectedInventorySlotContainItem(inv, stack)).getItem();
+                        f = arrow.getBowModel(chargeFrame);
+                    }
+                    return itemstack != null && itemstack.getItem() == BambooItems.BAMBOO_BOW ? f : 0.0F;
+                } else {
+                    ItemStack itemstack = entityIn.getActiveItemStack();
+                    return itemstack != null && itemstack.getItem() == BambooItems.BAMBOO_BOW ? (float) (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F : 0.0F;
+                }
+            }
+        });
+        this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+                return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+            }
+        });
     }
 
     @Override
@@ -230,52 +250,6 @@ public class BambooBow extends ItemBow implements ISubTexture, IItemUtilKeyliste
                 par1ItemStack.getSubCompound(TAG_AMMO, true).setByte(AMMO_SLOT, --types);
             }
         }
-    }
-
-    // 弓を引く時のアニメーション系
-    // TODO:消えた、どこ行きやがったクソが
-    //    @Override
-    //    public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
-    //        ModelResourceLocation modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[0], "inventory");
-    //        InventoryPlayer inv = player.inventory;
-    //        if (stack.getItem() == this && player.getItemInUse() != null) {
-    //            int chargeFrame = this.getMaxItemUseDuration(stack) - useRemaining;
-    //            if (this.hasInventoryBambooArrow(inv)) {
-    //                IBambooArrow arrow = (IBambooArrow) inv.getStackInSlot(getSelectedInventorySlotContainItem(inv, stack)).getItem();
-    //                modelresourcelocation = arrow.getBowModel(chargeFrame);
-    //            } else {
-    //                if (chargeFrame >= 40) {
-    //                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[3], "inventory");
-    //                } else if (chargeFrame > 25) {
-    //                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[2], "inventory");
-    //                } else if (chargeFrame > 0) {
-    //                    modelresourcelocation = new ModelResourceLocation(ICON_PULL_NAMES[1], "inventory");
-    //                }
-    //            }
-    //        }
-    //        return modelresourcelocation;
-    //    }
-
-    @Override
-    public IEnumTex[] getName() {
-        IEnumTex[] ret = new IEnumTex[ICON_PULL_NAMES.length];
-        for (int i = 0; i < ret.length; i++) {
-            final int id = i;
-            ret[i] = new IEnumTex() {
-
-                @Override
-                public int getId() {
-                    return id;
-                }
-
-                @Override
-                public String getJsonName() {
-                    return ICON_PULL_NAMES[id];
-                }
-
-            };
-        }
-        return ret;
     }
 
     // 汎用キーによる弾の切り替え

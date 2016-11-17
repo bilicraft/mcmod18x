@@ -3,7 +3,6 @@ package ruby.bamboo.item.arrow;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -39,7 +38,6 @@ import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityAntiArrow;
-import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.util.ItemStackHelper;
@@ -150,9 +148,8 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
     }
 
     @Override
-    public ModelResourceLocation getBowModel(int useRemaining) {
-        String jsonName = BambooBow.ICON_PULL_NAMES[useRemaining >= 18 ? 3 : useRemaining > 13 ? 2 : 1];
-        return new ModelResourceLocation(jsonName, "inventory");
+    public float getBowModel(int useRemaining) {
+        return useRemaining >= 18 ? 1 : useRemaining > 13 ? 0.7F : 0;
     }
 
     @Override

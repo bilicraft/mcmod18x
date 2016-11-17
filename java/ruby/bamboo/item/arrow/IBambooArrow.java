@@ -1,11 +1,9 @@
 package ruby.bamboo.item.arrow;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import ruby.bamboo.item.BambooBow;
 
 public interface IBambooArrow {
     public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player);
@@ -17,8 +15,7 @@ public interface IBambooArrow {
         return player.capabilities.isCreativeMode;
     }
 
-    public default ModelResourceLocation getBowModel(int chargeFrame) {
-        String jsonName = BambooBow.ICON_PULL_NAMES[chargeFrame >= 40 ? 3 : chargeFrame > 25 ? 2 : 1];
-        return new ModelResourceLocation(jsonName, "inventory");
+    public default float getBowModel(int chargeFrame) {
+        return chargeFrame >= 40 ? 1 : chargeFrame > 25 ? 0.7F : 0;
     }
 }

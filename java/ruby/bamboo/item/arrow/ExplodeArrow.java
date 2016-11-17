@@ -1,6 +1,5 @@
 package ruby.bamboo.item.arrow;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
@@ -10,7 +9,6 @@ import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityExplodeArrow;
-import ruby.bamboo.item.BambooBow;
 import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
@@ -47,9 +45,8 @@ public class ExplodeArrow extends ArrowBase {
     }
 
     @Override
-    public ModelResourceLocation getBowModel(int useRemaining) {
-        String jsonName = BambooBow.ICON_PULL_NAMES[useRemaining >= 18 ? 3 : useRemaining > 13 ? 2 : 1];
-        return new ModelResourceLocation(jsonName, "inventory");
+    public float getBowModel(int useRemaining) {
+        return useRemaining >= 18 ? 1 : useRemaining > 13 ? 0.7F : 0;
     }
 
     @Override
