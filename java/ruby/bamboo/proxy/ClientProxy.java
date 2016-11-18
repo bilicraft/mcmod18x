@@ -15,10 +15,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.block.IBlockColorWrapper;
@@ -176,5 +178,10 @@ public class ClientProxy extends CommonProxy {
         //colorBlockList.forEach(colorBlock -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((IItemColor) colorBlock, Item.getItemFromBlock(colorBlock)));
         colorItemList.forEach(colorItem -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> ((IItemColorWrapper) colorItem).getColorFromItemstack(stack, tintIndex), colorItem));
 
+    }
+
+    @Override
+    public EntityPlayer getPlayer(){
+        return FMLClientHandler.instance().getClient().thePlayer;
     }
 }

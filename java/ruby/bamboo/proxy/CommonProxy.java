@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -74,6 +75,10 @@ public class CommonProxy {
         recipeIns.smeltingRecipes();
         recipeIns.registFuel();
         recipeIns.registSeed();
+    }
+
+    public EntityPlayer getPlayer(){
+        return null;
     }
 
 }

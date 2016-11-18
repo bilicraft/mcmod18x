@@ -18,10 +18,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.api.Constants;
+import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumCreateTab;
 
@@ -95,28 +95,29 @@ public class Kitunebi extends Block {
         return BlockRenderLayer.CUTOUT;
     }
 
-    @SideOnly(Side.CLIENT)
     private void setVisibleFlg(World world, BlockPos pos, IBlockState state, Random rand) {
         if (world.isRemote) {
-            EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
-            ItemStack[] handItems = { player.getHeldItemMainhand(), player.getHeldItemOffhand() };
-            isVisible = false;
+            EntityPlayer player = BambooCore.proxy.getPlayer();
+            if (player != null) {
+                ItemStack[] handItems = { player.getHeldItemMainhand(), player.getHeldItemOffhand() };
+                isVisible = false;
 
-            for (ItemStack is : handItems) {
-                if (is != null) {
-                    Item item = is.getItem();
+                for (ItemStack is : handItems) {
+                    if (is != null) {
+                        Item item = is.getItem();
 
-                    if (item instanceof ItemBlock) {
-                        if (Block.getBlockFromItem(item) == this) {
-                            isVisible = true;
-                            break;
+                        if (item instanceof ItemBlock) {
+                            if (Block.getBlockFromItem(item) == this) {
+                                isVisible = true;
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            if (isVisible != state.getValue(VISIBLE)) {
-                world.setBlockState(pos, state.withProperty(VISIBLE, isVisible), 3);
+                if (isVisible != state.getValue(VISIBLE)) {
+                    world.setBlockState(pos, state.withProperty(VISIBLE, isVisible), 3);
+                }
             }
         }
     }
