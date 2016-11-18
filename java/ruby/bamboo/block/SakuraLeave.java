@@ -13,7 +13,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -35,7 +34,7 @@ import ruby.bamboo.entity.SakuraPetal.ICustomPetal;
 import ruby.bamboo.item.itemblock.ItemSakuraLeave;
 
 @BambooBlock(name = "sakura_leave", itemBlock = ItemSakuraLeave.class, createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IBlockColor {
+public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IBlockColorWrapper {
 
     public final static PropertyEnum VARIANT = PropertyEnum.create("variant", EnumLeave.class, new Predicate() {
         public boolean apply(EnumLeave type) {
@@ -238,6 +237,7 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
         return Constants.RESOURCED_DOMAIN + "textures/entitys/petal.png";
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
         return ((EnumLeave) state.getValue(VARIANT)).getColor();

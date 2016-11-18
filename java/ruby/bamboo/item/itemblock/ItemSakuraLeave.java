@@ -3,7 +3,6 @@ package ruby.bamboo.item.itemblock;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -11,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.block.ILeave;
 
-public class ItemSakuraLeave extends ItemBlock implements IItemColor {
+public class ItemSakuraLeave extends ItemBlock implements IItemColorWrapper {
 
     private final ILeave leave;
 

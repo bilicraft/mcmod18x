@@ -95,6 +95,7 @@ public class Kitunebi extends Block {
         return BlockRenderLayer.CUTOUT;
     }
 
+    @SideOnly(Side.CLIENT)
     private void setVisibleFlg(World world, BlockPos pos, IBlockState state, Random rand) {
         if (world.isRemote) {
             EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
@@ -130,6 +131,7 @@ public class Kitunebi extends Block {
         return super.canRenderInLayer(state, layer);
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         this.setVisibleFlg(worldIn, pos, stateIn, rand);

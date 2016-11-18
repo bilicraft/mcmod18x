@@ -3,13 +3,13 @@ package ruby.bamboo.entity;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import ruby.bamboo.block.IBlockColorWrapper;
 import ruby.bamboo.entity.SakuraPetal.ICustomPetal;
 
 public class Wind extends EntityThrowable {
@@ -91,8 +91,8 @@ public class Wind extends EntityThrowable {
             entity.setMotion(this.motionX, this.motionY, this.motionZ);
             entity.setPosition(pos);
             int color = 0xFFFFFF;
-            if (state.getBlock() instanceof IBlockColor) {
-                color = ((IBlockColor) state.getBlock()).colorMultiplier(state, par1World, pos, 0);
+            if (state.getBlock() instanceof IBlockColorWrapper) {
+                color = ((IBlockColorWrapper) state.getBlock()).colorMultiplier(state, par1World, pos, 0);
             }
             entity.setColor(color);
 

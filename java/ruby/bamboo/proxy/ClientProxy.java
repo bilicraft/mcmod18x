@@ -15,20 +15,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.color.IBlockColor;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.api.BambooItems;
+import ruby.bamboo.block.IBlockColorWrapper;
 import ruby.bamboo.block.ICustomState;
 import ruby.bamboo.block.decoration.DecorationClientFactory;
 import ruby.bamboo.core.client.KeyBindFactory;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EntityRegister;
 import ruby.bamboo.item.itemblock.IEnumTex;
+import ruby.bamboo.item.itemblock.IItemColorWrapper;
 import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.texture.TextureHelper;
 
@@ -168,12 +168,13 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void registColors() {
-        List<Block> colorBlockList = registedList.stream().map(Block::getBlockFromName).filter(ins -> ins instanceof IBlockColor).collect(Collectors.toList());
-        List<Item> colorItemList = registedList.stream().map(Item::getByNameOrId).filter(ins -> ins instanceof IItemColor).collect(Collectors.toList());
+        List<Block> colorBlockList = registedList.stream().map(Block::getBlockFromName).filter(ins -> ins instanceof IBlockColorWrapper).collect(Collectors.toList());
+        List<Item> colorItemList = registedList.stream().map(Item::getByNameOrId).filter(ins -> ins instanceof IBlockColorWrapper).collect(Collectors.toList());
 
-        colorBlockList.forEach(colorBlock -> Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((IBlockColor) colorBlock, colorBlock));
+        colorBlockList
+                .forEach(colorBlock -> Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, worldIn, pos, tintIndex) -> ((IBlockColorWrapper) colorBlock).colorMultiplier(state, worldIn, pos, tintIndex), colorBlock));
         //colorBlockList.forEach(colorBlock -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((IItemColor) colorBlock, Item.getItemFromBlock(colorBlock)));
-        colorItemList.forEach(colorItem -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((IItemColor) colorItem, colorItem));
+        colorItemList.forEach(colorItem -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> ((IItemColorWrapper) colorItem).getColorFromItemstack(stack, tintIndex), colorItem));
 
     }
 }
