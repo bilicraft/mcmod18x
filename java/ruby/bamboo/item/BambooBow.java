@@ -1,5 +1,6 @@
 package ruby.bamboo.item;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -46,7 +47,6 @@ import ruby.bamboo.packet.MessageBambooUtil;
 import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
 import ruby.bamboo.util.ItemStackHelper;
 import ruby.bamboo.util.ItemStackHelper.HashedStack;
-import scala.actors.threadpool.Arrays;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class BambooBow extends ItemBow implements IItemUtilKeylistener, IMessagelistener {
