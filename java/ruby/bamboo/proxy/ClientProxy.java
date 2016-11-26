@@ -171,17 +171,18 @@ public class ClientProxy extends CommonProxy {
 
     private void registColors() {
         List<Block> colorBlockList = registedList.stream().map(Block::getBlockFromName).filter(ins -> ins instanceof IBlockColorWrapper).collect(Collectors.toList());
-        List<Item> colorItemList = registedList.stream().map(Item::getByNameOrId).filter(ins -> ins instanceof IBlockColorWrapper).collect(Collectors.toList());
+        List<Item> colorItemList = registedList.stream().map(Item::getByNameOrId).filter(ins -> ins instanceof IItemColorWrapper).collect(Collectors.toList());
 
+        //Block用色乗算
         colorBlockList
                 .forEach(colorBlock -> Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, worldIn, pos, tintIndex) -> ((IBlockColorWrapper) colorBlock).colorMultiplier(state, worldIn, pos, tintIndex), colorBlock));
-        //colorBlockList.forEach(colorBlock -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((IItemColor) colorBlock, Item.getItemFromBlock(colorBlock)));
+        //Item用
         colorItemList.forEach(colorItem -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> ((IItemColorWrapper) colorItem).getColorFromItemstack(stack, tintIndex), colorItem));
 
     }
 
     @Override
-    public EntityPlayer getPlayer(){
+    public EntityPlayer getPlayer() {
         return FMLClientHandler.instance().getClient().thePlayer;
     }
 }
