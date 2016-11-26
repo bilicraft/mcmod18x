@@ -52,7 +52,8 @@ public class DataLoader extends ClassFinder {
             Class c = Class.forName(cls.getName());
             Block instance = null;
             try {
-                Constructor cnst = c.getConstructor(Material.class);
+                Constructor cnst = c.getDeclaredConstructor(Material.class);
+                cnst.setAccessible(true);
                 instance = (Block) cnst.newInstance(((BambooBlock) c.getAnnotation(BambooBlock.class)).material().MATERIAL);
             } catch (NoSuchMethodException e) {
                 instance = (Block) c.newInstance();
