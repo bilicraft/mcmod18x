@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -14,11 +13,11 @@ import net.minecraftforge.fluids.BlockFluidFinite;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.block.paticle.ColorSmoke;
-import ruby.bamboo.block.tile.TileSpringWater;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumMaterial;
 import ruby.bamboo.fluid.HotSpring;
+import ruby.bamboo.paticle.PaticleFactory;
+import ruby.bamboo.tileentity.TileSpringWater;
 
 @BambooBlock(name = "spring_water", material = EnumMaterial.WATER)
 public class SpringWater extends BlockFluidFinite implements ITileEntityProvider {
@@ -136,7 +135,7 @@ public class SpringWater extends BlockFluidFinite implements ITileEntityProvider
             double d0 = (double) pos.getX() + rand.nextFloat();
             double d1 = (double) pos.getY() + 1.1D;
             double d2 = (double) pos.getZ() + rand.nextFloat();
-            Minecraft.getMinecraft().effectRenderer.addEffect(new ColorSmoke(world, d0, d1, d2, 0, 0, 0, 1).setColor(0xEEEEEE));
+            PaticleFactory.createColoerSomoke(world, d0, d1, d2, 0xEEEEEE);
         }
     }
 }

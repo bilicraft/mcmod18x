@@ -15,8 +15,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import ruby.bamboo.api.BambooBlocks;
-import ruby.bamboo.block.tile.TileSpringWater;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
+import ruby.bamboo.tileentity.TileSpringWater;
 import ruby.bamboo.core.init.EnumCreateTab;
 
 @BambooBlock(name = "spring_block", createiveTabs = EnumCreateTab.TAB_BAMBOO)

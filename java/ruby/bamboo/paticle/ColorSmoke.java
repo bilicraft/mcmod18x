@@ -1,4 +1,4 @@
-package ruby.bamboo.block.paticle;
+package ruby.bamboo.paticle;
 
 import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.world.World;

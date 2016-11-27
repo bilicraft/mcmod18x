@@ -1,4 +1,4 @@
-package ruby.bamboo.block.tile;
+package ruby.bamboo.tileentity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

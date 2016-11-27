@@ -16,10 +16,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
-import ruby.bamboo.block.tile.TileJPChest;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.tileentity.TileJPChest;
 
 @BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class JPChest extends BlockChest {

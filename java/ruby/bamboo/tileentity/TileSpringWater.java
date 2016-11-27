@@ -1,4 +1,4 @@
-package ruby.bamboo.block.tile;
+package ruby.bamboo.tileentity;
 
 
 import javax.annotation.Nullable;

@@ -12,8 +12,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.decoration.DecorationFactory;
-import ruby.bamboo.block.tile.TileJPChest;
-import ruby.bamboo.block.tile.TileSpringWater;
 import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.init.DataLoader;
@@ -23,6 +21,8 @@ import ruby.bamboo.crafting.CraftingHandler;
 import ruby.bamboo.fluid.HotSpring;
 import ruby.bamboo.generate.GenerateHandler;
 import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.tileentity.TileJPChest;
+import ruby.bamboo.tileentity.TileSpringWater;
 
 /**
  * サーバープロクシ
