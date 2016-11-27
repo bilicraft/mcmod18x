@@ -11,15 +11,19 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.api.BambooItems;
@@ -82,30 +86,44 @@ public class ClientProxy extends CommonProxy {
         List<ItemStack> isList = new ArrayList<ItemStack>();
         List<String> tmpNameList = new ArrayList<String>();
         for (String name : registedList) {
+            Block block = Block.getBlockFromName(name);
             Item item = Item.getByNameOrId(name);
             isList.clear();
             item.getSubItems(item, item.getCreativeTab(), isList);
-            Block block = Block.getBlockFromName(name);
             this.setIgnoreState(block);
             this.setCustomState(block);
-            if (item instanceof ISubTexture) {
 
-                //                List<ResourceLocation> locList = Lists.newArrayList();
-                for (IEnumTex tex : ((ISubTexture) item).getName()) {
-                    String jsonName = tex.getJsonName();
-                    //ModelBakery.addVariantName(item, jsonName);
-                    //                    locList.add(new ResourceLocation(jsonName));
-                    ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
-
-                    ModelLoader.setCustomModelResourceLocation(item, tex.getId(), mrl);
-                    modelMap.put(mrl, item);
-                }
-                //                ModelBakery.registerItemVariants(item, locList.toArray(new ResourceLocation[0]));
+            if (block instanceof BlockFluidBase) {
+                // Fluid系ブロック用処理
+                ModelResourceLocation mrl = new ModelResourceLocation(name, "fluid");
+                ModelLoader.setCustomMeshDefinition(item, is -> mrl);
+                ModelLoader.setCustomStateMapper(block, new StateMapperBase() {
+                    @Override
+                    protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+                        return mrl;
+                    }
+                });
+                ModelBakery.registerItemVariants(item, mrl);
             } else {
-                for (int i = 0; i < isList.size(); i++) {
-                    ModelResourceLocation mrl = new ModelResourceLocation(name, "inventory");
-                    ModelLoader.setCustomModelResourceLocation(item, i, mrl);
-                    modelMap.put(mrl, item);
+                if (item instanceof ISubTexture) {
+
+                    //                List<ResourceLocation> locList = Lists.newArrayList();
+                    for (IEnumTex tex : ((ISubTexture) item).getName()) {
+                        String jsonName = tex.getJsonName();
+                        //ModelBakery.addVariantName(item, jsonName);
+                        //                    locList.add(new ResourceLocation(jsonName));
+                        ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
+
+                        ModelLoader.setCustomModelResourceLocation(item, tex.getId(), mrl);
+                        modelMap.put(mrl, item);
+                    }
+                    //                ModelBakery.registerItemVariants(item, locList.toArray(new ResourceLocation[0]));
+                } else {
+                    for (int i = 0; i < isList.size(); i++) {
+                        ModelResourceLocation mrl = new ModelResourceLocation(name, "inventory");
+                        ModelLoader.setCustomModelResourceLocation(item, i, mrl);
+                        modelMap.put(mrl, item);
+                    }
                 }
             }
 

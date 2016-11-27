@@ -18,6 +18,9 @@ public class BambooBlocks {
     public static final Block SAKURA_PLANKS = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "sakura_planks");
     public static final BlockSapling SAKURA_SAPLING = (BlockSapling) Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "sakura_sapling");
     public static final Block TATAMI = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "tatami");
+    public static final Block BAMBOO_PANE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "bamboopane");
+    public static final Block SPRING_BLOCK = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "spring_block");
+    public static final Block SPRING_WATER = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "spring_water");
 
     // デコレーション系
     public static final Block KAWARA = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "kawara");
@@ -52,5 +55,4 @@ public class BambooBlocks {
     public static final Block CPINE_DOUBLE_SLAB = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "cpine_double_slab");
     public static final Block CPINE_SLAB = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "cpine_slab");
     public static final Block CPINE_STAIRS = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "cpine_stairs");
-    public static final Block BAMBOO_PANE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "bamboopane");
 }

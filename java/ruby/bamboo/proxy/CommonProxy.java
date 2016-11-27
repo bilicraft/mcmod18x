@@ -6,18 +6,21 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.decoration.DecorationFactory;
 import ruby.bamboo.block.tile.TileJPChest;
+import ruby.bamboo.block.tile.TileSpringWater;
 import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.init.DataLoader;
 import ruby.bamboo.core.init.EntityRegister;
 import ruby.bamboo.crafting.BambooRecipes;
 import ruby.bamboo.crafting.CraftingHandler;
+import ruby.bamboo.fluid.HotSpring;
 import ruby.bamboo.generate.GenerateHandler;
 import ruby.bamboo.gui.GuiHandler;
 
@@ -31,6 +34,8 @@ public class CommonProxy {
     List<String> registedList = Lists.newArrayList();
 
     public void preInit() {
+        // ブロック登録前に登録が必要？
+        registerFluid();
         // ブロックアイテム初期化
         try {
             FMLLog.info("********** BambooMod Data Init Start **********");
@@ -53,12 +58,11 @@ public class CommonProxy {
         GameRegistry.registerWorldGenerator(gen, 1);
         // クラフトハンドラ
         MinecraftForge.EVENT_BUS.register(new CraftingHandler());
-        GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
+        registTileEntity();
         // えんてぃてぃ
         new EntityRegister().entityRegist();
         PacketDispatcher.init();
     }
-
     public void init() {
         this.registRecipe();
     }
@@ -76,6 +80,19 @@ public class CommonProxy {
         recipeIns.registFuel();
         recipeIns.registSeed();
     }
+
+
+    private void registerFluid() {
+        FluidRegistry.registerFluid(new HotSpring());
+    }
+
+
+
+    private void registTileEntity() {
+        GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
+        GameRegistry.registerTileEntity(TileSpringWater.class, "spring_water");
+    }
+
 
     public EntityPlayer getPlayer(){
         return null;

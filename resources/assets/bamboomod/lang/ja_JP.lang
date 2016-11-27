@@ -25,8 +25,8 @@ tile.bambooPanel.6.name=すだれ
 tile.sakura_leaves.name=桜の花
 tile.broad_leave.name=桜の花
 tile.sakuraSapling.name=桜苗木
-tile.spaWater.name=spaWater
-tile.spaUnit.name=温泉ユニット
+tile.spring_water.name=spaWater
+tile.spring_block.name=温泉ユニット
 tile.sakuraLog.name=桜の原木
 tile.campfire.name=囲炉裏
 

@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "active=true": { "model": "bamboomod:spring_block_active" },
+        "active=false": { "model": "bamboomod:spring_block" }
+    }
+}
