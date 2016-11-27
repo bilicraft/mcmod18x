@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 import ruby.bamboo.block.tile.TileJPChest;
@@ -33,6 +35,12 @@ public class JPChest extends BlockChest {
     //    @Override
     //    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
     //    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        EnumFacing enumfacing = EnumFacing.getHorizontal(MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
+        worldIn.setBlockState(pos, state.withProperty(FACING, enumfacing), 3);
+    }
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
