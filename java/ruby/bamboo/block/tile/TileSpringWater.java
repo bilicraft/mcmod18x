@@ -1,6 +1,7 @@
 package ruby.bamboo.block.tile;
 
-import com.sun.istack.internal.Nullable;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
