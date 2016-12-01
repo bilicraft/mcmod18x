@@ -9,9 +9,13 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.api.Constants;
@@ -70,4 +74,14 @@ public class BambooPane extends BlockPane implements IMultiTextuerBlock {
         return "bamboomod:blocks/bamboopane";
     }
 
+    @Override
+    protected ItemStack createStackedBlock(IBlockState state) {
+        return new ItemStack(this,1,state.getValue(META));
+    }
+
+    @Override
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
+    {
+        return new ItemStack(this,1,state.getValue(META));
+    }
 }
