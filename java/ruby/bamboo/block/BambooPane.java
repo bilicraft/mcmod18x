@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
+import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.core.init.EnumMaterial;
 import ruby.bamboo.item.itemblock.ItemBambooPane;
@@ -83,5 +84,10 @@ public class BambooPane extends BlockPane implements IMultiTextuerBlock {
     public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
     {
         return new ItemStack(this,1,state.getValue(META));
+    }
+
+    @StateIgnore
+    public IProperty[] getIgnoreState() {
+        return new IProperty[] {  NORTH, EAST, WEST, SOUTH };
     }
 }
