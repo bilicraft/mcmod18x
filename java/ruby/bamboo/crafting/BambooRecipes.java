@@ -73,7 +73,8 @@ public class BambooRecipes {
         addRecipe(getIS(BAMBOO_PANE, 8, 1), "XYX", "XYX",  'X', bamboo, 'Y',getIS(BAMBOO_PANE, 8, 0));
         addRecipe(getIS(BAMBOO_PANE, 8, 2), "XYX", "XYX",  'X', bamboo, 'Y',getIS(BAMBOO_PANE, 8, 1));
         addRecipe(getIS(BAMBOO_PANE, 8, 3), "XYX", "XXX",  'X',plankWood , 'Y', tudura);
-
+        // おんせん
+        addRecipe(getIS(SPRING_BLOCK),"X#X","XYX","XZX",'X',Blocks.COBBLESTONE,'#',TUDURA,'Y',Items.WATER_BUCKET,'Z',Items.LAVA_BUCKET);
 
         //******デコレーション
         // 瓦
