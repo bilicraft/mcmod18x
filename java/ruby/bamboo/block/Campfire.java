@@ -78,8 +78,10 @@ public class Campfire extends BlockContainer {
         float var9 = pos.getZ() + 0.5F;
         float var10 = rand.nextFloat() * 0.4F - 0.2F;
         float var11 = rand.nextFloat() * 0.4F - 0.2F;
-        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+//        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+        if(rand.nextFloat()<0.1F){
         world.spawnParticle(EnumParticleTypes.FLAME, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+        }
     }
 
     @Override

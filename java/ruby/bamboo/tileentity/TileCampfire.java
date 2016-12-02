@@ -21,15 +21,10 @@ import ruby.bamboo.crafting.CookingManager;
 public class TileCampfire extends TileEntity implements ITickable, ISidedInventory {
 
     public enum BakeType {
-        NONE(0),
-        ATHER(1),
-        MEAT(2),
-        FISH(3);
-        BakeType(int id) {
-            this.id = (byte) id;
-        }
-
-        byte id;
+        NONE,
+        ATHER,
+        MEAT,
+        FISH;
     }
 
     private static final byte SLOT_FUEL = 9;
