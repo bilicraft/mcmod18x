@@ -21,6 +21,7 @@ public class BambooBlocks {
     public static final Block BAMBOO_PANE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "bamboopane");
     public static final Block SPRING_BLOCK = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "spring_block");
     public static final Block SPRING_WATER = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "spring_water");
+    public static final Block CAMPFIRE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "campfire");
 
     // デコレーション系
     public static final Block KAWARA = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "kawara");

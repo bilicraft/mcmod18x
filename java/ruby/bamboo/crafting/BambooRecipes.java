@@ -75,6 +75,9 @@ public class BambooRecipes {
         addRecipe(getIS(BAMBOO_PANE, 8, 3), "XYX", "XXX",  'X',plankWood , 'Y', tudura);
         // おんせん
         addRecipe(getIS(SPRING_BLOCK),"X#X","XYX","XZX",'X',Blocks.COBBLESTONE,'#',TUDURA,'Y',Items.WATER_BUCKET,'Z',Items.LAVA_BUCKET);
+        // 囲炉裏
+        addRecipe(getIS(CAMPFIRE)," # ","XYX","ZZZ",'X',Blocks.IRON_BARS,'#',TUDURA,'Y',Items.FLINT_AND_STEEL,'Z',getIS(Items.COAL,1,1));
+
 
         //******デコレーション
         // 瓦

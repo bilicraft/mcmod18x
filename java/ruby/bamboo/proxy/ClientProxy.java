@@ -21,11 +21,14 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLLog;
+import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.block.IBlockColorWrapper;
 import ruby.bamboo.block.ICustomState;
@@ -37,6 +40,8 @@ import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.IItemColorWrapper;
 import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.texture.TextureHelper;
+import ruby.bamboo.tileentity.TileCampfire;
+import ruby.bamboo.tileentity.render.RenderCampfire;
 
 /**
  * クライアントプロクシ
@@ -55,6 +60,7 @@ public class ClientProxy extends CommonProxy {
         new DecorationClientFactory().register();
         // えんてぃてぃれんだー
         new EntityRegister().renderRegist();
+        this.registTESRender();
         KeyBindFactory.preInit();
     }
 
@@ -111,7 +117,7 @@ public class ClientProxy extends CommonProxy {
                     for (IEnumTex tex : ((ISubTexture) item).getName()) {
                         String jsonName = tex.getJsonName();
                         //ModelBakery.addVariantName(item, jsonName);
-                        //                    locList.add(new ResourceLocation(jsonName));
+                        //locList.add(new ResourceLocation(jsonName));
                         ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
 
                         ModelLoader.setCustomModelResourceLocation(item, tex.getId(), mrl);
@@ -197,6 +203,11 @@ public class ClientProxy extends CommonProxy {
         //Item用
         colorItemList.forEach(colorItem -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> ((IItemColorWrapper) colorItem).getColorFromItemstack(stack, tintIndex), colorItem));
 
+    }
+
+    private void registTESRender() {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCampfire.class, new RenderCampfire());
+        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BambooBlocks.CAMPFIRE), 0, TileCampfire.class);
     }
 
     @Override

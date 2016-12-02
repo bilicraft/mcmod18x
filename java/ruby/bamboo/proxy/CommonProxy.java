@@ -21,6 +21,7 @@ import ruby.bamboo.crafting.CraftingHandler;
 import ruby.bamboo.fluid.HotSpring;
 import ruby.bamboo.generate.GenerateHandler;
 import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.tileentity.TileCampfire;
 import ruby.bamboo.tileentity.TileJPChest;
 import ruby.bamboo.tileentity.TileSpringWater;
 
@@ -91,6 +92,7 @@ public class CommonProxy {
     private void registTileEntity() {
         GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
         GameRegistry.registerTileEntity(TileSpringWater.class, "spring_water");
+        GameRegistry.registerTileEntity(TileCampfire.class, "campfire");
     }
 
 
