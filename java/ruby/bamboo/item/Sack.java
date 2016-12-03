@@ -237,8 +237,8 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
         return new ItemStack(getItem(type), count, meta);
     }
 
-    public void setContainerItem(ItemStack target,ItemStack itemStack) {
-        if(itemStack==null){
+    public void setContainerItem(ItemStack target, ItemStack itemStack) {
+        if (itemStack == null) {
             return;
         }
         if (itemStack.getTagCompound() == null) {
@@ -254,21 +254,19 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
     }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack)
-    {
-        return (double)stack.getItemDamage() / (double)stack.getMaxDamage();
+    public double getDurabilityForDisplay(ItemStack stack) {
+        return (double) stack.getItemDamage() / (double) stack.getMaxDamage();
     }
 
     @Override
     public void exec(KeyBinding key) {
-        EntityPlayer player = FMLClientHandler.instance().getClientPlayerEntity();
         if (key.isPressed()) {
-//            player.openGui(BambooCore.instance, GuiHandler.GUI_SACK, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
-//            if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
-//                player.setActiveHand(EnumHand.MAIN_HAND);
-//            } else {
-//                player.setActiveHand(EnumHand.OFF_HAND);
-//            }
+            //            player.openGui(BambooCore.instance, GuiHandler.GUI_SACK, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
+            //            if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
+            //                player.setActiveHand(EnumHand.MAIN_HAND);
+            //            } else {
+            //                player.setActiveHand(EnumHand.OFF_HAND);
+            //            }
             PacketDispatcher.sendToServer(new MessageBambooUtil());
         }
     }
@@ -280,7 +278,7 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
         } else {
             player.setActiveHand(EnumHand.OFF_HAND);
         }
-//        player.openGui(BambooCore.instance, GuiHandler.GUI_SACK, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
+        //        player.openGui(BambooCore.instance, GuiHandler.GUI_SACK, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
         this.release(is, player.getEntityWorld(), player);
     }
 }

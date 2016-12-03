@@ -48,6 +48,7 @@ public class DataLoader extends ClassFinder {
      */
     private void registBlock(Class<? extends Block> cls, List<String> registedList) {
         try {
+            FMLLog.info(cls.getName()+" to Loading");
             // マテリアルを持つコンストラクタはアノテーションでしたマテリアルで初期化する(継承対策)
             Class c = Class.forName(cls.getName());
             Block instance = null;
@@ -84,6 +85,7 @@ public class DataLoader extends ClassFinder {
      */
     private void registItem(Class<? extends Item> cls, List<String> registedList) {
         try {
+            FMLLog.info(cls.getName()+" to Loading");
             Class c = Class.forName(cls.getName());
             Item instance = (Item) c.newInstance();
 
