@@ -77,6 +77,7 @@ public class CommonProxy {
         BambooRecipes recipeIns = new BambooRecipes();
         recipeIns.oreDicRegist();
         recipeIns.craftingTableRecipes();
+        recipeIns.addCookingRecipe();
         recipeIns.smeltingRecipes();
         recipeIns.registFuel();
         recipeIns.registSeed();

@@ -22,10 +22,27 @@ import ruby.bamboo.item.arrow.AntiArrow.AntiType;
 
 public class BambooRecipes {
     private int WILD = Short.MAX_VALUE;
-    private String bamboo = "bamboo";
-    private String tudura = "tudura";
-    private String straw = "straw";
-    private String plankWood = "plankWood";
+    public final String bamboo = "bamboo";
+    public final String tudura = "tudura";
+    public final String plankWood = "plankWood";
+
+    public final String cookingRice = "cookingRice";
+    public final String busket = "bambooBasket";
+    public final String crop_rice = "cropRice";
+    public final String log_sakura = "logCherry";
+    public final String crop_straw = "cropStraw";
+    public final String natto = "natto";
+    public final String zunda = "zunda";
+    public final String soy_beans = "soybeans";
+    public final String red_beans = "redbeans";
+    public final String mochi = "mochi";
+    public final String cooled_mochi = "cookedMochi";
+    public final String flour = "foodFlour";
+    public final String dough = "foodDough";
+    public final String tofu_kinu = "tofuKinu";
+    public final String men = "foodNoodle";
+    public final String seaweed = "foodSeaweed";
+    public final String tomato = "foodTomato";
 
     /**
      * 鉱石辞書
@@ -35,7 +52,7 @@ public class BambooRecipes {
         OreDictionary.registerOre("plankWood", getIS(SAKURA_PLANKS));
         OreDictionary.registerOre(bamboo, getIS(BAMBOO));
         OreDictionary.registerOre(tudura, getIS(TUDURA));
-        OreDictionary.registerOre(straw, getIS(STRAW));
+        OreDictionary.registerOre(crop_straw, getIS(STRAW));
     }
 
     /**
@@ -55,7 +72,7 @@ public class BambooRecipes {
         // たんす
         addCircleRecipe(getIS(JPCHEST), tudura, "logWood");
         // たたみ
-        addRecipe(getIS(TATAMI), " S ", "STS", " S ", 'S', straw, 'T', tudura);
+        addRecipe(getIS(TATAMI), " S ", "STS", " S ", 'S', crop_straw, 'T', tudura);
         // 引き戸類
         addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.STICK, 'Y', Items.PAPER, '#', tudura);
         addRecipe(getIS(ITEM_SLIDE_DOOR, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', tudura, 'X', Items.STICK, 'Y', Items.PAPER);
@@ -69,15 +86,14 @@ public class BambooRecipes {
         addRecipe(getIS(KITUNEBI, 6, 0), "XYX", "X#X", "XYX", 'X', "gemLapis", 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
         addRecipe(getIS(KITUNEBI, 6, 0), "XYX", "X#X", "XYX", 'X', Items.ENDER_PEARL, 'Y', tudura, '#', Blocks.LIT_PUMPKIN);
         // 柵
-        addRecipe(getIS(BAMBOO_PANE, 8, 0), "XXX", "XXX",  'X', bamboo);
-        addRecipe(getIS(BAMBOO_PANE, 8, 1), "XYX", "XYX",  'X', bamboo, 'Y',getIS(BAMBOO_PANE, 8, 0));
-        addRecipe(getIS(BAMBOO_PANE, 8, 2), "XYX", "XYX",  'X', bamboo, 'Y',getIS(BAMBOO_PANE, 8, 1));
-        addRecipe(getIS(BAMBOO_PANE, 8, 3), "XYX", "XXX",  'X',plankWood , 'Y', tudura);
+        addRecipe(getIS(BAMBOO_PANE, 8, 0), "XXX", "XXX", 'X', bamboo);
+        addRecipe(getIS(BAMBOO_PANE, 8, 1), "XYX", "XYX", 'X', bamboo, 'Y', getIS(BAMBOO_PANE, 8, 0));
+        addRecipe(getIS(BAMBOO_PANE, 8, 2), "XYX", "XYX", 'X', bamboo, 'Y', getIS(BAMBOO_PANE, 8, 1));
+        addRecipe(getIS(BAMBOO_PANE, 8, 3), "XYX", "XXX", 'X', plankWood, 'Y', tudura);
         // おんせん
-        addRecipe(getIS(SPRING_BLOCK),"X#X","XYX","XZX",'X',Blocks.COBBLESTONE,'#',TUDURA,'Y',Items.WATER_BUCKET,'Z',Items.LAVA_BUCKET);
+        addRecipe(getIS(SPRING_BLOCK), "X#X", "XYX", "XZX", 'X', Blocks.COBBLESTONE, '#', TUDURA, 'Y', Items.WATER_BUCKET, 'Z', Items.LAVA_BUCKET);
         // 囲炉裏
-        addRecipe(getIS(CAMPFIRE)," # ","XYX","ZZZ",'X',Blocks.IRON_BARS,'#',TUDURA,'Y',Items.FLINT_AND_STEEL,'Z',getIS(Items.COAL,1,1));
-
+        addRecipe(getIS(CAMPFIRE), " # ", "XYX", "ZZZ", 'X', Blocks.IRON_BARS, '#', TUDURA, 'Y', Items.FLINT_AND_STEEL, 'Z', getIS(Items.COAL, 1, 1));
 
         //******デコレーション
         // 瓦
@@ -116,6 +132,51 @@ public class BambooRecipes {
         addShapelessRecipe(getIS(LIGHT_ARROW), getIS(BAMBOO_ARROW), Items.FEATHER);
         addShapelessRecipe(getIS(EXPLODE_ARROW), getIS(BAMBOO_ARROW), Items.GUNPOWDER);
 
+    }
+
+    public void addCookingRecipe() {
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 1), Items.BEEF, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 2), Items.PORKCHOP, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 3), Blocks.BROWN_MUSHROOM, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 2, 4), Items.PORKCHOP, BAMBOO);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 2, 5), Items.BEEF, BAMBOO);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 6), BAMBOOSHOOT, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 7), Items.EGG, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 8), Items.EGG, Items.CHICKEN, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 9), new ItemStack(Items.FISH, 1, 0), crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 2, 10), Items.CHICKEN, BAMBOO);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 11), crop_rice, seaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 12), crop_rice, seaweed, new ItemStack(Items.FISH, 1, 1));
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 13), crop_rice, seaweed, new ItemStack(Items.FISH, 1, 0), Items.EGG);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 14), crop_rice, seaweed, Blocks.BROWN_MUSHROOM);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 15), crop_rice, seaweed, BAMBOOSHOOT);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 16), crop_rice, seaweed, seaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 17), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, Items.SUGAR, soy_beans);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 18), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, red_beans);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 19), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, Items.SUGAR);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 20), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, new ItemStack(SAKURA_LEAVE, 1, WILD), new ItemStack(Blocks.TALLGRASS, 1, WILD));
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 21), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, zunda, zunda);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 24), new ItemStack(BAMBOO_FOOD, 1, 22), Items.SUGAR, Items.SUGAR, soy_beans);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 25), new ItemStack(BAMBOO_FOOD, 1, 22), Items.SUGAR, red_beans);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 26), new ItemStack(BAMBOO_FOOD, 1, 22), Items.SUGAR, zunda, zunda);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 27), crop_straw, soy_beans);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 28), crop_straw, soy_beans, crop_rice);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 29), crop_straw, soy_beans, crop_rice, Items.EGG);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 30), new ItemStack(BAMBOO_FOOD, 1, 22), new ItemStack(SAKURA_LEAVE, 1, WILD));
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 31), Items.BEEF, crop_rice, Items.EGG);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 32), Items.PORKCHOP, crop_rice, Items.EGG);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 33), crop_rice, red_beans);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 34), crop_rice, red_beans, seaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(Items.PUMPKIN_PIE, 2), dough, Items.SUGAR, Blocks.PUMPKIN);
+        CookingManager.addShapelessRecipe(new ItemStack(Items.CAKE, 2, 0), dough, Items.SUGAR, Items.MILK_BUCKET);
+        CookingManager.addShapelessRecipe(new ItemStack(Items.COOKIE, 4), dough, Items.SUGAR, new ItemStack(Items.DYE, 1, 3));
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 35), soy_beans, Items.WATER_BUCKET);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 36), tofu_kinu, flour);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 38), men, soy_beans, Items.WATER_BUCKET, Items.FISH);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 39), men, soy_beans, Items.WATER_BUCKET, Items.FISH, Items.EGG);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 40), men, soy_beans, Items.WATER_BUCKET, Items.FISH, Items.EGG, seaweed, Items.PORKCHOP);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 41), dough, tomato, Items.MILK_BUCKET, Items.PORKCHOP);
+        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 42), new ItemStack(Items.FISH, 1, 1), crop_rice);
     }
 
     private void addAntiArrowsRecipe(AntiType type, int ammo, Object material) {
