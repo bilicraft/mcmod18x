@@ -1,9 +1,16 @@
 package ruby.bamboo.texture;
 
-import net.minecraft.item.ItemStack;
+import java.util.Map;
 
+/**
+ * ItemLayerModel専用
+ */
 public interface IMultiTextuerItem {
-
-    String getTexName(ItemStack stack);
+    /**
+     * テクスチャマップの取得
+     *
+     * @return Key:ダメージ値,Val:パス
+     */
+    Map<Integer, String> getTexName();
 
 }
