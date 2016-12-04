@@ -9,8 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.block.ILeave;
+import ruby.bamboo.core.init.EnumCreateTab.ICreativeSoatName;
 
-public class ItemSakuraLeave extends ItemBlock implements IItemColorWrapper {
+public class ItemSakuraLeave extends ItemBlock implements IItemColorWrapper, ICreativeSoatName {
 
     private final ILeave leave;
 
@@ -41,5 +42,10 @@ public class ItemSakuraLeave extends ItemBlock implements IItemColorWrapper {
     @Override
     public int getColorFromItemstack(ItemStack stack, int tintIndex) {
         return this.leave.getLeaveRenderColor(this.leave.getLeaveStateFromMeta(stack.getMetadata()));
+    }
+
+    @Override
+    public String getSortName(ItemStack is) {
+        return "sakura" + getUnlocalizedName(is);
     }
 }

@@ -15,10 +15,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.core.init.EnumCreateTab.ICreativeSoatName;
 import ruby.bamboo.texture.IMultiTextuerItem;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
-public class BambooFood extends ItemFood implements IMultiTextuerItem {
+public class BambooFood extends ItemFood implements IMultiTextuerItem, ICreativeSoatName {
 
     enum Food {
         RICE(0, 3, 1.5F, 32, "mugimesi"),
@@ -45,25 +46,25 @@ public class BambooFood extends ItemFood implements IMultiTextuerItem {
         DANZUNDA(21, 7, 5, 16, "danzunda"),
         MOCHI(22, 6, 3, 72, "mochi"),
         COOKEDMOCHI(23, 6, 5, 36, "cookedmochi"),
-        OHAANKO(24, 7,4, 36, "ohaanko"),
-        OHAKINAKO(25, 7,4, 36,"ohakinako"),
-        OHAZUNDA(26, 7,4, 36,"ohazunda"),
-        NATTO(27, 2,1, 16,"natto"),
-        NATTOMESHI(28, 5,3, 16, "nattomeshi"),
-        TAMANATTOMESHI(29, 7,6, 16, "tamanattomeshi"),
-        SAKURAMOCHI(30, 7,6, 36,"sakuramochi"),
-        TAMAGYUMESHI(31, 11,6, 24, "tamagyumeshi"),
-        KATSUDON(32, 11,6, 24,"katsudon"),
-        SEKIHAN(33, 5,4, 36, "sekihan"),
-        ONISEKIHAN(34, 7,6, 28,"onisekihan"),
-        TOFU(35, 1,0.5F, 10, "tofu"),
-        AGEDASHI(36, 3,2, 16,"agedashi"),
-        MEN(37, 1,0.5F, 32, "men"),
-        UDON(38, 10,3, 64, "udon"),
-        SOBA(39, 12,3, 64, "soba"),
-        RAMEN(40, 18,9, 128, "ramen"),
-        PIZZA(41, 10,5, 64, "pizza"),
-        KAISENOYAKO(42, 8,4, 36,"kaisenoyako");
+        OHAANKO(24, 7, 4, 36, "ohaanko"),
+        OHAKINAKO(25, 7, 4, 36, "ohakinako"),
+        OHAZUNDA(26, 7, 4, 36, "ohazunda"),
+        NATTO(27, 2, 1, 16, "natto"),
+        NATTOMESHI(28, 5, 3, 16, "nattomeshi"),
+        TAMANATTOMESHI(29, 7, 6, 16, "tamanattomeshi"),
+        SAKURAMOCHI(30, 7, 6, 36, "sakuramochi"),
+        TAMAGYUMESHI(31, 11, 6, 24, "tamagyumeshi"),
+        KATSUDON(32, 11, 6, 24, "katsudon"),
+        SEKIHAN(33, 5, 4, 36, "sekihan"),
+        ONISEKIHAN(34, 7, 6, 28, "onisekihan"),
+        TOFU(35, 1, 0.5F, 10, "tofu"),
+        AGEDASHI(36, 3, 2, 16, "agedashi"),
+        MEN(37, 1, 0.5F, 32, "men"),
+        UDON(38, 10, 3, 64, "udon"),
+        SOBA(39, 12, 3, 64, "soba"),
+        RAMEN(40, 18, 9, 128, "ramen"),
+        PIZZA(41, 10, 5, 64, "pizza"),
+        KAISENOYAKO(42, 8, 4, 36, "kaisenoyako");
 
         Food(int id, int heal, float sMod, int duration, String texName) {
             this.id = id;
@@ -121,5 +122,10 @@ public class BambooFood extends ItemFood implements IMultiTextuerItem {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName() + "." + stack.getItemDamage();
+    }
+
+    @Override
+    public String getSortName(ItemStack is) {
+        return "zzz" + this.getUnlocalizedName(is);
     }
 }

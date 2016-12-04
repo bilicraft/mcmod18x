@@ -9,10 +9,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import ruby.bamboo.core.init.EnumCreateTab.ICreativeSoatName;
 import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.util.ItemStackHelper;
 
-public abstract class ArrowBase extends Item implements IBambooArrow {
+public abstract class ArrowBase extends Item implements IBambooArrow, ICreativeSoatName {
     public abstract Class<? extends BaseArrow> getArrowClass();
 
     @Override
@@ -45,5 +46,10 @@ public abstract class ArrowBase extends Item implements IBambooArrow {
         }
 
         return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+    }
+
+    @Override
+    public String getSortName(ItemStack is) {
+        return "bambooArrow" + this.getUnlocalizedName(is);
     }
 }
