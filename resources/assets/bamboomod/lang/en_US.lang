@@ -68,6 +68,7 @@ tile.cpine_slab.name=check_slab(pine)
 tile.cpine_stairs.name=check_stair(pine)
 tile.cpine_double_slab.name=check_double_slab(pine)
 
+itemGroup.bamboomod=BambooMod
 
 tile.twoDirDeco.0.name=Yoroiita
 tile.sakura_planks.name=SakuraWoodPlanks
