@@ -1,0 +1,29 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "bamboomod:andon",
+        "uvlock": false
+    },
+    "variants": {
+        "facing":{
+            "north":{
+                "y": 180
+            },
+            "east":{
+                "y": 270
+            },
+            "west":{
+                "y": 90
+            },
+            "south":{
+            }
+        },
+        "on_ground":{
+            "true": {
+                "submodel": "bamboomod:andon_onleg"
+            },
+            "false": {
+            }
+        }
+     }
+}    
