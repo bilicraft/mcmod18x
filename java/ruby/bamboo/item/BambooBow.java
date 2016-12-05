@@ -42,6 +42,7 @@ import ruby.bamboo.core.PacketDispatcher;
 import ruby.bamboo.core.client.KeyBindFactory.IItemUtilKeylistener;
 import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.item.arrow.IBambooArrow;
 import ruby.bamboo.packet.MessageBambooUtil;
 import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
@@ -118,7 +119,17 @@ public class BambooBow extends ItemBow implements IItemUtilKeylistener, IMessage
                 ItemStack arrowStack = inv.getStackInSlot(slotNum);
                 IBambooArrow arrow = (IBambooArrow) arrowStack.getItem();
 
-                arrow.execute(worldIn, stack, arrowStack, power, chargeFrame, player);
+                BaseArrow entityArrow= arrow.createArrowIn(worldIn, stack, arrowStack, power, chargeFrame, player);
+
+                if (!worldIn.isRemote) {
+                    worldIn.spawnEntityInWorld(entityArrow);
+                }
+                if (! arrow.isNoResources(player,stack)) {
+                    ItemStackHelper.decrStackSize(player.inventory, arrowStack, 1);
+                } else {
+                    entityArrow.setNoPick();
+                    entityArrow.setMaxAge(60);
+                }
 
                 worldIn.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 

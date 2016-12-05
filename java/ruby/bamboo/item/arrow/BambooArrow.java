@@ -16,7 +16,7 @@ public class BambooArrow extends ArrowBase {
     private int limit = 5;
 
     @Override
-    public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
+    public BaseArrow createArrowIn(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
         EntityBambooArrow entityArrow;
         int attackCount;
         int invStackSize = ItemStackHelper.getInventoryStackSize(player.inventory, arrow);
@@ -32,12 +32,8 @@ public class BambooArrow extends ArrowBase {
                 attackCount = 12;
                 power = 1;
             }
-            entityArrow = new EntityBambooArrow(world, player, power * 2.0f);
-            entityArrow.setMaxAge(60);
-            entityArrow.setNoPick();
-        } else {
-            entityArrow = new EntityBambooArrow(world, player, power * 2.0f);
         }
+        entityArrow = new EntityBambooArrow(world, player, power * 2.0f);
 
         entityArrow.setBarrage(attackCount);
 
@@ -60,13 +56,12 @@ public class BambooArrow extends ArrowBase {
         if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, bow) > 0) {
             entityArrow.setFire(100);
         }
-        if (!world.isRemote) {
-            world.spawnEntityInWorld(entityArrow);
-        }
-        if (!isNoResources(player)) {
-            ItemStackHelper.decrStackSize(player.inventory, arrow, attackCount);
+
+        if (!isNoResources(player, bow)) {
+            ItemStackHelper.decrStackSize(player.inventory, arrow, --attackCount);
         }
 
+        return entityArrow;
     }
 
     @Override

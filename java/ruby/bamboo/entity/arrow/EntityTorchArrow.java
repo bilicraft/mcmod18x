@@ -58,10 +58,5 @@ public class EntityTorchArrow extends BaseArrow {
         return new ItemStack(BambooItems.TORCH_ARROW, 1, 0);
     }
 
-    @Override
-    protected ItemStack getArrowStack() {
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
-    }
 
 }

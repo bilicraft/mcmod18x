@@ -9,12 +9,11 @@ import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityExplodeArrow;
-import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class ExplodeArrow extends ArrowBase {
     @Override
-    public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
+    public BaseArrow createArrowIn(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
         EntityExplodeArrow entityArrow = new EntityExplodeArrow(world, player, power * 2.0f);
         entityArrow.setDamage(0.5);
         if (!world.isRemote) {
@@ -37,11 +36,7 @@ public class ExplodeArrow extends ArrowBase {
             entityArrow.setFire(100);
         }
 
-        if (!isNoResources(player)) {
-            ItemStackHelper.decrStackSize(player.inventory, arrow, 1);
-        } else {
-            entityArrow.setNoPick();
-        }
+       return entityArrow;
     }
 
     @Override

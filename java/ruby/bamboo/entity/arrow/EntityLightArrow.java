@@ -32,10 +32,4 @@ public class EntityLightArrow extends BaseArrow {
         return new ItemStack(BambooItems.LIGHT_ARROW, 1, 0);
     }
 
-    @Override
-    protected ItemStack getArrowStack() {
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
-    }
-
 }

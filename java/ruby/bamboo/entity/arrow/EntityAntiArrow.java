@@ -124,10 +124,5 @@ public class EntityAntiArrow extends BaseArrow {
         }
     }
 
-    @Override
-    protected ItemStack getArrowStack() {
-        // TODO 矢筒関係？
-        return null;
-    }
 
 }

@@ -40,7 +40,6 @@ import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityAntiArrow;
 import ruby.bamboo.item.itemblock.IEnumTex;
 import ruby.bamboo.item.itemblock.ISubTexture;
-import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class AntiArrow extends ArrowBase implements ISubTexture {
@@ -102,7 +101,7 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
     }
 
     @Override
-    public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
+    public BaseArrow createArrowIn(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
         EntityAntiArrow entityArrow = new EntityAntiArrow(world, player, power * 2.0f);
         entityArrow.setArrowType(AntiType.getType(arrow.getItemDamage()));
 
@@ -122,14 +121,8 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
             entityArrow.setFire(100);
         }
 
-        if (!world.isRemote) {
-            world.spawnEntityInWorld(entityArrow);
-        }
-        if (!isNoResources(player)) {
-            ItemStackHelper.decrStackSize(player.inventory, arrow, 1);
-        } else {
-            entityArrow.setNoPick();
-        }
+
+        return entityArrow;
     }
 
     @Override

@@ -9,13 +9,12 @@ import ruby.bamboo.core.init.BambooData.BambooItem;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.entity.arrow.BaseArrow;
 import ruby.bamboo.entity.arrow.EntityTorchArrow;
-import ruby.bamboo.util.ItemStackHelper;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class TorchArrow extends ArrowBase {
 
     @Override
-    public void execute(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
+    public BaseArrow createArrowIn(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player) {
         if ((power *= 2) > 1.0F) {
             power = 1.0F;
         }
@@ -42,14 +41,8 @@ public class TorchArrow extends ArrowBase {
         if (world.rand.nextFloat() < 0.1f) {
             entityArrow.setFire(100);
         }
-        if (!world.isRemote) {
-            world.spawnEntityInWorld(entityArrow);
-        }
-        if (!isNoResources(player)) {
-            ItemStackHelper.decrStackSize(player.inventory, arrow, 1);
-        } else {
-            entityArrow.setNoPick();
-        }
+
+        return entityArrow;
     }
 
     @Override

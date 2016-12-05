@@ -556,6 +556,12 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     public void setMaxAge(int maxAge) {
         this.maxAge = maxAge;
     }
+
+    @Override
+    protected ItemStack getArrowStack() {
+        return getItemArrow();
+    }
+
     //    @Override
     //    public void setIsCritical(boolean critical) {
     //        byte b0 = this.dataWatcher.getWatchableObjectByte(16);

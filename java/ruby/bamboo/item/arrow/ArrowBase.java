@@ -2,7 +2,6 @@ package ruby.bamboo.item.arrow;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -16,6 +15,7 @@ import ruby.bamboo.util.ItemStackHelper;
 public abstract class ArrowBase extends Item implements IBambooArrow, ICreativeSoatName {
     public abstract Class<? extends BaseArrow> getArrowClass();
 
+    // 竹槍直接投げ
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
         Class<? extends BaseArrow> arrow = getArrowClass();
@@ -36,10 +36,11 @@ public abstract class ArrowBase extends Item implements IBambooArrow, ICreativeS
             if (!worldIn.isRemote) {
                 worldIn.spawnEntityInWorld(entityArrow);
             }
-            if (!isNoResources(playerIn)) {
+            if (!playerIn.capabilities.isCreativeMode) {
                 ItemStackHelper.decrStackSize(playerIn.inventory, itemStackIn, 1);
             } else {
-                entityArrow.pickupStatus = PickupStatus.ALLOWED;
+                entityArrow.setMaxAge(60);
+                entityArrow.setNoPick();
             }
         } catch (Exception e) {
             e.printStackTrace();
