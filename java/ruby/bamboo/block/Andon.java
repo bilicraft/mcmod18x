@@ -28,6 +28,8 @@ public class Andon extends BlockHorizontal {
     public Andon() {
         super(Material.GROUND);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ON_GROUND, true));
+        this.setHardness(0.3F);
+        this.setResistance(300F);
     }
 
     @Override

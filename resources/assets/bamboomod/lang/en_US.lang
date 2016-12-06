@@ -34,6 +34,7 @@ tile.delude_height.name=Camoslab(Vertical)
 tile.delude_stair.name=Camostairs
 tile.campfire.name=Campfire
 tile.huton.name=Huton
+tile.indlight.name=Indirectlight
 
 #deco
 tile.kawara.name=Kawara

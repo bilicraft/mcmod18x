@@ -29,6 +29,8 @@ public class Huton extends BlockBed {
 
     public Huton() {
         super();
+        this.setHardness(0.5F);
+        this.setResistance(300F);
     }
 
     @Override
