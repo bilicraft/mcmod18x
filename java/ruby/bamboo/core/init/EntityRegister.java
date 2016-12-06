@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.BambooCore;
+import ruby.bamboo.entity.Chair;
 import ruby.bamboo.entity.EntityRuneEffect;
 import ruby.bamboo.entity.SakuraPetal;
 import ruby.bamboo.entity.SlideDoor;
@@ -35,6 +36,7 @@ public class EntityRegister {
         registerEntity(EntityLightArrow.class, "lightArrow", entityId++);
         registerEntity(EntityExplodeArrow.class, "explodeArrow", entityId++);
         registerEntity(TimerBomb.class, "timerBomb", entityId++);
+        registerEntity(Chair.class, "chair", entityId++);
     }
 
     @SideOnly(Side.CLIENT)
@@ -49,6 +51,7 @@ public class EntityRegister {
         this.registRender(EntityExplodeArrow.class, RenderBambooArrow.class);
         this.registRender(EntityRuneEffect.class, RenderRuneEffect.class);
         this.registRender(TimerBomb.class, RenderWind.class);
+        this.registRender(Chair.class, RenderWind.class);
     }
 
     private void registerEntity(Class<? extends Entity> entityClass, String entityName, int id) {

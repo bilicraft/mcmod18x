@@ -29,7 +29,6 @@ import ruby.bamboo.core.init.EnumCreateTab;
 
 public class Kitunebi extends Block {
 
-    public static final AxisAlignedBB INVISIBLE_BLOCK_AABB = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
     private boolean isVisible = false;
 
@@ -70,7 +69,7 @@ public class Kitunebi extends Block {
         if (state.getValue(VISIBLE)) {
             return FULL_BLOCK_AABB;
         } else {
-            return INVISIBLE_BLOCK_AABB;
+            return Constants.ZERO_AABB;
         }
     }
 

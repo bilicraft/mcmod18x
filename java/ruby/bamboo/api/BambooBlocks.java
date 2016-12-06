@@ -23,6 +23,7 @@ public class BambooBlocks {
     public static final Block SPRING_WATER = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "spring_water");
     public static final Block CAMPFIRE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "campfire");
     public static final Block ANDON = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "andon");
+    public static final Block HUTON = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "huton");
 
     // デコレーション系
     public static final Block KAWARA = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "kawara");

@@ -29,6 +29,7 @@ tile.spring_water.name=spaWater
 tile.spring_block.name=温泉ユニット
 tile.sakuraLog.name=桜の原木
 tile.campfire.name=囲炉裏
+tile.huton.name=布団
 
 #deco
 tile.kawara.name=瓦
@@ -167,7 +168,6 @@ item.itemslidedoor.4.name=雪見障子
 item.itemslidedoor.5.name=雨戸
 item.obon.name=おぼん
 item.kakeziku.name=掛け軸
-item.huton.name=布団
 item.boiledEgg.name=ゆで卵
 item.windchime.name=風鈴
 item.sack.name=ふくろ

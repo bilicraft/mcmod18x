@@ -33,6 +33,7 @@ tile.delude_width.name=变色龙横板
 tile.delude_height.name=变色龙竖板
 tile.delude_stair.name=变色龙台阶
 tile.campfire.name=围炉
+tile.huton.name=被褥
 
 #deco
 tile.kawara.name=瓦块
@@ -173,7 +174,6 @@ item.itemslidedoor.4.name=眺雪拉门
 item.itemslidedoor.5.name=滑窗
 item.obon.name=供盘
 item.kakeziku.name=挂轴
-item.huton.name=被褥
 item.boiledEgg.name=煮鸡蛋
 item.windchime.name=风铃
 item.sack.name=包裹

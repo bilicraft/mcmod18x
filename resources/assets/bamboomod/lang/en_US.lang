@@ -33,6 +33,7 @@ tile.delude_width.name=Camoslab
 tile.delude_height.name=Camoslab(Vertical)
 tile.delude_stair.name=Camostairs
 tile.campfire.name=Campfire
+tile.huton.name=Huton
 
 #deco
 tile.kawara.name=Kawara
@@ -174,7 +175,6 @@ item.itemslidedoor.4.name=Yukimi
 item.itemslidedoor.5.name=Amado
 item.obon.name=Obon
 item.kakeziku.name=Kakeziku
-item.huton.name=Huton
 item.boiledEgg.name=BoiledEgg
 item.windchime.name=Windchime
 item.sack.name=ItemSack

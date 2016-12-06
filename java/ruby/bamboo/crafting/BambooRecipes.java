@@ -96,6 +96,8 @@ public class BambooRecipes {
         addRecipe(getIS(CAMPFIRE), " # ", "XYX", "ZZZ", 'X', Blocks.IRON_BARS, '#', TUDURA, 'Y', Items.FLINT_AND_STEEL, 'Z', getIS(Items.COAL, 1, 1));
         // 行灯
         addRecipe(getIS(ANDON, 1, 0), "###", "#Y#", "#X#", '#', Items.STICK, 'X', Blocks.TORCH, 'Y', TUDURA);
+        // 布団
+        addRecipe(getIS(HUTON, 1, 0), " # ", "XXX", "XXX", '#', TUDURA, 'X', Blocks.WOOL);
 
         //******デコレーション
         // 瓦
