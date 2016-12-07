@@ -35,7 +35,7 @@ public class DataLoader extends ClassFinder {
             }
         } catch (Exception e) {
             FMLLog.bigWarning("ブロック初期化例外");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return registedList;
     }
@@ -48,32 +48,59 @@ public class DataLoader extends ClassFinder {
      */
     private void registBlock(Class<? extends Block> cls, List<String> registedList) {
         try {
-            FMLLog.info(cls.getName()+" to Loading");
+            FMLLog.info(cls.getName() + " to Loading");
             // マテリアルを持つコンストラクタはアノテーションでしたマテリアルで初期化する(継承対策)
             Class c = Class.forName(cls.getName());
             Block instance = null;
-            try {
-                Constructor cnst = c.getDeclaredConstructor(Material.class);
-                cnst.setAccessible(true);
-                instance = (Block) cnst.newInstance(((BambooBlock) c.getAnnotation(BambooBlock.class)).material().MATERIAL);
-            } catch (NoSuchMethodException e) {
-                instance = (Block) c.newInstance();
-            }
-
             BambooBlock anoData = cls.getAnnotation(BambooBlock.class);
-            // 名前の指定がないときはクラス名小文字
-            String name = anoData.name().isEmpty() ? cls.getSimpleName().toLowerCase() : anoData.name().toLowerCase();
-            if (anoData.createiveTabs() != EnumCreateTab.NONE) {
-                instance.setCreativeTab(anoData.createiveTabs().getTabInstance());
-            }
-            instance.setUnlocalizedName(name);
-            GameRegistry.registerBlock(instance, anoData.itemBlock(), name);
+            // 通常単一ブロック登録
+            if (anoData.subblock() == SubBlockBase.class) {
+                try {
+                    Constructor cnst = c.getDeclaredConstructor(Material.class);
+                    cnst.setAccessible(true);
 
-            FMLLog.info("BLOCK: %s to Registed", name);
-            registedList.add(Constants.RESOURCED_DOMAIN + name);
+                    instance = (Block) cnst.newInstance(anoData.material().MATERIAL);
+                } catch (NoSuchMethodException e) {
+                    instance = (Block) c.newInstance();
+                }
+
+                // 名前の指定がないときはクラス名小文字
+                String name = anoData.name().isEmpty() ? cls.getSimpleName().toLowerCase() : anoData.name().toLowerCase();
+                if (anoData.createiveTabs() != EnumCreateTab.NONE) {
+                    instance.setCreativeTab(anoData.createiveTabs().getTabInstance());
+                }
+                instance.setUnlocalizedName(name);
+
+                GameRegistry.registerBlock(instance, anoData.itemBlock(), name);
+
+                FMLLog.info("BLOCK: %s to Registed", name);
+                registedList.add(Constants.RESOURCED_DOMAIN + name);
+            } else {
+                // 同一クラス使用連続ブロック登録
+                for (SubBlockBase sub : anoData.subblock().newInstance().getList()) {
+
+                    try {
+                        Constructor cnst = c.getDeclaredConstructor(SubBlockBase.class);
+                        cnst.setAccessible(true);
+
+                        instance = (Block) cnst.newInstance(sub);
+                    } catch (NoSuchMethodException e) {
+                        throw new Exception(e);
+                    }
+                    // tile.抜き
+                    String name = instance.getUnlocalizedName().substring(5);
+                    if (anoData.createiveTabs() != EnumCreateTab.NONE) {
+                        instance.setCreativeTab(anoData.createiveTabs().getTabInstance());
+                    }
+                    GameRegistry.registerBlock(instance, anoData.itemBlock(), name);
+
+                    FMLLog.info("BLOCK: %s to Registed", name);
+                    registedList.add(Constants.RESOURCED_DOMAIN + name);
+                }
+            }
         } catch (Exception e) {
-            FMLLog.warning("ブロックインスタンス登録例外:" + cls.getName());
-            e.printStackTrace();
+            throw new RuntimeException(e);
+            //            e.printStackTrace();
         }
     }
 
@@ -85,7 +112,7 @@ public class DataLoader extends ClassFinder {
      */
     private void registItem(Class<? extends Item> cls, List<String> registedList) {
         try {
-            FMLLog.info(cls.getName()+" to Loading");
+            FMLLog.info(cls.getName() + " to Loading");
             Class c = Class.forName(cls.getName());
             Item instance = (Item) c.newInstance();
 

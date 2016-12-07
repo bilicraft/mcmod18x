@@ -19,19 +19,21 @@ public @interface BambooData {
 
         String name() default Constants.STR_EMPTY;
 
+        String jsonName() default Constants.STR_EMPTY;
+
         EnumMaterial material() default EnumMaterial.GROUND;
 
         Class<? extends ItemBlock> itemBlock() default ItemBlock.class;
 
         EnumCreateTab createiveTabs() default EnumCreateTab.NONE;
 
+        Class<? extends SubBlockBase> subblock() default SubBlockBase.class;
         // boolean disableItem() default false;
 
         // stateを無視する用
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
-        public @interface StateIgnore {
-        };
+        public @interface StateIgnore {};
 
     }
 

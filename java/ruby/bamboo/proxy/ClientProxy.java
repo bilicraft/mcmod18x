@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
@@ -30,10 +31,12 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLLog;
 import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.api.BambooItems;
+import ruby.bamboo.api.Constants;
 import ruby.bamboo.block.IBlockColorWrapper;
 import ruby.bamboo.block.ICustomState;
 import ruby.bamboo.block.decoration.DecorationClientFactory;
 import ruby.bamboo.core.client.KeyBindFactory;
+import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EntityRegister;
 import ruby.bamboo.item.itemblock.IEnumTex;
@@ -97,7 +100,7 @@ public class ClientProxy extends CommonProxy {
             isList.clear();
             item.getSubItems(item, item.getCreativeTab(), isList);
             this.setIgnoreState(block);
-            this.setCustomState(block);
+            IStateMapper state = this.setCustomState(block);
 
             if (block instanceof BlockFluidBase) {
                 // Fluid系ブロック用処理
@@ -126,14 +129,60 @@ public class ClientProxy extends CommonProxy {
                     //                ModelBakery.registerItemVariants(item, locList.toArray(new ResourceLocation[0]));
                 } else {
                     for (int i = 0; i < isList.size(); i++) {
-                        ModelResourceLocation mrl = new ModelResourceLocation(name, "inventory");
+                        String jsonName = name;
+                        if (block != null) {
+                            BambooBlock anoData = block.getClass().getAnnotation(BambooBlock.class);
+                            if (anoData != null && !anoData.jsonName().isEmpty()) {
+                                jsonName = Constants.RESOURCED_DOMAIN + anoData.jsonName();
+                            }
+                        }
+                        ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
                         ModelLoader.setCustomModelResourceLocation(item, i, mrl);
                         modelMap.put(mrl, item);
                     }
                 }
             }
+            if (block != null && state != null) {
+                String jsonName = name;
+                if (block != null) {
+                    BambooBlock anoData = block.getClass().getAnnotation(BambooBlock.class);
+                    if (anoData != null && !anoData.jsonName().isEmpty()) {
+                        jsonName = Constants.RESOURCED_DOMAIN + anoData.jsonName();
+                    }
+                }
+                Map<IBlockState, ModelResourceLocation> map = state.putStateModelLocations(block);
+                for (ModelResourceLocation mrl : map.values()) {
+                    modelMap.put(mrl, item);
+                }
+            }
+            //            new ModelResourceLocation((ResourceLocation)Block.REGISTRY.getNameForObject(state.getBlock()), this.getPropertyString(state.getProperties()));
 
         }
+    }
+
+    public String getPropertyString(Map<IProperty<?>, Comparable<?>> values) {
+        StringBuilder stringbuilder = new StringBuilder();
+
+        for (Entry<IProperty<?>, Comparable<?>> entry : values.entrySet()) {
+            if (stringbuilder.length() != 0) {
+                stringbuilder.append(",");
+            }
+
+            IProperty<?> iproperty = (IProperty) entry.getKey();
+            stringbuilder.append(iproperty.getName());
+            stringbuilder.append("=");
+            stringbuilder.append(this.getPropertyName(iproperty, (Comparable) entry.getValue()));
+        }
+
+        if (stringbuilder.length() == 0) {
+            stringbuilder.append("normal");
+        }
+
+        return stringbuilder.toString();
+    }
+
+    private <T extends Comparable<T>> String getPropertyName(IProperty<T> property, Comparable<?> value) {
+        return property.getName((T) value);
     }
 
     /**
@@ -141,15 +190,17 @@ public class ClientProxy extends CommonProxy {
      *
      * @param block
      */
-    private <T> void setCustomState(T obj) {
+    private <T> IStateMapper setCustomState(T obj) {
         if (obj instanceof ICustomState) {
             try {
                 IStateMapper state = (IStateMapper) ((ICustomState) obj).getCustomState();
                 ModelLoader.setCustomStateMapper((Block) obj, state);
+                return state;
             } catch (Exception e) {
                 FMLLog.warning(obj.getClass().getName() + ": Custom State Error");
             }
         }
+        return null;
     }
 
     /**

@@ -1,8 +1,11 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model": "bamboomod:indlight",
-        "uvlock": false
+        "textures": {
+            "particle": "bamboomod:blocks/indlight_yellow",
+            "all": "bamboomod:blocks/indlight_yellow"
+        },
+        "model": "bamboomod:indlight"
     },
     "variants": {
         "facing":{

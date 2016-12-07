@@ -34,7 +34,22 @@ tile.delude_height.name=Camoslab(Vertical)
 tile.delude_stair.name=Camostairs
 tile.campfire.name=Campfire
 tile.huton.name=Huton
-tile.indlight.name=Indirectlight
+tile.indlight_white.name=Indirectlight(white)
+tile.indlight_orange.name=Indirectlight(orange)
+tile.indlight_magenta.name=Indirectlight(magenta)
+tile.indlight_light_blue.name=Indirectlight(light_blue)
+tile.indlight_yellow.name=Indirectlight(yellow)
+tile.indlight_lime.name=Indirectlight(lime)
+tile.indlight_pink.name=Indirectlight(pink)
+tile.indlight_gray.name=Indirectlight(gray)
+tile.indlight_silver.name=Indirectlight(silver)
+tile.indlight_cyan.name=Indirectlight(cyan)
+tile.indlight_purple.name=Indirectlight(purple)
+tile.indlight_blue.name=Indirectlight(blue)
+tile.indlight_brown.name=Indirectlight(brown)
+tile.indlight_green.name=Indirectlight(green)
+tile.indlight_red.name=Indirectlight(red)
+tile.indlight_black.name=Indirectlight(black)
 
 #deco
 tile.kawara.name=Kawara

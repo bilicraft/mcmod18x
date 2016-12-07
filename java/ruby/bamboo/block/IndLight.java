@@ -1,5 +1,9 @@
 package ruby.bamboo.block;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -7,6 +11,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -15,11 +20,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import ruby.bamboo.block.IndLight.SubBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.BambooData.BambooBlock.StateIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.core.init.SubBlockBase;
+import ruby.bamboo.item.itemblock.ItemIndLight;
 
-@BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)
+@BambooBlock(itemBlock = ItemIndLight.class, jsonName = "indlight", createiveTabs = EnumCreateTab.TAB_BAMBOO, subblock = SubBlock.class)
 public class IndLight extends BlockDirectional {
 
     public static final PropertyBool NORTH = PropertyBool.create("north");
@@ -35,11 +43,16 @@ public class IndLight extends BlockDirectional {
     public static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0, 0, 0.9, 1, 1, 1);
     public static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0, 0, 0, 0.1, 1, 1);
 
-    public IndLight() {
+    public final EnumDyeColor color;
+
+    public IndLight(SubBlockBase data) {
         super(Material.GROUND);
         this.setDefaultState(this.blockState.getBaseState().withProperty(SECOND_LINK, false));
         this.setHardness(0.3F);
         this.setResistance(300F);
+        SubBlock blockdata = (SubBlock) data;
+        color = blockdata.color;
+        this.setUnlocalizedName("indlight_" + color.getName());
     }
 
     @Override
@@ -158,4 +171,19 @@ public class IndLight extends BlockDirectional {
     public IProperty[] getIgnoreState() {
         return new IProperty[] { SECOND_LINK };
     }
+
+    public static class SubBlock implements SubBlockBase {
+        private EnumDyeColor color;
+
+        public SubBlock() {}
+
+        public SubBlock(EnumDyeColor color) {
+            this.color = color;
+        }
+
+        public List<SubBlock> getList() {
+            return Arrays.stream(EnumDyeColor.values()).map(dye -> new SubBlock(dye)).collect(Collectors.toList());
+        }
+    }
+
 }
