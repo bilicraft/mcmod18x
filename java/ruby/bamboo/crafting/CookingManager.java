@@ -14,6 +14,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import ruby.bamboo.api.crafting.RecipeWrapper;
 
 public class CookingManager {
     private static ArrayList<IRecipe> recipes = new ArrayList<IRecipe>();
@@ -26,8 +27,7 @@ public class CookingManager {
     };
     private InventoryCrafting crafting = new InventoryCrafting(dummyContainer, 3, 3);
 
-    private CookingManager() {
-    }
+    private CookingManager() {}
 
     public static void addRecipe(IRecipe recipe) {
         CookingManager.getInstance().getRecipeList().add(recipe);
@@ -41,14 +41,14 @@ public class CookingManager {
         return instance;
     }
 
-    public ItemStack findMatchingRecipe(ItemStack[] itemStack, World par2World) {
+    public RecipeEntry findMatchingRecipe(ItemStack[] itemStack, World par2World) {
         for (int i = 0; i < 9; i++) {
             crafting.setInventorySlotContents(i, itemStack[i]);
         }
         return findMatchingRecipe(crafting, par2World);
     }
 
-    public ItemStack findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World) {
+    public RecipeEntry findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World) {
         int itemCount = 0;
         ItemStack is = null;
 
@@ -66,14 +66,14 @@ public class CookingManager {
         if (itemCount == 1) {
             is = FurnaceRecipes.instance().getSmeltingResult(is);
             if (is != null) {
-                return is.copy();
+                return new RecipeEntry(is.copy());
             }
         }
 
         //登録レシピチェック
         for (IRecipe irecipe : CookingManager.recipes) {
             if (irecipe.matches(par1InventoryCrafting, par2World)) {
-                return irecipe.getCraftingResult(par1InventoryCrafting);
+                return new RecipeEntry(irecipe.getCraftingResult(par1InventoryCrafting), irecipe);
             }
         }
 
@@ -94,5 +94,39 @@ public class CookingManager {
 
     public static void addShapelessRecipe(ItemStack out, Object... recipe) {
         addRecipe(new ShapelessOreRecipe(out, recipe));
+    }
+
+    public static class RecipeEntry {
+        private ItemStack is;
+        private int fuel;
+        private int cooktime;
+        private IRecipe irecipe;
+
+        public RecipeEntry(ItemStack is) {
+            this.is = is;
+        }
+
+        public RecipeEntry(ItemStack is, IRecipe irecipe) {
+            this.is = is;
+            this.irecipe = irecipe;
+        }
+
+        public ItemStack getItemStack() {
+            return is;
+        }
+
+        public int getFuelCost() {
+            if (irecipe instanceof RecipeWrapper) {
+                return ((RecipeWrapper) irecipe).getFuelCost();
+            }
+            return 200;
+        }
+
+        public int getTotalCookTime() {
+            if (irecipe instanceof RecipeWrapper) {
+                return ((RecipeWrapper) irecipe).getTotalCookTime();
+            }
+            return 200;
+        }
     }
 }

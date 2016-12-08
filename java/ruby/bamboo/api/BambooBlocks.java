@@ -24,6 +24,22 @@ public class BambooBlocks {
     public static final Block CAMPFIRE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "campfire");
     public static final Block ANDON = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "andon");
     public static final Block HUTON = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "huton");
+    public static final Block INDLIGHT_WHITE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_white");
+    public static final Block INDLIGHT_ORANGE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_orange");
+    public static final Block INDLIGHT_MAGENTA = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_magenta");
+    public static final Block INDLIGHT_LIGHT_BLUE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_light_blue");
+    public static final Block INDLIGHT_YELLOW = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_yellow");
+    public static final Block INDLIGHT_LIME = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_lime");
+    public static final Block INDLIGHT_PINK = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_pink");
+    public static final Block INDLIGHT_GRAY = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_gray");
+    public static final Block INDLIGHT_SILVER = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_silver");
+    public static final Block INDLIGHT_CYAN = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_cyan");
+    public static final Block INDLIGHT_PURPLE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_purple");
+    public static final Block INDLIGHT_BLUE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_blue");
+    public static final Block INDLIGHT_BROWN = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_brown");
+    public static final Block INDLIGHT_GREEN = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_green");
+    public static final Block INDLIGHT_RED = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_red");
+    public static final Block INDLIGHT_BLACK = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_black");
 
     // デコレーション系
     public static final Block KAWARA = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "kawara");

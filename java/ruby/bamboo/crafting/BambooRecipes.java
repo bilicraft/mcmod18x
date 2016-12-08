@@ -16,6 +16,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ruby.bamboo.api.BambooBlocks;
+import ruby.bamboo.api.crafting.RecipeWrapper;
+import ruby.bamboo.block.IndLight;
 import ruby.bamboo.block.decoration.EnumDecoration;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.item.arrow.AntiArrow.AntiType;
@@ -139,48 +141,56 @@ public class BambooRecipes {
     }
 
     public void addCookingRecipe() {
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 1), Items.BEEF, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 2), Items.PORKCHOP, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 3), Blocks.BROWN_MUSHROOM, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 2, 4), Items.PORKCHOP, BAMBOO);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 2, 5), Items.BEEF, BAMBOO);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 6), BAMBOOSHOOT, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 7), Items.EGG, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 8), Items.EGG, Items.CHICKEN, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 9), new ItemStack(Items.FISH, 1, 0), crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 2, 10), Items.CHICKEN, BAMBOO);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 11), crop_rice, seaweed);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 12), crop_rice, seaweed, new ItemStack(Items.FISH, 1, 1));
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 13), crop_rice, seaweed, new ItemStack(Items.FISH, 1, 0), Items.EGG);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 14), crop_rice, seaweed, Blocks.BROWN_MUSHROOM);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 15), crop_rice, seaweed, BAMBOOSHOOT);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 16), crop_rice, seaweed, seaweed);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 17), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, Items.SUGAR, soy_beans);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 18), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, red_beans);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 19), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, Items.SUGAR);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 20), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, new ItemStack(SAKURA_LEAVE, 1, WILD), new ItemStack(Blocks.TALLGRASS, 1, WILD));
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 21), new ItemStack(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, zunda, zunda);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 24), new ItemStack(BAMBOO_FOOD, 1, 22), Items.SUGAR, Items.SUGAR, soy_beans);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 25), new ItemStack(BAMBOO_FOOD, 1, 22), Items.SUGAR, red_beans);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 26), new ItemStack(BAMBOO_FOOD, 1, 22), Items.SUGAR, zunda, zunda);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 27), crop_straw, soy_beans);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 28), crop_straw, soy_beans, crop_rice);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 29), crop_straw, soy_beans, crop_rice, Items.EGG);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 30), new ItemStack(BAMBOO_FOOD, 1, 22), new ItemStack(SAKURA_LEAVE, 1, WILD));
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 31), Items.BEEF, crop_rice, Items.EGG);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 32), Items.PORKCHOP, crop_rice, Items.EGG);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 33), crop_rice, red_beans);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 34), crop_rice, red_beans, seaweed);
-        CookingManager.addShapelessRecipe(new ItemStack(Items.PUMPKIN_PIE, 2), dough, Items.SUGAR, Blocks.PUMPKIN);
-        CookingManager.addShapelessRecipe(new ItemStack(Items.CAKE, 2, 0), dough, Items.SUGAR, Items.MILK_BUCKET);
-        CookingManager.addShapelessRecipe(new ItemStack(Items.COOKIE, 4), dough, Items.SUGAR, new ItemStack(Items.DYE, 1, 3));
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 35), soy_beans, Items.WATER_BUCKET);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 36), tofu_kinu, flour);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 38), men, soy_beans, Items.WATER_BUCKET, Items.FISH);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 39), men, soy_beans, Items.WATER_BUCKET, Items.FISH, Items.EGG);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 40), men, soy_beans, Items.WATER_BUCKET, Items.FISH, Items.EGG, seaweed, Items.PORKCHOP);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 41), dough, tomato, Items.MILK_BUCKET, Items.PORKCHOP);
-        CookingManager.addShapelessRecipe(new ItemStack(BAMBOO_FOOD, 1, 42), new ItemStack(Items.FISH, 1, 1), crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 1), Items.BEEF, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 2), Items.PORKCHOP, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 3), Blocks.BROWN_MUSHROOM, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 2, 4), Items.PORKCHOP, BAMBOO);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 2, 5), Items.BEEF, BAMBOO);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 6), BAMBOOSHOOT, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 7), Items.EGG, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 8), Items.EGG, Items.CHICKEN, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 9), getIS(Items.FISH, 1, 0), crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 2, 10), Items.CHICKEN, BAMBOO);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 11), crop_rice, seaweed);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 12), crop_rice, seaweed, getIS(Items.FISH, 1, 1));
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 13), crop_rice, seaweed, getIS(Items.FISH, 1, 0), Items.EGG);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 14), crop_rice, seaweed, Blocks.BROWN_MUSHROOM);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 15), crop_rice, seaweed, BAMBOOSHOOT);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 16), crop_rice, seaweed, seaweed);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 17), getIS(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, Items.SUGAR, soy_beans);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 18), getIS(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, red_beans);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 19), getIS(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, Items.SUGAR);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 20), getIS(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, getIS(SAKURA_LEAVE, 1, WILD), getIS(Blocks.TALLGRASS, 1, WILD));
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 21), getIS(BAMBOO_FOOD, 1, 22), BAMBOO, Items.SUGAR, zunda, zunda);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 24), getIS(BAMBOO_FOOD, 1, 22), Items.SUGAR, Items.SUGAR, soy_beans);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 25), getIS(BAMBOO_FOOD, 1, 22), Items.SUGAR, red_beans);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 26), getIS(BAMBOO_FOOD, 1, 22), Items.SUGAR, zunda, zunda);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 27), crop_straw, soy_beans);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 28), crop_straw, soy_beans, crop_rice);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 29), crop_straw, soy_beans, crop_rice, Items.EGG);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 30), getIS(BAMBOO_FOOD, 1, 22), getIS(SAKURA_LEAVE, 1, WILD));
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 31), Items.BEEF, crop_rice, Items.EGG);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 32), Items.PORKCHOP, crop_rice, Items.EGG);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 33), crop_rice, red_beans);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 34), crop_rice, red_beans, seaweed);
+        CookingManager.addShapelessRecipe(getIS(Items.PUMPKIN_PIE, 2), dough, Items.SUGAR, Blocks.PUMPKIN);
+        CookingManager.addShapelessRecipe(getIS(Items.CAKE, 2, 0), dough, Items.SUGAR, Items.MILK_BUCKET);
+        CookingManager.addShapelessRecipe(getIS(Items.COOKIE, 4), dough, Items.SUGAR, getIS(Items.DYE, 1, 3));
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 35), soy_beans, Items.WATER_BUCKET);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 36), tofu_kinu, flour);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 38), men, soy_beans, Items.WATER_BUCKET, Items.FISH);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 39), men, soy_beans, Items.WATER_BUCKET, Items.FISH, Items.EGG);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 40), men, soy_beans, Items.WATER_BUCKET, Items.FISH, Items.EGG, seaweed, Items.PORKCHOP);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 41), dough, tomato, Items.MILK_BUCKET, Items.PORKCHOP);
+        CookingManager.addShapelessRecipe(getIS(BAMBOO_FOOD, 1, 42), getIS(Items.FISH, 1, 1), crop_rice);
+
+        CookingManager.addRecipe(new RecipeWrapper(new ShapedOreRecipe(getIS(Items.DIAMOND), "XXX", "XXX", "XXX", 'X', getIS(Items.COAL, 1, 0))).setFuelCost(101200).setTotalCookTime(1200));
+
+        Block[] indlights = new Block[] { INDLIGHT_WHITE, INDLIGHT_ORANGE, INDLIGHT_MAGENTA, INDLIGHT_LIGHT_BLUE, INDLIGHT_YELLOW, INDLIGHT_LIME, INDLIGHT_PINK, INDLIGHT_GRAY, INDLIGHT_SILVER, INDLIGHT_CYAN, INDLIGHT_PURPLE, INDLIGHT_BLUE, INDLIGHT_BROWN, INDLIGHT_GREEN, INDLIGHT_RED, INDLIGHT_BLACK };
+        for (Block indlight : indlights) {
+            CookingManager.addShapedRecipe(getIS(indlight, 12, 0), "XXX", "XYX", "XXX", 'X', getIS(Blocks.STAINED_GLASS, 1, ((IndLight) indlight).color.getMetadata()), 'Y', Items.GLOWSTONE_DUST);
+        }
+
     }
 
     private void addAntiArrowsRecipe(AntiType type, int ammo, Object material) {

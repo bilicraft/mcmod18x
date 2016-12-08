@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import ruby.bamboo.block.Campfire;
 import ruby.bamboo.crafting.CookingManager;
+import ruby.bamboo.crafting.CookingManager.RecipeEntry;
 
 public class TileCampfire extends TileEntity implements ITickable, ISidedInventory {
 
@@ -37,8 +38,10 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
     private ItemStack[] copyMatrix = new ItemStack[9];
     private static final int MAX_FUEL = 102400;
     private int fuel;
+    private int maxCookTime = 200;
     private int cookTime = 200;
     private boolean isBurn = false;
+    private RecipeEntry entry;
     public ItemStack nowCookingResult;
     //クライアント側
     public int fuelRatio;
@@ -71,19 +74,19 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
 
     private void updateCooking() {
         if (!this.getWorld().isRemote) {
-            if (199 < fuel && !isBurn && !isEmpty()) {
+            if (!isBurn && !isEmpty()) {
                 if (slots[SLOT_RESULT] != null && slots[SLOT_RESULT].stackSize == slots[SLOT_RESULT].getMaxStackSize()) {
                     return;
                 }
-                if (this.canCooking()) {
+                if (this.canCooking() && entry.getFuelCost() <= fuel) {
                     if (nowCookingResult != null) {
                         if (slots[SLOT_RESULT] == null) {
                             isBurn = true;
-                            cookTime = 200;
+                            maxCookTime = cookTime = getCookTime();
                             this.setMatrix();
                         } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize <= slots[SLOT_RESULT].getMaxStackSize()) {
                             isBurn = true;
-                            cookTime = 200;
+                            maxCookTime = cookTime = getCookTime();
                             this.setMatrix();
                         }
                     }
@@ -96,32 +99,39 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
     }
 
     private void updateBurn() {
-        if (isBurn) {
-            if (--cookTime <= 0) {
-                if (nowCookingResult != null) {
-                    ItemStack nowMatrix = CookingManager.getInstance().findMatchingRecipe(slots, this.getWorld());
-                    if (nowMatrix != null && nowMatrix.isItemEqual(nowCookingResult)) {
-                        if (slots[SLOT_RESULT] == null) {
-                            materialConsumption();
-                            slots[SLOT_RESULT] = nowCookingResult.copy();
-                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize <= slots[SLOT_RESULT].getMaxStackSize()) {
-                            materialConsumption();
-                            slots[SLOT_RESULT].stackSize += nowCookingResult.stackSize;
+        if (!this.getWorld().isRemote) {
+            if (isBurn) {
+                if (--cookTime <= 0) {
+                    if (nowCookingResult != null) {
+                        RecipeEntry entry = CookingManager.getInstance().findMatchingRecipe(slots, this.getWorld());
+                        ItemStack nowMatrix = entry.getItemStack();
+                        if (nowMatrix != null && nowMatrix.isItemEqual(nowCookingResult)) {
+                            if (slots[SLOT_RESULT] == null) {
+                                materialConsumption(entry);
+                                slots[SLOT_RESULT] = nowCookingResult.copy();
+                            } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize <= slots[SLOT_RESULT].getMaxStackSize()) {
+                                materialConsumption(entry);
+                                slots[SLOT_RESULT].stackSize += nowCookingResult.stackSize;
+                            }
+                            this.markDirty();
                         }
-                        this.markDirty();
                     }
-                }
-                nowCookingResult = null;
-                isBurn = false;
-                cookTime = 200;
-            }
-            if ((cookTime & 1) == 0) {
-                if (!this.chkMtrix()) {
                     nowCookingResult = null;
                     isBurn = false;
-                    cookTime = 200;
+                    maxCookTime = cookTime = getCookTime();
                 }
+                if ((cookTime & 1) == 0) {
+                    if (!this.chkMtrix()) {
+                        nowCookingResult = null;
+                        isBurn = false;
+                        maxCookTime = cookTime = 200;
+                    }
 
+                }
+                if (cookTime % 100 == 0) {
+                    this.markDirty();
+                    this.getWorld().notifyBlockUpdate(pos, this.getWorld().getBlockState(this.getPos()), this.getWorld().getBlockState(this.getPos()), 7);
+                }
             }
         }
     }
@@ -149,6 +159,10 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
 
     }
 
+    private int getCookTime() {
+        return entry.getTotalCookTime();
+    }
+
     private boolean isEmpty() {
         for (int i = 0; i < 9; i++) {
             if (slots[i] != null) {
@@ -159,7 +173,8 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
     }
 
     private boolean canCooking() {
-        return (nowCookingResult = CookingManager.getInstance().findMatchingRecipe(slots, this.getWorld())) != null;
+        this.entry = CookingManager.getInstance().findMatchingRecipe(slots, this.getWorld());
+        return entry != null && (nowCookingResult = entry.getItemStack()) != null;
     }
 
     private void setMatrix() {
@@ -177,7 +192,7 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
         return true;
     }
 
-    private void materialConsumption() {
+    private void materialConsumption(RecipeEntry entry) {
         for (int i = 0; i < 9; i++) {
             if (slots[i] != null) {
                 if (--slots[i].stackSize == 0) {
@@ -185,7 +200,7 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
                 }
             }
         }
-        fuel -= 200;
+        fuel -= entry.getFuelCost();
     }
 
     public BakeType getBakeType() {
@@ -221,6 +236,7 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
         super.readFromNBT(nbt);
         fuel = nbt.getInteger("fuel");
         cookTime = nbt.getInteger("cookTime");
+        maxCookTime = nbt.getInteger("maxCookTime");
         if (nbt.hasKey("nowItem")) {
             nowCookingResult = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbt.getTag("nowItem"));
         }
@@ -242,6 +258,7 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
         super.writeToNBT(nbt);
         nbt.setInteger("fuel", fuel);
         nbt.setInteger("cookTime", cookTime);
+        nbt.setInteger("maxCookTime", maxCookTime);
         if (nowCookingResult != null) {
             nbt.setTag("nowItem", nowCookingResult.writeToNBT(new NBTTagCompound()));
         }
@@ -262,7 +279,7 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
         return nbt;
     }
 
-    public ItemStack[] getInventorySlots(){
+    public ItemStack[] getInventorySlots() {
         return slots;
     }
 
@@ -270,25 +287,40 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
 
     @Override
     public int getField(int id) {
-        // TODO 自動生成されたメソッド・スタブ
+        switch (id) {
+            case 0:
+                return fuel;
+            case 1:
+                return maxCookTime;
+            case 2:
+                return cookTime;
+        }
         return 0;
     }
 
     @Override
     public void setField(int id, int value) {
-        // TODO 自動生成されたメソッド・スタブ
 
+        switch (id) {
+            case 0:
+                fuel = value;
+                break;
+            case 1:
+                maxCookTime = value;
+                break;
+            case 2:
+                cookTime = value;
+                break;
+        }
     }
 
     @Override
     public int getFieldCount() {
-        // TODO 自動生成されたメソッド・スタブ
-        return 0;
+        return 3;
     }
 
     @Override
     public void clear() {
-        // TODO 自動生成されたメソッド・スタブ
 
     }
 
@@ -392,7 +424,7 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
     }
 
     public int getCookAmount() {
-        return this.getRatio(cookTime, 200, 100);
+        return this.getRatio(cookTime, maxCookTime, 100);
     }
 
     public int getFuelAmount() {
@@ -430,6 +462,8 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
 
     private NBTTagCompound writeData(NBTTagCompound tag) {
         tag.setString("bakeType", nowBakeType.name());
+        tag.setInteger("time", cookTime);
+        tag.setInteger("maxtime", maxCookTime);
         return tag;
     }
 
@@ -438,6 +472,8 @@ public class TileCampfire extends TileEntity implements ITickable, ISidedInvento
         if (!str.isEmpty()) {
             nowBakeType = BakeType.valueOf(str);
         }
+        cookTime = tag.getInteger("time");
+        maxCookTime = tag.getInteger("maxTIme");
     }
 
 }
