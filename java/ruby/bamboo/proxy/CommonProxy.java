@@ -23,6 +23,7 @@ import ruby.bamboo.generate.GenerateHandler;
 import ruby.bamboo.gui.GuiHandler;
 import ruby.bamboo.tileentity.TileCampfire;
 import ruby.bamboo.tileentity.TileJPChest;
+import ruby.bamboo.tileentity.TileMillStone;
 import ruby.bamboo.tileentity.TileSpringWater;
 
 /**
@@ -75,12 +76,7 @@ public class CommonProxy {
     // 鉱石名等登録
     private void registRecipe() {
         BambooRecipes recipeIns = new BambooRecipes();
-        recipeIns.oreDicRegist();
-        recipeIns.craftingTableRecipes();
-        recipeIns.addCookingRecipe();
-        recipeIns.smeltingRecipes();
-        recipeIns.registFuel();
-        recipeIns.registSeed();
+        recipeIns.addRecipes();
     }
 
 
@@ -94,6 +90,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
         GameRegistry.registerTileEntity(TileSpringWater.class, "spring_water");
         GameRegistry.registerTileEntity(TileCampfire.class, "campfire");
+        GameRegistry.registerTileEntity(TileMillStone.class, "millstone");
     }
 
 

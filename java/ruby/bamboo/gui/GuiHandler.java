@@ -9,11 +9,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import ruby.bamboo.core.BambooCore;
 import ruby.bamboo.tileentity.TileCampfire;
+import ruby.bamboo.tileentity.TileMillStone;
 
 public class GuiHandler implements IGuiHandler {
 
     public static final int GUI_SACK = 0;
-    private static final int GUI_MILLSTONE = 1;
+    public static final int GUI_MILLSTONE = 1;
     public static final int GUI_CAMPFIRE = 2;
     public static final int GUI_JPCHEST = 3;
     public static final int GUI_PICKAXE_LV = 4;
@@ -51,8 +52,8 @@ public class GuiHandler implements IGuiHandler {
                 return new ContainerPickaxeName(player, player.getHeldItemMainhand());
             case GUI_PICKAXE_ENCH:
                 return new ContainerPickaxeEnch(player.inventory, player.getHeldItemMainhand());
-            // case GUI_MILLSTONE:
-            // return new ContainerMillStone(player.inventory, (TileEntityMillStone) world.getTileEntity(x, y, z));
+            case GUI_MILLSTONE:
+                return new ContainerMillStone(player.inventory, (TileMillStone) world.getTileEntity(new BlockPos(x, y, z)));
             case GUI_CAMPFIRE:
                 return new ContainerCampfire(player.inventory, (TileCampfire) world.getTileEntity(new BlockPos(x, y, z)));
             default:
@@ -73,9 +74,8 @@ public class GuiHandler implements IGuiHandler {
                 return new GuiPickaxeName(player, player.getHeldItemMainhand());
             case GUI_PICKAXE_ENCH:
                 return new GuiPickaxeEnch(player, player.getHeldItemMainhand());
-            // case GUI_MILLSTONE:
-            // return new GuiMillStone(player.inventory, world.getTileEntity(x, y, z));
-            //
+            case GUI_MILLSTONE:
+                return new GuiMillStone(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
             case GUI_CAMPFIRE:
                 return new GuiCampfire(player.inventory, (TileCampfire) world.getTileEntity(new BlockPos(x, y, z)));
             default:

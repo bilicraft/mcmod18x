@@ -17,6 +17,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.api.crafting.RecipeWrapper;
+import ruby.bamboo.api.crafting.grind.IGrindRecipe;
 import ruby.bamboo.block.IndLight;
 import ruby.bamboo.block.decoration.EnumDecoration;
 import ruby.bamboo.entity.EnumSlideDoor;
@@ -46,6 +47,16 @@ public class BambooRecipes {
     public final String seaweed = "foodSeaweed";
     public final String tomato = "foodTomato";
 
+    public void addRecipes() {
+        oreDicRegist();
+        craftingTableRecipes();
+        addCookingRecipe();
+        smeltingRecipes();
+        registFuel();
+        registSeed();
+        addGrindRecipe();
+    }
+
     /**
      * 鉱石辞書
      */
@@ -55,6 +66,7 @@ public class BambooRecipes {
         OreDictionary.registerOre(bamboo, getIS(BAMBOO));
         OreDictionary.registerOre(tudura, getIS(TUDURA));
         OreDictionary.registerOre(crop_straw, getIS(STRAW));
+        OreDictionary.registerOre(crop_rice, getIS(RICE_SEED));
     }
 
     /**
@@ -100,6 +112,8 @@ public class BambooRecipes {
         addRecipe(getIS(ANDON, 1, 0), "###", "#Y#", "#X#", '#', Items.STICK, 'X', Blocks.TORCH, 'Y', TUDURA);
         // 布団
         addRecipe(getIS(HUTON, 1, 0), " # ", "XXX", "XXX", '#', TUDURA, 'X', Blocks.WOOL);
+        // 石臼
+        addRecipe(getIS(MILLSTONE, 1, 0), "###", "X#X", "###", '#', new ItemStack(Blocks.COBBLESTONE), 'X', TUDURA);
 
         //******デコレーション
         // 瓦
@@ -191,6 +205,22 @@ public class BambooRecipes {
             CookingManager.addShapedRecipe(getIS(indlight, 12, 0), "XXX", "XYX", "XXX", 'X', getIS(Blocks.STAINED_GLASS, 1, ((IndLight) indlight).color.getMetadata()), 'Y', Items.GLOWSTONE_DUST);
         }
 
+    }
+
+    public void addGrindRecipe() {
+        GrindManager.addRecipe(getIS(Blocks.GRAVEL), getIS(Blocks.SAND, 2), getIS(Blocks.STONE, 1), 0.2F);
+        GrindManager.addRecipe(getIS(Blocks.GRAVEL), getIS(Blocks.SAND), Blocks.COBBLESTONE, 0.1F);
+        GrindManager.addRecipe(getIS(Blocks.SAND), getIS(Items.FLINT), Blocks.GRAVEL, 0.14F);
+        GrindManager.addRecipe(getIS(Items.DYE, 3, 15), getIS(Items.DYE, 2, 15), Items.BONE, 0.5F);
+        GrindManager.addRecipe(getIS(Items.BLAZE_POWDER, 2, 0), getIS(Items.BLAZE_POWDER, 1, 0), Items.BLAZE_ROD, 0.5F);
+        //        GrindManager.addRecipe(getIS(BambooInit.dustClay, 2, 0), getIS(Blocks.HARDENED_CLAY, 1, IGrindRecipe.WILD_CARD));
+        //        GrindManager.addRecipe(getIS(BambooInit.dustClay, 2, 0), getIS(Blocks.STAINED_HARDENED_CLAY, 1, IGrindRecipe.WILD_CARD));
+        //        GrindManager.addRecipe(getIS(BambooInit.dustClay), getIS(Blocks.SAND, 2));
+        GrindManager.addRecipe(getIS(RAWRICE, 1, 0), getIS(RICE_SEED, 4, 0));
+        GrindManager.addRecipe(getIS(Blocks.SAND, 4, 0), getIS(Blocks.SANDSTONE, 1, 0));
+        GrindManager.addRecipe(getIS(Items.DYE, 1, 2), getIS(Blocks.LEAVES, 4, IGrindRecipe.WILD_CARD));
+        //        GrindManager.addRecipe(getIS(moss, 1, 0), getIS(Blocks.GRAVEL, 64, 0), getIS(Blocks.mossy_cobblestone, 64, 0), 1F);
+        //        GrindManager.addRecipe(getIS(BambooInit.flour), getIS(Items.wheat, 2));
     }
 
     private void addAntiArrowsRecipe(AntiType type, int ammo, Object material) {
@@ -332,4 +362,5 @@ public class BambooRecipes {
     private ItemStack getItemIS(String name, int amo, int meta) {
         return new ItemStack(Item.getByNameOrId(name), amo, meta);
     }
+
 }

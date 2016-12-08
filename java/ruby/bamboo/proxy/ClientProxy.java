@@ -19,9 +19,11 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,7 +46,9 @@ import ruby.bamboo.item.itemblock.IItemColorWrapper;
 import ruby.bamboo.item.itemblock.ISubTexture;
 import ruby.bamboo.texture.TextureHelper;
 import ruby.bamboo.tileentity.TileCampfire;
+import ruby.bamboo.tileentity.TileMillStone;
 import ruby.bamboo.tileentity.render.RenderCampfire;
+import ruby.bamboo.tileentity.render.RenderMillStone;
 
 /**
  * クライアントプロクシ
@@ -63,7 +67,7 @@ public class ClientProxy extends CommonProxy {
         new DecorationClientFactory().register();
         // えんてぃてぃれんだー
         new EntityRegister().renderRegist();
-        this.registTESRender();
+        this.registTileRender();
         KeyBindFactory.preInit();
     }
 
@@ -256,9 +260,14 @@ public class ClientProxy extends CommonProxy {
 
     }
 
-    private void registTESRender() {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileCampfire.class, new RenderCampfire());
-        ForgeHooksClient.registerTESRItemStack(Item.getItemFromBlock(BambooBlocks.CAMPFIRE), 0, TileCampfire.class);
+    private void registTileRender() {
+        registTESR(Item.getItemFromBlock(BambooBlocks.CAMPFIRE),TileCampfire.class, new RenderCampfire());
+        registTESR(Item.getItemFromBlock(BambooBlocks.MILLSTONE),TileMillStone.class, new RenderMillStone());
+    }
+
+    private void registTESR(Item item,Class<? extends TileEntity> cls,TileEntitySpecialRenderer render){
+        ClientRegistry.bindTileEntitySpecialRenderer(cls, render);
+        ForgeHooksClient.registerTESRItemStack(item, 0, cls);
     }
 
     @Override

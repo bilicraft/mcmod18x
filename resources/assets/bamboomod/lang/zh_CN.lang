@@ -34,6 +34,7 @@ tile.delude_height.name=变色龙竖板
 tile.delude_stair.name=变色龙台阶
 tile.campfire.name=围炉
 tile.huton.name=被褥
+tile.millstone.name=石磨
 
 #deco
 tile.kawara.name=瓦块
@@ -80,7 +81,6 @@ tile.decoCarpet.4.name=榻榻米（日晒）
 tile.decoCarpet.6.name=榻榻米（无边缘+日晒）
 tile.decoCarpet.8.name=榻榻米（无边缘）
 tile.delude_plate.name=变色龙压力板
-tile.bambooMillStone.name=石磨
 tile.maneki.name=招财猫
 tile.bambooMoss.name=苔藓块
 tile.bambooMultiPot.name=小花盆

@@ -40,6 +40,7 @@ public class BambooBlocks {
     public static final Block INDLIGHT_GREEN = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_green");
     public static final Block INDLIGHT_RED = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_red");
     public static final Block INDLIGHT_BLACK = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "indlight_black");
+    public static final Block MILLSTONE = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "millstone");
 
     // デコレーション系
     public static final Block KAWARA = Block.getBlockFromName(Constants.RESOURCED_DOMAIN + "kawara");

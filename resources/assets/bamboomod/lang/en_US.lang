@@ -50,6 +50,7 @@ tile.indlight_brown.name=Indirectlight(brown)
 tile.indlight_green.name=Indirectlight(green)
 tile.indlight_red.name=Indirectlight(red)
 tile.indlight_black.name=Indirectlight(black)
+tile.millstone.name=MillStone
 
 #deco
 tile.kawara.name=Kawara
