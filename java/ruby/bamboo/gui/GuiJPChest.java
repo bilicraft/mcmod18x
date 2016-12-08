@@ -1,4 +1,4 @@
-package ruby.bamboo.container.gui;
+package ruby.bamboo.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

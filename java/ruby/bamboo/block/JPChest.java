@@ -58,8 +58,7 @@ public class JPChest extends BlockChest {
     }
 
     @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-    }
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {}
 
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
