@@ -2,6 +2,7 @@ package ruby.bamboo.crafting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,11 +31,13 @@ public class CookingManager {
     private CookingManager() {}
 
     public static void addRecipe(IRecipe recipe) {
-        CookingManager.getInstance().getRecipeList().add(recipe instanceof RecipeWrapper ? (RecipeWrapper)recipe : new RecipeWrapper(recipe));
+        recipes.add(recipe instanceof RecipeWrapper ? (RecipeWrapper) recipe : new RecipeWrapper(recipe));
     }
 
     public List<RecipeWrapper> getRecipeList() {
-        return recipes;
+        List<RecipeWrapper> recipeList = FurnaceRecipes.instance().getSmeltingList().entrySet().stream().map(e -> new RecipeWrapper(new ShapelessOreRecipe(e.getValue(), e.getKey()))).collect(Collectors.toList());
+        recipeList.addAll(recipes);
+        return recipeList;
     }
 
     public static CookingManager getInstance() {
