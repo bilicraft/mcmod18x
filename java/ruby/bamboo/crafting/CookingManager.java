@@ -17,7 +17,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ruby.bamboo.api.crafting.RecipeWrapper;
 
 public class CookingManager {
-    private static ArrayList<IRecipe> recipes = new ArrayList<IRecipe>();
+    private static ArrayList<RecipeWrapper> recipes = new ArrayList<RecipeWrapper>();
     private static final CookingManager instance = new CookingManager();
     private Container dummyContainer = new Container() {
         @Override
@@ -30,10 +30,10 @@ public class CookingManager {
     private CookingManager() {}
 
     public static void addRecipe(IRecipe recipe) {
-        CookingManager.getInstance().getRecipeList().add(recipe);
+        CookingManager.getInstance().getRecipeList().add(recipe instanceof RecipeWrapper ? (RecipeWrapper)recipe : new RecipeWrapper(recipe));
     }
 
-    public List<IRecipe> getRecipeList() {
+    public List<RecipeWrapper> getRecipeList() {
         return recipes;
     }
 

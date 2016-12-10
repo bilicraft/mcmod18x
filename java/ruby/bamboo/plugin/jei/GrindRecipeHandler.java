@@ -6,29 +6,29 @@ import ruby.bamboo.api.crafting.grind.IGrindRecipe;
 
 public class GrindRecipeHandler implements IRecipeHandler<IGrindRecipe> {
 
-	@Override
-	public Class<IGrindRecipe> getRecipeClass() {
-		return IGrindRecipe.class;
-	}
+    @Override
+    public Class<IGrindRecipe> getRecipeClass() {
+        return IGrindRecipe.class;
+    }
 
-	@Override
-	public String getRecipeCategoryUid() {
-		return "bamboo.jei.millstone";
-	}
+    @Override
+    public String getRecipeCategoryUid() {
+        return "bamboo.jei.millstone";
+    }
 
-	@Override
-	public IRecipeWrapper getRecipeWrapper(IGrindRecipe recipe) {
-		return new GrindRecipeWrapper(recipe);
-	}
+    @Override
+    public IRecipeWrapper getRecipeWrapper(IGrindRecipe recipe) {
+        return new GrindRecipeWrapper(recipe);
+    }
 
-	@Override
-	public boolean isRecipeValid(IGrindRecipe recipe) {
-		return recipe.getInput() != null;
-	}
+    @Override
+    public boolean isRecipeValid(IGrindRecipe recipe) {
+        return recipe.getInput() != null;
+    }
 
-	@Override
-	public String getRecipeCategoryUid(IGrindRecipe recipe) {
-		return getRecipeCategoryUid();
-	}
+    @Override
+    public String getRecipeCategoryUid(IGrindRecipe recipe) {
+        return getRecipeCategoryUid();
+    }
 
 }
