@@ -91,6 +91,7 @@ tile.decoCarpet.4.name=ゴザ(日焼け)
 tile.decoCarpet.6.name=縁無しゴザ(日焼け)
 tile.decoCarpet.8.name=縁無しゴザ
 tile.delude_plate.name=カメレオン感圧
+tile.bambooMillStone.name=石臼
 tile.maneki.name=招き猫
 tile.bambooMoss.name=苔ブロック
 tile.bambooMultiPot.name=小型植木鉢
@@ -246,3 +247,6 @@ item.bamboodough.name=生地
 item.itemtomato.name=トマト
 #GUI
 container.jpchest=タンス
+#JEI_GUI
+bamboo.jei.campfire=囲炉裏
+bamboo.jei.millstone=石臼
