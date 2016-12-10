@@ -50,7 +50,6 @@ tile.indlight_brown.name=Indirectlight(brown)
 tile.indlight_green.name=Indirectlight(green)
 tile.indlight_red.name=Indirectlight(red)
 tile.indlight_black.name=Indirectlight(black)
-tile.millstone.name=MillStone
 
 #deco
 tile.kawara.name=Kawara
@@ -256,3 +255,6 @@ item.bamboodough.name=Dough
 item.itemtomato.name=Tomato
 #GUI
 container.jpchest=chest
+#JEI_GUI
+bamboo.jei.campfire=CookingRecipe
+bamboo.jei.millstone=MillstoneRecipe

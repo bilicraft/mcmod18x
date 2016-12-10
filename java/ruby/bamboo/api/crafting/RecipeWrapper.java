@@ -27,6 +27,10 @@ public class RecipeWrapper implements IRecipe {
         return this;
     }
 
+    public IRecipe getRecipe() {
+        return recipe;
+    }
+
     public int getTotalCookTime() {
         return time;
     }
