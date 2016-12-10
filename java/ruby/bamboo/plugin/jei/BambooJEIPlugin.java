@@ -9,6 +9,8 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
+import net.minecraft.item.ItemStack;
+import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.crafting.CookingManager;
 import ruby.bamboo.crafting.GrindManager;
 
@@ -25,6 +27,9 @@ public class BambooJEIPlugin implements IModPlugin {
 
         registry.addRecipes(Lists.newArrayList(GrindManager.getRecipeList()));
         registry.addRecipes(CookingManager.getInstance().getRecipeList().stream().filter(rec->!rec.hasEmptyList()).collect(Collectors.toList()));
+
+        registry.addRecipeCategoryCraftingItem(new ItemStack(BambooBlocks.CAMPFIRE), CookingRecipeCategory.UID);
+
     }
 
     @Override

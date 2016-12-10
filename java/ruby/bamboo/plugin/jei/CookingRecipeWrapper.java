@@ -43,6 +43,7 @@ public class CookingRecipeWrapper implements IRecipeWrapper {
 
     @Override
     public void drawInfo(Minecraft mc, int wid, int hei, int mouseX, int mouseY) {
+
         ResourceLocation location = new ResourceLocation("bamboomod", "textures/guis/campfire.png");
         mc.getTextureManager().bindTexture(location);
         // 燃焼ゲージ
@@ -50,7 +51,8 @@ public class CookingRecipeWrapper implements IRecipeWrapper {
         if (i > 30) {
             i = 30; // 小さいと見えにくいので2ドット程度を最小に
         }
-        mc.currentScreen.drawTexturedModalRect(12, 11, 176, 18, 12, i);
+        mc.currentScreen.drawTexturedModalRect(3, 1, 176, 18, 12, i);
+
     }
 
     @Override
@@ -60,15 +62,17 @@ public class CookingRecipeWrapper implements IRecipeWrapper {
 
     @Override
     public List<String> getTooltipStrings(int x, int y) {
+
         List<String> s = new ArrayList<String>();
 
-        if (x > 12 && x < 24) {
-            if (y > 12 && y < 44) {
+        if (x > 3 && x < 15) {
+            if (y > 1 && y < 33) {
                 s.add("FUEL COST: " + recipe.getFuelCost());
                 s.add("COOKING TIME: " + recipe.getTotalCookTime());
             }
         }
         return s.isEmpty() ? null : s;
+
     }
 
     @Override
