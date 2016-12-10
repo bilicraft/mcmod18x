@@ -55,6 +55,7 @@ public class BambooRecipes {
         registFuel();
         registSeed();
         addGrindRecipe();
+        addSmelting();
     }
 
     /**
@@ -208,7 +209,7 @@ public class BambooRecipes {
     }
 
     public void addGrindRecipe() {
-        GrindManager.addRecipe(getIS(Blocks.GRAVEL), getIS(Blocks.SAND, 2), getIS(Blocks.STONE, 1), 0.2F);
+        GrindManager.addRecipe(getIS(Blocks.GRAVEL), getIS(Blocks.SAND), getIS(Blocks.STONE, 0), 0.2F);
         GrindManager.addRecipe(getIS(Blocks.GRAVEL), getIS(Blocks.SAND), Blocks.COBBLESTONE, 0.1F);
         GrindManager.addRecipe(getIS(Blocks.SAND), getIS(Items.FLINT), Blocks.GRAVEL, 0.14F);
         GrindManager.addRecipe(getIS(Items.DYE, 3, 15), getIS(Items.DYE, 2, 15), Items.BONE, 0.5F);
@@ -221,6 +222,15 @@ public class BambooRecipes {
         GrindManager.addRecipe(getIS(Items.DYE, 1, 2), getIS(Blocks.LEAVES, 4, IGrindRecipe.WILD_CARD));
         //        GrindManager.addRecipe(getIS(moss, 1, 0), getIS(Blocks.GRAVEL, 64, 0), getIS(Blocks.mossy_cobblestone, 64, 0), 1F);
         //        GrindManager.addRecipe(getIS(BambooInit.flour), getIS(Items.wheat, 2));
+    }
+
+    public void addSmelting() {
+        // やきもの
+        //    GameRegistry.addSmelting(singleTexDeco, new ItemStack(Items.COAL, 1, 1), 0.15F);
+        GameRegistry.addSmelting(SAKURA_LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
+        GameRegistry.addSmelting(RAWRICE, new ItemStack(BAMBOO_FOOD, 1, 0), 0.15F);
+        GameRegistry.addSmelting(new ItemStack(BAMBOO_FOOD, 2, 22), new ItemStack(BAMBOO_FOOD, 2, 23), 0.15F);
+        //    GameRegistry.addSmelting(dough, new ItemStack(Items.BREAD), 0.15F);
     }
 
     private void addAntiArrowsRecipe(AntiType type, int ammo, Object material) {
