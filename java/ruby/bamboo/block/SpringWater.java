@@ -14,12 +14,14 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
+import ruby.bamboo.core.init.BambooData.JEIIgnore;
 import ruby.bamboo.core.init.EnumMaterial;
 import ruby.bamboo.fluid.HotSpring;
 import ruby.bamboo.paticle.PaticleFactory;
 import ruby.bamboo.tileentity.TileSpringWater;
 
 @BambooBlock(name = "spring_water", material = EnumMaterial.WATER)
+@JEIIgnore
 public class SpringWater extends BlockFluidFinite implements ITileEntityProvider {
 
     private static final byte MAX_LV = 8;

@@ -49,4 +49,9 @@ public @interface BambooData {
         EnumCreateTab createiveTabs() default EnumCreateTab.NONE;
     }
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface JEIIgnore {
+
+    }
 }

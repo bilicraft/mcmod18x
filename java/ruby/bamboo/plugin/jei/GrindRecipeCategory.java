@@ -7,13 +7,12 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
-public class GrindRecipeCategory implements IRecipeCategory {
+public class GrindRecipeCategory implements IRecipeCategory<GrindRecipeWrapper> {
 
     private final IDrawableStatic background;
 
@@ -48,13 +47,9 @@ public class GrindRecipeCategory implements IRecipeCategory {
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper) {
-        if (!(recipeWrapper instanceof GrindRecipeWrapper))
-            return;
-        GrindRecipeWrapper wrapper = ((GrindRecipeWrapper) recipeWrapper);
-
-        List inputs = wrapper.getInputs();
-        List outputs = wrapper.getOutputs();
+    public void setRecipe(IRecipeLayout recipeLayout, GrindRecipeWrapper recipeWrapper) {
+        List inputs = recipeWrapper.getInputs();
+        List outputs = recipeWrapper.getOutputs();
 
         recipeLayout.getItemStacks().init(0, true, 29, 28);
         recipeLayout.getItemStacks().set(0, inputs);

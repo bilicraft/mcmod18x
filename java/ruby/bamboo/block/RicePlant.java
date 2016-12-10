@@ -13,9 +13,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
+import ruby.bamboo.core.init.BambooData.JEIIgnore;
 import ruby.bamboo.core.init.EnumCreateTab;
 
 @BambooBlock(createiveTabs = EnumCreateTab.NONE)
+@JEIIgnore
 public class RicePlant extends GrowableBase {
 
     @Override

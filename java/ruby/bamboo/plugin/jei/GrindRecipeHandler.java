@@ -13,7 +13,7 @@ public class GrindRecipeHandler implements IRecipeHandler<IGrindRecipe> {
 
     @Override
     public String getRecipeCategoryUid() {
-        return "bamboo.jei.millstone";
+        return GrindRecipeCategory.UID;
     }
 
     @Override

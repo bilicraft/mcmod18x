@@ -16,7 +16,7 @@ import net.minecraft.util.text.translation.I18n;
 
 public class CookingRecipeCategory implements IRecipeCategory<CookingRecipeWrapper> {
 
-	public static final String UID = "bamboo.jei.campfire";
+    public static final String UID = "bamboo.jei.campfire";
 
     private final IDrawableStatic background;
 
@@ -27,7 +27,7 @@ public class CookingRecipeCategory implements IRecipeCategory<CookingRecipeWrapp
         background = guiHelper.createDrawable(location, 7, 16, 138, 54);
 
         IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, 176, 0, 24, 17);
-		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.LEFT, false);
+        this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override
@@ -50,12 +50,11 @@ public class CookingRecipeCategory implements IRecipeCategory<CookingRecipeWrapp
 
     @Override
     public void drawAnimations(Minecraft minecraft) {
-    	arrow.draw(minecraft, 82, 20);
+        arrow.draw(minecraft, 82, 20);
     }
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, CookingRecipeWrapper recipeWrapper) {
-
 
         List inputs = recipeWrapper.getInputs();
         List outputs = recipeWrapper.getOutputs();

@@ -14,7 +14,7 @@ public class CookingRecipeHandler implements IRecipeHandler<RecipeWrapper> {
 
     @Override
     public String getRecipeCategoryUid() {
-        return "bamboo.jei.campfire";
+        return CookingRecipeCategory.UID;
     }
 
     @Override

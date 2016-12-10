@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -89,6 +90,12 @@ public class ItemStackHelper {
         public final int damage;
         public final int stackSize;
 
+        public HashedStack(Item item) {
+            this(new ItemStack(item));
+        }
+        public HashedStack(Block block) {
+            this(new ItemStack(block));
+        }
         public HashedStack(ItemStack stack) {
             item = stack.getItem();
             damage = stack.getItemDamage();
