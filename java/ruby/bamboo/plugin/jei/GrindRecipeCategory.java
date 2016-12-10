@@ -17,14 +17,16 @@ public class GrindRecipeCategory implements IRecipeCategory {
 
     private final IDrawableStatic background;
 
+    public static final String UID = "bamboo.jei.millstone";
+
     public GrindRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation("bamboomod", "textures/guis/neiguimillstone.png");
-        background = guiHelper.createDrawable(location, 8, 6, 160, 75);
+        background = guiHelper.createDrawable(location, 8, 6, 160, 54);
     }
 
     @Override
     public String getUid() {
-        return "bamboo.jei.millstone";
+        return UID;
     }
 
     @Override

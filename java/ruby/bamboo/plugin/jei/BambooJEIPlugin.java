@@ -30,6 +30,8 @@ public class BambooJEIPlugin implements IModPlugin {
 
         registry.addRecipeCategoryCraftingItem(new ItemStack(BambooBlocks.CAMPFIRE), CookingRecipeCategory.UID);
 
+        registry.addRecipeCategoryCraftingItem(new ItemStack(BambooBlocks.MILLSTONE), GrindRecipeCategory.UID);
+
     }
 
     @Override
