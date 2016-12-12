@@ -36,7 +36,7 @@ public class ExplodeArrow extends ArrowBase {
             entityArrow.setFire(100);
         }
 
-       return entityArrow;
+        return entityArrow;
     }
 
     @Override

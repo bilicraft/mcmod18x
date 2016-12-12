@@ -102,7 +102,7 @@ public class SpecialEnchant {
         getEnchantEnableStream(IAttackEnchant.class, stack).forEach(e -> e.onEntityAttack(stack, target, attacker));
     }
 
-    public static void onUpdate(ItemStack stack, EntityLivingBase ticker,int itemSlot, boolean isSelected) {
+    public static void onUpdate(ItemStack stack, EntityLivingBase ticker, int itemSlot, boolean isSelected) {
         getEnchantEnableStream(ITickableEnchant.class, stack).forEach(e -> e.onTick(stack, ticker, itemSlot, isSelected));
     }
 

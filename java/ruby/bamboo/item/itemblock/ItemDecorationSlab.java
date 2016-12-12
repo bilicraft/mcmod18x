@@ -35,57 +35,51 @@ public class ItemDecorationSlab extends ItemBlock {
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-//        if (stack.stackSize == 0) {
-//            return false;
-//        } else if (!playerIn.canPlayerEdit(pos.offset(facing), facing, stack)) {
-//            return false;
-//        } else {
-//            IBlockState iblockstate = worldIn.getBlockState(pos);
-//
-//            if (iblockstate.getBlock() == this.singleSlab) {
-//                BlockSlab.EnumBlockHalf enumblockhalf = iblockstate.getValue(BlockSlab.HALF);
-//
-//                if ((facing == EnumFacing.UP && enumblockhalf == BlockSlab.EnumBlockHalf.BOTTOM || facing == EnumFacing.DOWN && enumblockhalf == BlockSlab.EnumBlockHalf.TOP)) {
-//                    IBlockState iblockstate1 = this.doubleSlab.getDefaultState();
-//
-//                    if (worldIn.checkNoEntityCollision(this.doubleSlab.getCollisionBoundingBox(worldIn, pos, iblockstate1)) && worldIn.setBlockState(pos, iblockstate1, 3)) {
-//                        worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, this.doubleSlab.stepSound
-//                                .getPlaceSound(), (this.doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, this.doubleSlab.stepSound.getFrequency() * 0.8F);
-//                        --stack.stackSize;
-//                    }
-//
-//                    return true;
-//                }
-//            }
-//
-//            return this.tryPlace(stack, worldIn, pos.offset(facing)) ? true : super.onItemUse(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ);
-//        }
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        //        if (stack.stackSize == 0) {
+        //            return false;
+        //        } else if (!playerIn.canPlayerEdit(pos.offset(facing), facing, stack)) {
+        //            return false;
+        //        } else {
+        //            IBlockState iblockstate = worldIn.getBlockState(pos);
+        //
+        //            if (iblockstate.getBlock() == this.singleSlab) {
+        //                BlockSlab.EnumBlockHalf enumblockhalf = iblockstate.getValue(BlockSlab.HALF);
+        //
+        //                if ((facing == EnumFacing.UP && enumblockhalf == BlockSlab.EnumBlockHalf.BOTTOM || facing == EnumFacing.DOWN && enumblockhalf == BlockSlab.EnumBlockHalf.TOP)) {
+        //                    IBlockState iblockstate1 = this.doubleSlab.getDefaultState();
+        //
+        //                    if (worldIn.checkNoEntityCollision(this.doubleSlab.getCollisionBoundingBox(worldIn, pos, iblockstate1)) && worldIn.setBlockState(pos, iblockstate1, 3)) {
+        //                        worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, this.doubleSlab.stepSound
+        //                                .getPlaceSound(), (this.doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, this.doubleSlab.stepSound.getFrequency() * 0.8F);
+        //                        --stack.stackSize;
+        //                    }
+        //
+        //                    return true;
+        //                }
+        //            }
+        //
+        //            return this.tryPlace(stack, worldIn, pos.offset(facing)) ? true : super.onItemUse(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ);
+        //        }
         IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
-        if (!block.isReplaceable(worldIn, pos))
-        {
+        if (!block.isReplaceable(worldIn, pos)) {
             pos = pos.offset(facing);
         }
 
-        if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity)null, stack))
-        {
+        if (stack.stackSize != 0 && playerIn.canPlayerEdit(pos, facing, stack) && worldIn.canBlockBePlaced(this.block, pos, false, facing, (Entity) null, stack)) {
             int i = this.getMetadata(stack.getMetadata());
             IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, i, playerIn);
 
-            if (placeBlockAt(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1))
-            {
+            if (placeBlockAt(stack, playerIn, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1)) {
                 SoundType soundtype = this.block.getSoundType();
                 worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
                 --stack.stackSize;
             }
 
             return EnumActionResult.SUCCESS;
-        }
-        else
-        {
+        } else {
             return EnumActionResult.FAIL;
         }
     }
@@ -109,24 +103,24 @@ public class ItemDecorationSlab extends ItemBlock {
         return iblockstate1.getBlock() == this.singleSlab ? true : super.canPlaceBlockOnSide(worldIn, blockpos1, side, player, stack);
     }
 
-//    private boolean tryPlace(ItemStack stack, World worldIn, BlockPos pos) {
-//        IBlockState iblockstate = worldIn.getBlockState(pos);
-//
-//        if (iblockstate.getBlock() == this.singleSlab) {
-//            IBlockState iblockstate1 = this.doubleSlab.getDefaultState();
-//
-//            if (worldIn.checkNoEntityCollision(this.doubleSlab.getCollisionBoundingBox(worldIn, pos, iblockstate1)) && worldIn.setBlockState(pos, iblockstate1, 3)) {
-//                worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, this.doubleSlab.stepSound
-//                        .getPlaceSound(), (this.doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, this.doubleSlab.stepSound.getFrequency() * 0.8F);
-//                --stack.stackSize;
-//            }
-//
-//            return true;
-//
-//        }
-//
-//        return false;
-//    }
+    //    private boolean tryPlace(ItemStack stack, World worldIn, BlockPos pos) {
+    //        IBlockState iblockstate = worldIn.getBlockState(pos);
+    //
+    //        if (iblockstate.getBlock() == this.singleSlab) {
+    //            IBlockState iblockstate1 = this.doubleSlab.getDefaultState();
+    //
+    //            if (worldIn.checkNoEntityCollision(this.doubleSlab.getCollisionBoundingBox(worldIn, pos, iblockstate1)) && worldIn.setBlockState(pos, iblockstate1, 3)) {
+    //                worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, this.doubleSlab.stepSound
+    //                        .getPlaceSound(), (this.doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, this.doubleSlab.stepSound.getFrequency() * 0.8F);
+    //                --stack.stackSize;
+    //            }
+    //
+    //            return true;
+    //
+    //        }
+    //
+    //        return false;
+    //    }
 
     public Block getSingleSlab() {
         return singleSlab;

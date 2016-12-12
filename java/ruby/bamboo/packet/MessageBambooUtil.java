@@ -11,8 +11,7 @@ public class MessageBambooUtil implements IMessage {
 
     public byte data;
 
-    public MessageBambooUtil() {
-    }
+    public MessageBambooUtil() {}
 
     public MessageBambooUtil(byte par1) {
         this.data = par1;

@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -189,9 +190,13 @@ public class BroadLeave extends BlockLeaves implements ILeave, ICustomPetal, IBl
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-    {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return createStackedBlock(state);
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return ((EnumLeave) state.getValue(VARIANT)).getMapColor();
     }
 
 }

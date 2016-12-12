@@ -1,6 +1,5 @@
 package ruby.bamboo.tileentity;
 
-
 import javax.annotation.Nullable;
 
 import net.minecraft.block.state.IBlockState;

@@ -77,17 +77,16 @@ public class BambooPane extends BlockPane implements IMultiTextuerBlock {
 
     @Override
     protected ItemStack createStackedBlock(IBlockState state) {
-        return new ItemStack(this,1,state.getValue(META));
+        return new ItemStack(this, 1, state.getValue(META));
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-    {
-        return new ItemStack(this,1,state.getValue(META));
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+        return new ItemStack(this, 1, state.getValue(META));
     }
 
     @StateIgnore
     public IProperty[] getIgnoreState() {
-        return new IProperty[] {  NORTH, EAST, WEST, SOUTH };
+        return new IProperty[] { NORTH, EAST, WEST, SOUTH };
     }
 }

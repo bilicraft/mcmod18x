@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -184,6 +185,11 @@ public class IndLight extends BlockDirectional {
         public List<SubBlock> getList() {
             return Arrays.stream(EnumDyeColor.values()).map(dye -> new SubBlock(dye)).collect(Collectors.toList());
         }
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.AIR;
     }
 
 }

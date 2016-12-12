@@ -18,8 +18,7 @@ import ruby.bamboo.api.crafting.grind.IGrindRecipe;
 public class GrindManager {
     private static final HashMap<IGrindInputItem, IGrindRecipe> recipeMap = new HashMap<IGrindInputItem, IGrindRecipe>();
 
-    private GrindManager() {
-    }
+    private GrindManager() {}
 
     public static void addRecipe(ItemStack output, Block input) {
         addRecipe(output, null, new ItemStack(input), 0);

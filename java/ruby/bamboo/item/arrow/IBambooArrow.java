@@ -11,11 +11,10 @@ import ruby.bamboo.entity.arrow.BaseArrow;
 public interface IBambooArrow {
     public BaseArrow createArrowIn(World world, ItemStack bow, ItemStack arrow, float power, int chargeFrame, EntityPlayer player);
 
-    public default void onHitEntity(World world, Entity hitEntity, Entity shooter, ItemStack arrow) {
-    }
+    public default void onHitEntity(World world, Entity hitEntity, Entity shooter, ItemStack arrow) {}
 
     public default boolean isNoResources(EntityPlayer player, ItemStack bowStack) {
-        return player.capabilities.isCreativeMode|| EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, bowStack) > 0;
+        return player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, bowStack) > 0;
     }
 
     public default float getBowModel(int chargeFrame) {

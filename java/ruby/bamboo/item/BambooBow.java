@@ -119,12 +119,12 @@ public class BambooBow extends ItemBow implements IItemUtilKeylistener, IMessage
                 ItemStack arrowStack = inv.getStackInSlot(slotNum);
                 IBambooArrow arrow = (IBambooArrow) arrowStack.getItem();
 
-                BaseArrow entityArrow= arrow.createArrowIn(worldIn, stack, arrowStack, power, chargeFrame, player);
+                BaseArrow entityArrow = arrow.createArrowIn(worldIn, stack, arrowStack, power, chargeFrame, player);
 
                 if (!worldIn.isRemote) {
                     worldIn.spawnEntityInWorld(entityArrow);
                 }
-                if (! arrow.isNoResources(player,stack)) {
+                if (!arrow.isNoResources(player, stack)) {
                     ItemStackHelper.decrStackSize(player.inventory, arrowStack, 1);
                 } else {
                     entityArrow.setNoPick();

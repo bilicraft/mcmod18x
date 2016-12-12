@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.EnumPushReaction;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -37,7 +38,6 @@ public class Campfire extends BlockContainer {
         super(materialIn);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
-
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
@@ -78,9 +78,9 @@ public class Campfire extends BlockContainer {
         float var9 = pos.getZ() + 0.5F;
         float var10 = rand.nextFloat() * 0.4F - 0.2F;
         float var11 = rand.nextFloat() * 0.4F - 0.2F;
-//        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
-        if(rand.nextFloat()<0.1F){
-        world.spawnParticle(EnumParticleTypes.FLAME, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+        //        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+        if (rand.nextFloat() < 0.1F) {
+            world.spawnParticle(EnumParticleTypes.FLAME, var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -122,10 +122,14 @@ public class Campfire extends BlockContainer {
         return new IProperty[] { FACING };
     }
 
-
     @Override
     public EnumPushReaction getMobilityFlag(IBlockState state) {
         return EnumPushReaction.IGNORE;
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.AIR;
     }
 
 }

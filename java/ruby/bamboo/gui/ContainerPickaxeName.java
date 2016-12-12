@@ -103,10 +103,10 @@ public class ContainerPickaxeName extends BaseContainer {
         return itemstack;
     }
 
-//    @Override
-//    public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
-//        return super.slotClick(slotId, clickedButton, mode, playerIn);
-//    }
+    //    @Override
+    //    public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
+    //        return super.slotClick(slotId, clickedButton, mode, playerIn);
+    //    }
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {

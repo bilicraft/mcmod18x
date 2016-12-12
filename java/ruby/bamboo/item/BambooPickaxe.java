@@ -44,40 +44,40 @@ public class BambooPickaxe extends ItemPickaxe implements IBambooEnchantable {
         return true;
     }
 
-//    @Override
-//    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
-//        if (!worldIn.isRemote) {
-//            this.addExpChance(stack, worldIn, blockIn, pos);
-//        }
-//        if (playerIn instanceof EntityPlayer) {
-//            SpecialEnchant.onBreakBlock(stack, worldIn, blockIn, pos, playerIn, getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, false));
-//        }
-//        return true;
-//    }
+    //    @Override
+    //    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+    //        if (!worldIn.isRemote) {
+    //            this.addExpChance(stack, worldIn, blockIn, pos);
+    //        }
+    //        if (playerIn instanceof EntityPlayer) {
+    //            SpecialEnchant.onBreakBlock(stack, worldIn, blockIn, pos, playerIn, getMovingObjectPositionFromPlayer(worldIn, (EntityPlayer) playerIn, false));
+    //        }
+    //        return true;
+    //    }
 
     @Override
     public Set<String> getToolClasses(ItemStack stack) {
         return super.getToolClasses(stack);
     }
 
-//    @Override
-//    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
-//        return true;
-//    }
-//
-//    @Override
-//    public float getDigSpeed(ItemStack stack, IBlockState state) {
-//        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 300;
-//        float base = 1F + pow;
-//        // ダイヤで8、こちらのほうがgetStrより優先？
-//        return state.getBlock().getMaterial() == Material.rock ? base * 2 : base * 0.8F;
-//    }
-//
-//    @Override
-//    public float getStrVsBlock(ItemStack stack, Block block) {
-//        // ダイヤで8
-//        return 8;
-//    }
+    //    @Override
+    //    public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+    //        return true;
+    //    }
+    //
+    //    @Override
+    //    public float getDigSpeed(ItemStack stack, IBlockState state) {
+    //        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 300;
+    //        float base = 1F + pow;
+    //        // ダイヤで8、こちらのほうがgetStrより優先？
+    //        return state.getBlock().getMaterial() == Material.rock ? base * 2 : base * 0.8F;
+    //    }
+    //
+    //    @Override
+    //    public float getStrVsBlock(ItemStack stack, Block block) {
+    //        // ダイヤで8
+    //        return 8;
+    //    }
 
     @Override
     public int getMaxDamage(ItemStack stack) {
@@ -182,12 +182,12 @@ public class BambooPickaxe extends ItemPickaxe implements IBambooEnchantable {
         return !ItemStack.areItemsEqual(oldStack, newStack);
     }
 
-//    @Override
-//    public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
-//        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 100;
-//        Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier> create();
-//        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", (double) 1 + pow, 0));
-//        return multimap;
-//    }
+    //    @Override
+    //    public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack) {
+    //        float pow = IBambooEnchantable.getEnchLevel(stack, SpecialEnchant.getEnchantmentByClass(Power.class), EnchantBase.SUB_WILD) / 100;
+    //        Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier> create();
+    //        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", (double) 1 + pow, 0));
+    //        return multimap;
+    //    }
 
 }

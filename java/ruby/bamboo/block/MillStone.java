@@ -1,6 +1,7 @@
 package ruby.bamboo.block;
 
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -82,5 +83,8 @@ public class MillStone extends BlockContainer {
         return new IProperty[] { META };
     }
 
-
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.STONE;
+    }
 }

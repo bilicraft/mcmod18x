@@ -33,11 +33,11 @@ public class DecorationDoubleSlab extends DecorationSlab {
         return Item.getItemFromBlock(Block.getBlockFromName(singleName));
     }
 
-//    @Override
-//    @SideOnly(Side.CLIENT)
-//    public Item getItem(World worldIn, BlockPos pos) {
-//        return Item.getItemFromBlock(Block.getBlockFromName(singleName));
-//    }
+    //    @Override
+    //    @SideOnly(Side.CLIENT)
+    //    public Item getItem(World worldIn, BlockPos pos) {
+    //        return Item.getItemFromBlock(Block.getBlockFromName(singleName));
+    //    }
 
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {

@@ -53,7 +53,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity) {
         super(worldIn, shooter);
         this.velocity = velocity;
-        setAim(shooter, shooter.rotationPitch, shooter.rotationYaw, 0.0F,velocity, 1.0F);
+        setAim(shooter, shooter.rotationPitch, shooter.rotationYaw, 0.0F, velocity, 1.0F);
     }
 
     public BaseArrow(World worldIn, EntityLivingBase shooter, float velocity, ItemStack is) {
@@ -553,6 +553,7 @@ public abstract class BaseArrow extends EntityArrow implements IProjectile {
     public void setNoPick() {
         this.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
     }
+
     public void setMaxAge(int maxAge) {
         this.maxAge = maxAge;
     }

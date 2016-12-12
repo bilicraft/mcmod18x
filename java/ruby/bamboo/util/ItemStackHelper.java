@@ -42,7 +42,7 @@ public class ItemStackHelper {
     }
 
     public static int getInventoryStackSize(ItemStack[] inv, ItemStack stack) {
-        return (int) Stream.of(inv).map(is->stack.isItemEqual(is)).count();
+        return (int) Stream.of(inv).map(is -> stack.isItemEqual(is)).count();
     }
 
     /**
@@ -93,9 +93,11 @@ public class ItemStackHelper {
         public HashedStack(Item item) {
             this(new ItemStack(item));
         }
+
         public HashedStack(Block block) {
             this(new ItemStack(block));
         }
+
         public HashedStack(ItemStack stack) {
             item = stack.getItem();
             damage = stack.getItemDamage();

@@ -37,7 +37,7 @@ public class RenderMillStone extends TileEntitySpecialRenderer<TileMillStone> {
         GL11.glPushMatrix();
         this.bindTexture(RESOURCE);
         GL11.glTranslatef(1F, 0.125F, 0);
-        GL11.glScalef(0.95F,0.95F,0.95F);
+        GL11.glScalef(0.95F, 0.95F, 0.95F);
         model.renderInv();
         GL11.glPopMatrix();
     }

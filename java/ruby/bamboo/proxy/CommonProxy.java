@@ -65,6 +65,7 @@ public class CommonProxy {
         new EntityRegister().entityRegist();
         PacketDispatcher.init();
     }
+
     public void init() {
         this.registRecipe();
     }
@@ -79,12 +80,9 @@ public class CommonProxy {
         recipeIns.addRecipes();
     }
 
-
     private void registerFluid() {
         FluidRegistry.registerFluid(new HotSpring());
     }
-
-
 
     private void registTileEntity() {
         GameRegistry.registerTileEntity(TileJPChest.class, "jpchest");
@@ -93,8 +91,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileMillStone.class, "millstone");
     }
 
-
-    public EntityPlayer getPlayer(){
+    public EntityPlayer getPlayer() {
         return null;
     }
 

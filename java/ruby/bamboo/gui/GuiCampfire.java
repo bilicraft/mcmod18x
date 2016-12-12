@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import ruby.bamboo.api.Constants;
 import ruby.bamboo.tileentity.TileCampfire;
 
-
 public class GuiCampfire extends GuiContainer {
     private static final ResourceLocation RESORCE = new ResourceLocation(Constants.RESOURCED_DOMAIN + "textures/guis/campfire.png");
     private TileCampfire tile;

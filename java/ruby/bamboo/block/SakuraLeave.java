@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks.EnumType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -193,6 +194,29 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
             return this.color;
         }
 
+        public MapColor getMapColor() {
+            switch (this) {
+                case GREEN:
+                    return MapColor.GREEN;
+                case MAGENTA:
+                    return MapColor.MAGENTA;
+                case ORANGE:
+                    return MapColor.ADOBE;
+                case PINK:
+                    return MapColor.PINK;
+                case PURPLE:
+                    return MapColor.PURPLE;
+                case RED:
+                    return MapColor.RED;
+                case WHITE:
+                    return MapColor.QUARTZ;
+                case YELLOW:
+                    return MapColor.YELLOW;
+                default:
+                    return MapColor.PINK;
+            }
+        }
+
         public byte getPetal() {
             return this.petal;
         }
@@ -246,10 +270,13 @@ public class SakuraLeave extends BlockLeaves implements ILeave, ICustomPetal, IB
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-    {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         return createStackedBlock(state);
     }
 
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return ((EnumLeave) state.getValue(VARIANT)).getMapColor();
+    }
 
 }

@@ -47,12 +47,12 @@ public class DecorationSlab extends BlockSlab {
     public IProperty getVariantProperty() {
         return null;
     }
-//
-//    @Override
-//    @Deprecated
-//    public Object getVariant(ItemStack stack) {
-//        return null;
-//    }
+    //
+    //    @Override
+    //    @Deprecated
+    //    public Object getVariant(ItemStack stack) {
+    //        return null;
+    //    }
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
@@ -63,15 +63,15 @@ public class DecorationSlab extends BlockSlab {
         return null;
     }
 
-//    @Override
-//    @SideOnly(Side.CLIENT)
-//    public Item getItem(World worldIn, BlockPos pos) {
-//        Item item = Item.getItemFromBlock(this);
-//        if (item instanceof ItemDecorationSlab) {
-//            return Item.getItemFromBlock(((ItemDecorationSlab) item).getSingleSlab());
-//        }
-//        return null;
-//    }
+    //    @Override
+    //    @SideOnly(Side.CLIENT)
+    //    public Item getItem(World worldIn, BlockPos pos) {
+    //        Item item = Item.getItemFromBlock(this);
+    //        if (item instanceof ItemDecorationSlab) {
+    //            return Item.getItemFromBlock(((ItemDecorationSlab) item).getSingleSlab());
+    //        }
+    //        return null;
+    //    }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {

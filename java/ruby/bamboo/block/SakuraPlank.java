@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -116,5 +117,10 @@ public class SakuraPlank extends AxisBase implements ICustomState {
                 META_LOOKUP[var3.getMetadata()] = var3;
             }
         }
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.WOOD;
     }
 }

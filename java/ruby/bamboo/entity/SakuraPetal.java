@@ -163,15 +163,12 @@ public class SakuraPetal extends Entity {
     }
 
     @Override
-    protected void entityInit() {
-    }
+    protected void entityInit() {}
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound tagCompund) {
-    }
+    protected void readEntityFromNBT(NBTTagCompound tagCompund) {}
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound tagCompound) {
-    }
+    protected void writeEntityToNBT(NBTTagCompound tagCompound) {}
 
 }

@@ -58,5 +58,4 @@ public class EntityTorchArrow extends BaseArrow {
         return new ItemStack(BambooItems.TORCH_ARROW, 1, 0);
     }
 
-
 }

@@ -5,5 +5,5 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public interface IBlockColorWrapper {
-    public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) ;
+    public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex);
 }

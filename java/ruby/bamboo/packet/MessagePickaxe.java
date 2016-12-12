@@ -26,8 +26,7 @@ public class MessagePickaxe implements IMessage {
     public byte[] data;
     private final byte[] empty = new byte[] { 0 };
 
-    public MessagePickaxe() {
-    }
+    public MessagePickaxe() {}
 
     public MessagePickaxe(byte guiID) {
         this.data = new byte[] { guiID };
@@ -37,8 +36,7 @@ public class MessagePickaxe implements IMessage {
         try {
             // ""パータンの時getBytesがbyte[0]になるため、判別用にスペーサーが必要。
             this.data = Bytes.concat(this.data, empty, data.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-        }
+        } catch (UnsupportedEncodingException e) {}
         return this;
     }
 
@@ -67,8 +65,7 @@ public class MessagePickaxe implements IMessage {
     public String getSubDataToString() {
         try {
             return new String(getSubData(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-        }
+        } catch (UnsupportedEncodingException e) {}
         return "";
     }
 

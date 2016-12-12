@@ -261,11 +261,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void registTileRender() {
-        registTESR(Item.getItemFromBlock(BambooBlocks.CAMPFIRE),TileCampfire.class, new RenderCampfire());
-        registTESR(Item.getItemFromBlock(BambooBlocks.MILLSTONE),TileMillStone.class, new RenderMillStone());
+        registTESR(Item.getItemFromBlock(BambooBlocks.CAMPFIRE), TileCampfire.class, new RenderCampfire());
+        registTESR(Item.getItemFromBlock(BambooBlocks.MILLSTONE), TileMillStone.class, new RenderMillStone());
     }
 
-    private void registTESR(Item item,Class<? extends TileEntity> cls,TileEntitySpecialRenderer render){
+    private void registTESR(Item item, Class<? extends TileEntity> cls, TileEntitySpecialRenderer render) {
         ClientRegistry.bindTileEntitySpecialRenderer(cls, render);
         ForgeHooksClient.registerTESRItemStack(item, 0, cls);
     }

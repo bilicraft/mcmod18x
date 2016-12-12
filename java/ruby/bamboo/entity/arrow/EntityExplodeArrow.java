@@ -52,5 +52,4 @@ public class EntityExplodeArrow extends BaseArrow {
         return new ItemStack(BambooItems.EXPLODE_ARROW, 1, 0);
     }
 
-
 }

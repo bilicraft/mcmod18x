@@ -3,6 +3,7 @@ package ruby.bamboo.block;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -98,5 +99,10 @@ public class Huton extends BlockBed {
             return true;
         }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.AIR;
     }
 }

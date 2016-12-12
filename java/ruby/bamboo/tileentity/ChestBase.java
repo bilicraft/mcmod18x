@@ -127,8 +127,7 @@ public abstract class ChestBase extends TileEntityLockable implements ITickable,
     }
 
     @Override
-    public void setField(int id, int value) {
-    }
+    public void setField(int id, int value) {}
 
     @Override
     public int getFieldCount() {

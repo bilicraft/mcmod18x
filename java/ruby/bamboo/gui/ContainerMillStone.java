@@ -36,12 +36,12 @@ public class ContainerMillStone extends Container {
         }
     }
 
-//    @Override
-//    public void addCraftingToCrafters(IContainerListener par1ICrafting) {
-//        super.addCraftingToCrafters(par1ICrafting);
-//        par1ICrafting.sendProgressBarUpdate(this, 0, this.tileEntity.grindMotion);
-//        par1ICrafting.sendProgressBarUpdate(this, 1, this.tileEntity.getProgress());
-//    }
+    //    @Override
+    //    public void addCraftingToCrafters(IContainerListener par1ICrafting) {
+    //        super.addCraftingToCrafters(par1ICrafting);
+    //        par1ICrafting.sendProgressBarUpdate(this, 0, this.tileEntity.grindMotion);
+    //        par1ICrafting.sendProgressBarUpdate(this, 1, this.tileEntity.getProgress());
+    //    }
 
     @Override
     public void detectAndSendChanges() {

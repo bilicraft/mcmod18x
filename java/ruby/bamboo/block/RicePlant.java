@@ -3,6 +3,7 @@ package ruby.bamboo.block;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -57,5 +58,10 @@ public class RicePlant extends GrowableBase {
             ret.add(new ItemStack(this.getSeed(), 1, 0));
         }
         return ret;
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return state.getValue(AGE) >= this.getMaxGrowthStage() ? MapColor.YELLOW : MapColor.FOLIAGE;
     }
 }

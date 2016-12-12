@@ -121,7 +121,6 @@ public class AntiArrow extends ArrowBase implements ISubTexture {
             entityArrow.setFire(100);
         }
 
-
         return entityArrow;
     }
 

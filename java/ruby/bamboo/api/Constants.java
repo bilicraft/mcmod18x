@@ -36,6 +36,5 @@ public class Constants {
     public static final String BLOCK_PACKAGE = "ruby.bamboo.block";
     public static final String ITEM_PACKAGE = "ruby.bamboo.item";
 
-
-    public static final AxisAlignedBB ZERO_AABB=new AxisAlignedBB(0,0,0,0,0,0);
+    public static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 }

@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -13,8 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.api.Constants;
+import ruby.bamboo.core.init.BambooData.BambooBlock;
 import ruby.bamboo.core.init.EnumCreateTab;
 import ruby.bamboo.item.itemblock.ItemTatami;
 
@@ -62,4 +63,8 @@ public class Tatami extends XZAxisBlock {
         return new ItemStack(Item.getItemFromBlock(this), 1, getBlockMeta(state));
     }
 
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.GREEN;
+    }
 }

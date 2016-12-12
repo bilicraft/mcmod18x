@@ -3,6 +3,7 @@ package ruby.bamboo.block;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockChest;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,8 +35,7 @@ public class JPChest extends BlockChest {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return FULL_BLOCK_AABB;
     }
 
@@ -84,6 +84,11 @@ public class JPChest extends BlockChest {
             }
         }
         return true;
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.WOOD;
     }
 
 }

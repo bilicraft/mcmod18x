@@ -33,14 +33,13 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
 
     public GenSakuraBigTree(boolean p_i2008_1_) {
         super(p_i2008_1_);
-        leave=BambooBlocks.SAKURA_LEAVE.getDefaultState();
+        leave = BambooBlocks.SAKURA_LEAVE.getDefaultState();
     }
 
-    public GenSakuraBigTree(boolean p_i2008_1_,IBlockState state) {
+    public GenSakuraBigTree(boolean p_i2008_1_, IBlockState state) {
         super(p_i2008_1_);
-        this.leave=state;
+        this.leave = state;
     }
-
 
     void generateLeafNodeList() {
         this.height = (int) (this.heightLimit * this.heightAttenuation);
@@ -109,7 +108,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
                     BlockPos blockpos = p_181631_1_.add(j, 0, k);
                     net.minecraft.block.state.IBlockState state = this.world.getBlockState(blockpos);
 
-                    if (state.getBlock().isAir(state,this.world, blockpos) || state.getBlock().isLeaves(state,this.world, blockpos)) {
+                    if (state.getBlock().isAir(state, this.world, blockpos) || state.getBlock().isLeaves(state, this.world, blockpos)) {
                         this.setBlockAndNotifyAdequately(this.world, blockpos, p_181631_3_);
                     }
                 }
@@ -269,7 +268,7 @@ public class GenSakuraBigTree extends WorldGenAbstractTree {
     private boolean validTreeLocation() {
         BlockPos down = this.basePos.down();
         net.minecraft.block.state.IBlockState state = this.world.getBlockState(down);
-        boolean isSoil = state.getBlock().canSustainPlant(state,this.world, down, net.minecraft.util.EnumFacing.UP, getSapling());
+        boolean isSoil = state.getBlock().canSustainPlant(state, this.world, down, net.minecraft.util.EnumFacing.UP, getSapling());
 
         if (!isSoil) {
             return false;

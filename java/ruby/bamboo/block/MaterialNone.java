@@ -18,8 +18,7 @@ public class MaterialNone extends MaterialTransparent {
     }
 
     @Override
-    public boolean isReplaceable()
-    {
+    public boolean isReplaceable() {
         return false;
     }
 }

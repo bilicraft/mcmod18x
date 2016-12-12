@@ -28,9 +28,9 @@ public class Chain extends EnchantBase implements IBreakEnchant {
     @Override
     public void onBreakBlock(ItemStack stack, World world, Block block, BlockPos pos, EntityLivingBase player, RayTraceResult rtr) {
         if (!world.isRemote) {
-            if (block instanceof BlockOre ) {
+            if (block instanceof BlockOre) {
                 int limit = (int) Math.ceil(IBambooEnchantable.getEnchLevel(stack, this, SUB_WILD) / 15) + 3;
-                Set<BlockPos> set = getBreakSet(world, pos, block, limit );
+                Set<BlockPos> set = getBreakSet(world, pos, block, limit);
                 IBambooEnchantable item = (IBambooEnchantable) stack.getItem();
                 int exp = (int) (item.getBlockBreakExp(stack, world, block, pos) * set.size());
                 item.addExp(stack, exp, 0.5F);
@@ -56,7 +56,7 @@ public class Chain extends EnchantBase implements IBreakEnchant {
             nextTargets = nextTargets.stream()
                     .flatMap(target -> Arrays.stream(EnumFacing.VALUES).map(target::offset))
                     .filter(fixedPos -> world.getBlockState(fixedPos).getBlock().equals(targetBlock))
-                    .filter(fixedPos -> fouds.size() <= limit &&fouds.add(fixedPos))
+                    .filter(fixedPos -> fouds.size() <= limit && fouds.add(fixedPos))
                     .collect(Collectors.toList());
         } while (fouds.size() <= limit && !nextTargets.isEmpty());
         return fouds;

@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -28,7 +29,6 @@ import ruby.bamboo.core.init.EnumCreateTab;
 @BambooBlock(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 
 public class Kitunebi extends Block {
-
 
     private boolean isVisible = false;
 
@@ -137,6 +137,10 @@ public class Kitunebi extends Block {
         this.setVisibleFlg(worldIn, pos, stateIn, rand);
     }
 
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return MapColor.AIR;
+    }
     //    @Override
     //    public String getTexName(IBlockState state, EnumFacing side) {
     //        return "bamboomod:blocks/kitunebi";

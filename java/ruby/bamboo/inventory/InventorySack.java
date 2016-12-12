@@ -85,8 +85,7 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public void markDirty() {
-    }
+    public void markDirty() {}
 
     @Override
     public String getName() {
@@ -104,12 +103,10 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public void openInventory(EntityPlayer player) {
-    }
+    public void openInventory(EntityPlayer player) {}
 
     @Override
-    public void closeInventory(EntityPlayer player) {
-    }
+    public void closeInventory(EntityPlayer player) {}
 
     @Override
     public int getField(int id) {
@@ -117,8 +114,7 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public void setField(int id, int value) {
-    }
+    public void setField(int id, int value) {}
 
     @Override
     public int getFieldCount() {
@@ -126,6 +122,5 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public void clear() {
-    }
+    public void clear() {}
 }

@@ -36,9 +36,9 @@ public class SpringBlock extends Block {
 
         if (upperState.getBlock() == BambooBlocks.SPRING_WATER) {
             //水位の増加
-            if(SpringWater.levelUp(worldIn, upperPos, upperState)){
+            if (SpringWater.levelUp(worldIn, upperPos, upperState)) {
                 worldIn.scheduleUpdate(upperPos, upperState.getBlock(), upperState.getBlock().tickRate(worldIn));
-            }else{
+            } else {
                 // 満水の時はスケジューリングを行わない
                 return;
             }
@@ -74,10 +74,10 @@ public class SpringBlock extends Block {
 
         if (activeFlg) {
             worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
-        }else{
-            IBlockState upperState=worldIn.getBlockState(pos.up());
-            if(upperState.getBlock()==BambooBlocks.SPRING_WATER){
-                ((TileSpringWater)worldIn.getTileEntity(pos.up())).setDead();
+        } else {
+            IBlockState upperState = worldIn.getBlockState(pos.up());
+            if (upperState.getBlock() == BambooBlocks.SPRING_WATER) {
+                ((TileSpringWater) worldIn.getTileEntity(pos.up())).setDead();
             }
         }
         return true;
