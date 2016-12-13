@@ -17,14 +17,13 @@ public class DecorationDoubleSlab extends DecorationSlab {
 
     private final String singleName;
 
-    public DecorationDoubleSlab(Material materialIn, String singleName) {
-        super(materialIn);
+    public DecorationDoubleSlab(Material materialIn, String singleName, EnumDecoration deco) {
+        super(materialIn, deco);
         this.singleName = singleName;
     }
 
     @Override
     public boolean isDouble() {
-        // なぜこんな拡張性の低い設計なのか不思議。
         return true;
     }
 
@@ -33,14 +32,10 @@ public class DecorationDoubleSlab extends DecorationSlab {
         return Item.getItemFromBlock(Block.getBlockFromName(singleName));
     }
 
-    //    @Override
-    //    @SideOnly(Side.CLIENT)
-    //    public Item getItem(World worldIn, BlockPos pos) {
-    //        return Item.getItemFromBlock(Block.getBlockFromName(singleName));
-    //    }
-
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         return this.getStateFromMeta(meta);
     }
+
+
 }

@@ -3,6 +3,7 @@ package ruby.bamboo.block.decoration;
 import java.util.Random;
 
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -15,8 +16,9 @@ import ruby.bamboo.item.itemblock.ItemDecorationSlab;
 public class DecorationSlab extends BlockSlab {
 
     public static final PropertyBool SEAMLESS = PropertyBool.create("seamless");
+    private EnumDecoration deco;
 
-    public DecorationSlab(Material materialIn) {
+    public DecorationSlab(Material materialIn, EnumDecoration deco) {
         super(materialIn);
         IBlockState iblockstate = this.blockState.getBaseState();
         if (this.isDouble()) {
@@ -29,6 +31,7 @@ public class DecorationSlab extends BlockSlab {
         this.setResistance(300F);
         // 他のslabと違って、255のままだと影が出すぎてしまう。どこかにバニラ半ブロックの専用処理がハードコートされている？
         this.setLightOpacity(1);
+        this.deco = deco;
     }
 
     @Override
@@ -38,7 +41,6 @@ public class DecorationSlab extends BlockSlab {
 
     @Override
     public boolean isDouble() {
-        // なぜこんな拡張性の低い設計なのか不思議。
         return false;
     }
 
@@ -47,12 +49,6 @@ public class DecorationSlab extends BlockSlab {
     public IProperty getVariantProperty() {
         return null;
     }
-    //
-    //    @Override
-    //    @Deprecated
-    //    public Object getVariant(ItemStack stack) {
-    //        return null;
-    //    }
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
@@ -62,16 +58,6 @@ public class DecorationSlab extends BlockSlab {
         }
         return null;
     }
-
-    //    @Override
-    //    @SideOnly(Side.CLIENT)
-    //    public Item getItem(World worldIn, BlockPos pos) {
-    //        Item item = Item.getItemFromBlock(this);
-    //        if (item instanceof ItemDecorationSlab) {
-    //            return Item.getItemFromBlock(((ItemDecorationSlab) item).getSingleSlab());
-    //        }
-    //        return null;
-    //    }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
@@ -111,6 +97,11 @@ public class DecorationSlab extends BlockSlab {
     public Comparable<?> getTypeForItem(ItemStack stack) {
         // TODO 自動生成されたメソッド・スタブ
         return null;
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return deco.getMapColor();
     }
 
 }

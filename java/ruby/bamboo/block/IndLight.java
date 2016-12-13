@@ -46,7 +46,7 @@ public class IndLight extends BlockDirectional {
 
     public final EnumDyeColor color;
 
-    public IndLight(SubBlockBase data) {
+    public IndLight(SubBlock data) {
         super(Material.GROUND);
         this.setDefaultState(this.blockState.getBaseState().withProperty(SECOND_LINK, false));
         this.setHardness(0.3F);

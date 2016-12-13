@@ -80,12 +80,15 @@ public class DataLoader extends ClassFinder {
                 for (SubBlockBase sub : anoData.subblock().newInstance().getList()) {
 
                     try {
+                        Constructor cnst = c.getDeclaredConstructor(anoData.subblock());
+                        cnst.setAccessible(true);
+
+                        instance = (Block) cnst.newInstance(anoData.subblock().cast(sub));
+                    } catch (NoSuchMethodException e) {
                         Constructor cnst = c.getDeclaredConstructor(SubBlockBase.class);
                         cnst.setAccessible(true);
 
                         instance = (Block) cnst.newInstance(sub);
-                    } catch (NoSuchMethodException e) {
-                        throw new Exception(e);
                     }
                     // tile.抜き
                     String name = instance.getUnlocalizedName().substring(5);

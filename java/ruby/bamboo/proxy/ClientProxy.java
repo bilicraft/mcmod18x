@@ -117,7 +117,22 @@ public class ClientProxy extends CommonProxy {
                     }
                 });
                 ModelBakery.registerItemVariants(item, mrl);
-            } else {
+            } else if (block != null && state != null) {
+                String jsonName = name;
+                if (block != null) {
+                    BambooBlock anoData = block.getClass().getAnnotation(BambooBlock.class);
+                    if (anoData != null && !anoData.jsonName().isEmpty()) {
+                        jsonName = anoData.jsonName();
+                        ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
+
+                        ModelLoader.setCustomModelResourceLocation(item, 0, mrl);
+                    }
+                }
+                Map<IBlockState, ModelResourceLocation> map = state.putStateModelLocations(block);
+                for (ModelResourceLocation mrl : map.values()) {
+                    modelMap.put(mrl, item);
+                }
+            }else {
                 if (item instanceof ISubTexture) {
 
                     //                List<ResourceLocation> locList = Lists.newArrayList();
@@ -146,19 +161,7 @@ public class ClientProxy extends CommonProxy {
                     }
                 }
             }
-            if (block != null && state != null) {
-                String jsonName = name;
-                if (block != null) {
-                    BambooBlock anoData = block.getClass().getAnnotation(BambooBlock.class);
-                    if (anoData != null && !anoData.jsonName().isEmpty()) {
-                        jsonName = Constants.RESOURCED_DOMAIN + anoData.jsonName();
-                    }
-                }
-                Map<IBlockState, ModelResourceLocation> map = state.putStateModelLocations(block);
-                for (ModelResourceLocation mrl : map.values()) {
-                    modelMap.put(mrl, item);
-                }
-            }
+
             //            new ModelResourceLocation((ResourceLocation)Block.REGISTRY.getNameForObject(state.getBlock()), this.getPropertyString(state.getProperties()));
 
         }
@@ -194,14 +197,14 @@ public class ClientProxy extends CommonProxy {
      *
      * @param block
      */
-    private <T> IStateMapper setCustomState(T obj) {
-        if (obj instanceof ICustomState) {
+    private IStateMapper setCustomState(Block block) {
+        if (block instanceof ICustomState) {
             try {
-                IStateMapper state = (IStateMapper) ((ICustomState) obj).getCustomState();
-                ModelLoader.setCustomStateMapper((Block) obj, state);
+                IStateMapper state = (IStateMapper) ((ICustomState) block).getCustomState();
+                ModelLoader.setCustomStateMapper(block, state);
                 return state;
             } catch (Exception e) {
-                FMLLog.warning(obj.getClass().getName() + ": Custom State Error");
+                FMLLog.warning(block.getClass().getName() + ": Custom State Error");
             }
         }
         return null;

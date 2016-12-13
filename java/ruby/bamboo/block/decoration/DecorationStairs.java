@@ -1,6 +1,7 @@
 package ruby.bamboo.block.decoration;
 
 import net.minecraft.block.BlockStairs;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 
 //メモ
@@ -8,12 +9,19 @@ import net.minecraft.block.state.IBlockState;
 
 public class DecorationStairs extends BlockStairs {
 
-    protected DecorationStairs(IBlockState modelState) {
+    private EnumDecoration deco;
+
+    public DecorationStairs(IBlockState modelState, EnumDecoration deco) {
         super(modelState);
         this.setHardness(0.5F);
         this.setResistance(300F);
         // 他のslabと違って、255のままだと影が出すぎてしまう。どこかにバニラ半ブロックの専用処理がハードコートされている？
         this.setLightOpacity(1);
+        this.deco = deco;
     }
 
+    @Override
+    public MapColor getMapColor(IBlockState state) {
+        return deco.getMapColor();
+    }
 }

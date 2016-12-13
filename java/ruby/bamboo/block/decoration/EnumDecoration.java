@@ -1,5 +1,6 @@
 package ruby.bamboo.block.decoration;
 
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import ruby.bamboo.api.Constants;
 import ruby.bamboo.core.init.EnumCreateTab;
@@ -54,6 +55,29 @@ public enum EnumDecoration {
 
     public Material getMaterial() {
         return this.material;
+    }
+
+    public MapColor getMapColor() {
+        switch (this) {
+            case CBIRCH:
+                return MapColor.WOOD;
+            case COAK:
+                return MapColor.WOOD;
+            case CPINE:
+                return MapColor.WOOD;
+            case KAWARA:
+                return MapColor.GRAY;
+            case KAYA:
+                return MapColor.WOOD;
+            case NAMAKO:
+                return MapColor.GRAY;
+            case PLASTER:
+                return MapColor.QUARTZ;
+            case WARA:
+                return MapColor.YELLOW;
+            default:
+                return MapColor.AIR;
+        }
     }
 
     public EnumCreateTab getCreateTab() {
