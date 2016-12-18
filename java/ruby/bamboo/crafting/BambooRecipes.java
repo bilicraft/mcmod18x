@@ -29,7 +29,7 @@ public class BambooRecipes {
     public final String tudura = "tudura";
     public final String plankWood = "plankWood";
 
-    public final String cookingRice = "cookingRice";
+    public final String cooked_rice = "cookedRice";
     public final String busket = "bambooBasket";
     public final String crop_rice = "cropRice";
     public final String log_sakura = "logCherry";
@@ -67,7 +67,9 @@ public class BambooRecipes {
         OreDictionary.registerOre(bamboo, getIS(BAMBOO));
         OreDictionary.registerOre(tudura, getIS(TUDURA));
         OreDictionary.registerOre(crop_straw, getIS(STRAW));
-        OreDictionary.registerOre(crop_rice, getIS(RICE_SEED));
+        OreDictionary.registerOre(crop_rice, getIS(RAWRICE));
+        OreDictionary.registerOre("rice", getIS(RAWRICE));
+        OreDictionary.registerOre(cooked_rice, getIS(BAMBOO_FOOD, 1, 0));
     }
 
     /**
@@ -153,6 +155,9 @@ public class BambooRecipes {
         addShapelessRecipe(getIS(LIGHT_ARROW), getIS(BAMBOO_ARROW), Items.FEATHER);
         addShapelessRecipe(getIS(EXPLODE_ARROW), getIS(BAMBOO_ARROW), Items.GUNPOWDER);
 
+        //メシ系
+        //もち
+        addRecipe(getIS(BAMBOO_FOOD, 2, 22), "##", "##", '#', cooked_rice);
     }
 
     public void addCookingRecipe() {

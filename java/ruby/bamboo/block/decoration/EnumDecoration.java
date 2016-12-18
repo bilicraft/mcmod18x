@@ -68,7 +68,7 @@ public enum EnumDecoration {
             case KAWARA:
                 return MapColor.GRAY;
             case KAYA:
-                return MapColor.WOOD;
+                return MapColor.BROWN;
             case NAMAKO:
                 return MapColor.GRAY;
             case PLASTER:
