@@ -1,6 +1,7 @@
 package ruby.bamboo.plugin.jei;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -10,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import ruby.bamboo.api.crafting.RecipeWrapper;
-import scala.actors.threadpool.Arrays;
 
 public class CookingRecipeWrapper implements IRecipeWrapper {
 
