@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -37,7 +36,6 @@ import ruby.bamboo.packet.MessageBambooUtil.IMessagelistener;
 
 @BambooItem(createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener {
-    // private static ItemStack backkup;
     private Field remainingHighlightTicks;
 
     public Sack() {
@@ -50,6 +48,7 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (itemStack.getTagCompound() == null) {
+            player.setActiveHand(hand);
             player.openGui(BambooCore.instance, GuiHandler.GUI_SACK, world, (int) player.posX, (int) player.posY, (int) player.posZ);
             return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemStack);
         }
@@ -100,7 +99,7 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
         return (Item) Item.REGISTRY.getObject(new ResourceLocation(str));
     }
 
-    private boolean isStorage(Item item) {
+    public boolean isStorage(Item item) {
         return item instanceof ItemBlock ? true : item instanceof ItemSeeds ? true : item instanceof ItemSeedFood ? true : false;
     }
 
@@ -135,17 +134,16 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
                 }
             }
             if (getItem(type) instanceof ItemSeeds || getItem(type) instanceof ItemSeedFood) {
-                for (int i = -2; i <= 2; i++) {
-                    for (int j = -2; j <= 2; j++) {
-                        if (getItem(type).onItemUse(is, player, world, pos.add(i, 0, j), hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS) {
-                            stack.setItemDamage(stack.getItemDamage() + 1);
-                            count--;
-                            stack.getTagCompound().setShort("count", count);
-                            player.swingArm(hand);
+                //種植えパターン
+                for (BlockPos targetPos : BlockPos.getAllInBox(pos.add(-2, 0, -2), pos.add(2, 0, 2))) {
+                    if (getItem(type).onItemUse(is, player, world, targetPos, hand, facing, hitX, hitY, hitZ) == EnumActionResult.SUCCESS) {
+                        stack.setItemDamage(stack.getItemDamage() + 1);
+                        count--;
+                        stack.getTagCompound().setShort("count", count);
+                        player.swingArm(hand);
 
-                            if (count < 1) {
-                                return EnumActionResult.SUCCESS;
-                            }
+                        if (count < 1) {
+                            return EnumActionResult.SUCCESS;
                         }
                     }
                 }
@@ -154,28 +152,23 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
         return super.onItemUse(stack, player, world, pos, hand, facing, hitX, hitY, hitZ);
     }
 
-    public void release(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        if (par1ItemStack.getTagCompound() != null && !par2World.isRemote) {
-            short count = par1ItemStack.getTagCompound().getShort("count");
-            String type = par1ItemStack.getTagCompound().getString("type");
-            short meta = par1ItemStack.getTagCompound().getShort("meta");
-            double x = par3EntityPlayer.posX;
-            double y = par3EntityPlayer.posY;
-            double z = par3EntityPlayer.posZ;
+    public void release(ItemStack itemStack, EntityPlayer player) {
+        World world = player.getEntityWorld();
+        if (itemStack.getTagCompound() != null && !world.isRemote) {
+            short count = itemStack.getTagCompound().getShort("count");
+            String type = itemStack.getTagCompound().getString("type");
+            short meta = itemStack.getTagCompound().getShort("meta");
+            double x = player.posX;
+            double y = player.posY;
+            double z = player.posZ;
 
             if (count > 0) {
-                par2World.spawnEntityInWorld(new EntityItem(par2World, x, y, z, new ItemStack(getItem(type), count, meta)));
+                player.entityDropItem(new ItemStack(getItem(type), count, meta), 0.5F);
                 count = 0;
             }
 
-            clearContainer(par1ItemStack);
-            par1ItemStack.setItemDamage(0);
-        }
-    }
-
-    private void returnItem(EntityPlayer entity, ItemStack is) {
-        if (!entity.inventory.addItemStackToInventory(is)) {
-            entity.entityDropItem(is, 0.5F);
+            clearContainer(itemStack);
+            itemStack.setItemDamage(0);
         }
     }
 
@@ -237,16 +230,16 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
         return new ItemStack(getItem(type), count, meta);
     }
 
-    public void setContainerItem(ItemStack target, ItemStack itemStack) {
-        if (itemStack == null) {
+    public void setContainerItem(ItemStack from, ItemStack to) {
+        if (from == null || to == null) {
             return;
         }
-        if (itemStack.getTagCompound() == null) {
-            itemStack.setTagCompound(new NBTTagCompound());
+        if (from.getTagCompound() == null) {
+            from.setTagCompound(new NBTTagCompound());
         }
-        short count = itemStack.getTagCompound().getShort("count");
-        String type = itemStack.getTagCompound().getString("type");
-        short meta = itemStack.getTagCompound().getShort("meta");
+        from.getTagCompound().setString("type", String.valueOf(Item.REGISTRY.getNameForObject(to.getItem())));
+        from.getTagCompound().setShort("count", (short) to.stackSize);
+        from.getTagCompound().setShort("meta", (short) to.getItemDamage());
     }
 
     public void clearContainer(ItemStack itemStack) {
@@ -273,12 +266,12 @@ public class Sack extends Item implements IItemUtilKeylistener, IMessagelistener
 
     @Override
     public void call(EntityPlayer player, ItemStack is, byte data) {
-        if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
-            player.setActiveHand(EnumHand.MAIN_HAND);
-        } else {
-            player.setActiveHand(EnumHand.OFF_HAND);
-        }
+        //        if (player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() == this) {
+        //            player.setActiveHand(EnumHand.MAIN_HAND);
+        //        } else {
+        //            player.setActiveHand(EnumHand.OFF_HAND);
+        //        }
         //        player.openGui(BambooCore.instance, GuiHandler.GUI_SACK, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
-        this.release(is, player.getEntityWorld(), player);
+        this.release(is, player);
     }
 }

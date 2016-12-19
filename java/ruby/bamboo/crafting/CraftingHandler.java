@@ -24,7 +24,7 @@ public class CraftingHandler {
                 Item target = event.craftMatrix.getStackInSlot(lim).getItem();
 
                 if (target instanceof Sack) {
-                    ((Sack) target).release(event.craftMatrix.getStackInSlot(lim), event.player.worldObj, event.player);
+                    ((Sack) target).release(event.craftMatrix.getStackInSlot(lim), event.player);
                 }
             }
         }
