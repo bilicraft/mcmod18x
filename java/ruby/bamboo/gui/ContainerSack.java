@@ -1,22 +1,17 @@
 package ruby.bamboo.gui;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import ruby.bamboo.api.BambooItems;
 import ruby.bamboo.inventory.InventorySack;
 import ruby.bamboo.item.Sack;
-import ruby.bamboo.util.ItemStackHelper;
 
 public class ContainerSack extends Container {
     private ItemStack itemStack;
@@ -78,36 +73,36 @@ public class ContainerSack extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer player) {
-        EnumHand hand = ItemStackHelper.getHandItemEq(player, BambooItems.SACK);
+        if (player.worldObj.isRemote) {
+            super.onContainerClosed(player);
+            return;
+        }
+        EnumHand hand = player.getActiveHand();
         if (player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() == BambooItems.SACK) {
             ItemStack slot0 = this.inventorySlots.get(0).getStack();
+
             if (itemStack != null && slot0 != null) {
-                //                ((Sack) BambooItems.SACK).setContainerItem(itemStack, slot0);
-                itemStack.setTagCompound(new NBTTagCompound());
-                NBTTagCompound var4 = itemStack.getTagCompound();
-                var4.setString("type", String.valueOf(Item.REGISTRY.getNameForObject(slot0.getItem())));
-                var4.setShort("count", (short) slot0.stackSize);
-                var4.setShort("meta", (short) slot0.getItemDamage());
-                itemStack.setItemDamage(itemStack.getMaxDamage() - 1);
-            } else {
-                ((Sack) BambooItems.SACK).clearContainer(itemStack);
-            }
-
-            ItemStack item = itemStack;
-
-            if (item != null && item.getTagCompound() != null) {
-                if (isStorage(Item.REGISTRY.getObject(new ResourceLocation(item.getTagCompound().getString("type"))))) {
-                    player.getHeldItem(hand).setTagCompound(item.getTagCompound());
+                if (((Sack) player.getHeldItem(hand).getItem()).isStorage(slot0.getItem())) {
+                    //対象物格納パターン
+                    if (itemStack.getTagCompound() != null) {
+                        //既に存在する、このパターンは基本無いはず。
+                        ((Sack) BambooItems.SACK).release(itemStack, player);
+                        ((Sack) BambooItems.SACK).setContainerItem(itemStack, slot0);
+                    } else {
+                        //存在しない
+                        ((Sack) BambooItems.SACK).setContainerItem(itemStack, slot0);
+                    }
                 } else {
+                    // 格納対象外
                     if (!player.worldObj.isRemote) {
-                        player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 0.5, player.posZ, inventry.slot0));
+                        player.entityDropItem(inventry.slot0, 0.5F);
                     }
                 }
             }
         } else {
             if (inventry.slot0 != null) {
                 if (!player.worldObj.isRemote) {
-                    player.worldObj.spawnEntityInWorld(new EntityItem(player.worldObj, player.posX, player.posY + 0.5, player.posZ, inventry.slot0));
+                    player.entityDropItem(inventry.slot0, 0.5F);
                 }
             }
         }

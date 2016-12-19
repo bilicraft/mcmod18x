@@ -119,20 +119,18 @@ public class ClientProxy extends CommonProxy {
                 ModelBakery.registerItemVariants(item, mrl);
             } else if (block != null && state != null) {
                 String jsonName = name;
-                if (block != null) {
-                    BambooBlock anoData = block.getClass().getAnnotation(BambooBlock.class);
-                    if (anoData != null && !anoData.jsonName().isEmpty()) {
-                        jsonName = anoData.jsonName();
-                        ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
+                BambooBlock anoData = block.getClass().getAnnotation(BambooBlock.class);
+                if (anoData != null && !anoData.jsonName().isEmpty()) {
+                    jsonName = anoData.jsonName();
+                }
+                ModelResourceLocation mrl = new ModelResourceLocation(jsonName, "inventory");
+                ModelLoader.setCustomModelResourceLocation(item, 0, mrl);
 
-                        ModelLoader.setCustomModelResourceLocation(item, 0, mrl);
-                    }
-                }
                 Map<IBlockState, ModelResourceLocation> map = state.putStateModelLocations(block);
-                for (ModelResourceLocation mrl : map.values()) {
-                    modelMap.put(mrl, item);
+                for (ModelResourceLocation m : map.values()) {
+                    modelMap.put(m, item);
                 }
-            }else {
+            } else {
                 if (item instanceof ISubTexture) {
 
                     //                List<ResourceLocation> locList = Lists.newArrayList();
