@@ -13,6 +13,8 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
 import ruby.bamboo.api.Constants;
 import ruby.bamboo.command.ATCommand;
+import ruby.bamboo.command.JumpCommand;
+import ruby.bamboo.dimension.BambooDimension;
 import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = Constants.MODID, name = Constants.MODID, version = "Minecraft" + Constants.MC_VER + " var" + Constants.BAMBOO_VER, useMetadata = true)
@@ -30,6 +32,8 @@ public class BambooCore {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         proxy.preInit();
+        Config.load();
+        new BambooDimension();
     }
 
     @Mod.EventHandler
@@ -44,6 +48,7 @@ public class BambooCore {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event){
         event.registerServerCommand(new ATCommand());
+        event.registerServerCommand(new JumpCommand());
     }
 
     /**
