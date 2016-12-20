@@ -34,9 +34,11 @@ import ruby.bamboo.tileentity.TileCampfire;
 public class Campfire extends BlockContainer {
     public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create(Constants.META, EnumFacing.class);
 
-    protected Campfire(Material materialIn) {
-        super(materialIn);
+    public Campfire() {
+        super(Material.GROUND);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setHardness(1);
+        this.setResistance(300F);
     }
 
     @Override
