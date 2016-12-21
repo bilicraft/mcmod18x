@@ -6,19 +6,15 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ruby.bamboo.core.Config;
 
 public class JumpCommand extends CommandBase {
-    public JumpCommand(){
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+    public JumpCommand() {}
+
     @Override
     public int getRequiredPermissionLevel() {
         return 2;
@@ -41,19 +37,8 @@ public class JumpCommand extends CommandBase {
         }
         int dim = Integer.parseInt(args[0]);
         EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
-        NBTTagCompound nbt = player.getEntityData();
-        NBTTagCompound dimtag = new NBTTagCompound();
-        NBTTagCompound postag = new NBTTagCompound();
-        nbt.setTag("bamboojump", dimtag);
-        dimtag.setTag("dim" + player.dimension, postag);
-        postag.setLong("pos", player.getPosition().toLong());
-        if (nbt.hasKey("bamboojump")) {
-            dimtag = (NBTTagCompound) nbt.getTag("bamboojump");
-            if (dimtag.hasKey("dim" + dim)) {
-                postag=(NBTTagCompound) dimtag.getTag("dim" + dim);
-                BlockPos pos = BlockPos.fromLong(postag.getLong("pos"));
-                player.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            }
+        if (dim == Config.DIMID.get()) {
+            player.setSpawnChunk(new BlockPos(0, 4, 0), true, dim);
         }
         server.getPlayerList().transferPlayerToDimension(player, dim, new BambooTeleport(server.worldServerForDimension(dim)));
 
@@ -67,6 +52,12 @@ public class JumpCommand extends CommandBase {
 
         @Override
         public void placeInPortal(Entity entityIn, float rotationYaw) {
+            EntityPlayer player = (EntityPlayer) entityIn;
+            BlockPos pos = player.getBedLocation();
+            if (pos == null) {
+                pos = player.getServer().worldServerForDimension(player.dimension).getSpawnPoint();
+            }
+            entityIn.setPosition(pos.getX(), pos.getY(), pos.getZ());
 
         }
 
@@ -76,14 +67,4 @@ public class JumpCommand extends CommandBase {
         }
     }
 
-    @SubscribeEvent
-    public void capEvent(PlayerEvent.Clone e) {
-        if (e.getEntity() instanceof EntityPlayer) {
-            NBTTagCompound nbt= e.getOriginal().getEntityData();
-            if(nbt.hasKey("bamboojump")){
-                NBTTagCompound jump=(NBTTagCompound) nbt.getTag("bamboojump");
-                e.getEntityPlayer().getEntityData().setTag("bamboojump", jump);
-            }
-        }
-    }
 }
