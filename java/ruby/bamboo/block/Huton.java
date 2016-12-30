@@ -1,5 +1,7 @@
 package ruby.bamboo.block;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockBed;
@@ -8,6 +10,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -105,4 +108,10 @@ public class Huton extends BlockBed {
     public MapColor getMapColor(IBlockState state) {
         return MapColor.AIR;
     }
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return state.getValue(PART) == BlockBed.EnumPartType.HEAD ? null : Item.getItemFromBlock(this);
+    }
+
 }

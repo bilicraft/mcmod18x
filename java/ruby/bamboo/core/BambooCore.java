@@ -32,8 +32,8 @@ public class BambooCore {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         proxy.preInit();
-        Config.load();
         new BambooDimension();
+        new Thread(new UpdateCheck()).start();
     }
 
     @Mod.EventHandler
@@ -45,8 +45,9 @@ public class BambooCore {
     public void postInit(FMLPostInitializationEvent e) {
         proxy.postInit();
     }
+
     @Mod.EventHandler
-    public void serverStarting(FMLServerStartingEvent event){
+    public void serverStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new ATCommand());
         event.registerServerCommand(new JumpCommand());
     }

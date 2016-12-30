@@ -16,8 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import ruby.bamboo.api.BambooBlocks;
 import ruby.bamboo.core.init.BambooData.BambooBlock;
-import ruby.bamboo.tileentity.TileSpringWater;
 import ruby.bamboo.core.init.EnumCreateTab;
+import ruby.bamboo.tileentity.TileSpringWater;
 
 @BambooBlock(name = "spring_block", createiveTabs = EnumCreateTab.TAB_BAMBOO)
 public class SpringBlock extends Block {
@@ -27,6 +27,8 @@ public class SpringBlock extends Block {
     public SpringBlock(Material materialIn) {
         super(materialIn);
         this.setDefaultState(this.getDefaultState().withProperty(ACTIVE, false));
+        this.setHardness(1);
+        this.setResistance(300F);
     }
 
     @Override
