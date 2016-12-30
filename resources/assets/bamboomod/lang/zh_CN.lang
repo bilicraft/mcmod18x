@@ -34,7 +34,22 @@ tile.delude_height.name=变色龙竖板
 tile.delude_stair.name=变色龙台阶
 tile.campfire.name=围炉
 tile.huton.name=被褥
-tile.millstone.name=石磨
+tile.indlight_white.name=间接照明（白色）
+tile.indlight_orange.name=间接照明（橙色）
+tile.indlight_magenta.name=间接照明（品红色）
+tile.indlight_light_blue.name=间接照明（淡蓝色）
+tile.indlight_yellow.name=间接照明（黄色）
+tile.indlight_lime.name=间接照明（黄绿色）
+tile.indlight_pink.name=间接照明（粉红色）
+tile.indlight_gray.name=间接照明（灰色）
+tile.indlight_silver.name=间接照明（淡灰色）
+tile.indlight_cyan.name=间接照明（青色）
+tile.indlight_purple.name=间接照明（紫色）
+tile.indlight_blue.name=间接照明（蓝色）
+tile.indlight_brown.name=间接照明（棕色）
+tile.indlight_green.name=间接照明（绿色）
+tile.indlight_red.name=间接照明（红色）
+tile.indlight_black.name=间接照明（黑色）
 
 #deco
 tile.kawara.name=瓦块
@@ -70,6 +85,7 @@ tile.cpine_slab.name=方格花纹块台阶（云杉）
 tile.cpine_stairs.name=方格花纹块楼梯（云杉）
 tile.cpine_double_slab.name=叠放方格花纹块台阶（云杉）
 
+itemGroup.bamboomod=竹
 
 tile.twoDirDeco.0.name=百叶窗板
 tile.sakura_planks.name=樱木板
@@ -81,6 +97,7 @@ tile.decoCarpet.4.name=榻榻米（日晒）
 tile.decoCarpet.6.name=榻榻米（无边缘+日晒）
 tile.decoCarpet.8.name=榻榻米（无边缘）
 tile.delude_plate.name=变色龙压力板
+tile.bambooMillStone.name=石臼
 tile.maneki.name=招财猫
 tile.bambooMoss.name=苔藓块
 tile.bambooMultiPot.name=小花盆
@@ -226,7 +243,7 @@ item.riceseed.name=水稻
 item.rawrice.name=生米
 item.zabuton.name=坐垫
 item.itemFireflyBottle.name=荧光瓶
-item.dimensioncreater.name=Dimensioncreater（仍在测试的物品，使用有风险）
+item.dimensioncreater.name=维度创造器（仍在测试的物品，使用有风险）
 item.bamboopickaxe.name=？？？
 item.bambooDustCray.name=粘土粉
 item.itemseaweed.name=海藻
@@ -238,3 +255,6 @@ item.bamboodough.name=生面
 item.itemtomato.name=番茄
 #GUI
 container.jpchest=日式衣柜
+#JEI_GUI
+bamboo.jei.campfire=烹调配方
+bamboo.jei.millstone=石臼配方
