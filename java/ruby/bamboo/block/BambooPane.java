@@ -33,6 +33,7 @@ public class BambooPane extends BlockPane implements IMultiTextuerBlock {
 
     public BambooPane(Material materialIn) {
         super(materialIn, true);
+        this.setHardness(0.3F);
         this.setDefaultState(this.getDefaultState().withProperty(META, 0));
     }
 
@@ -78,6 +79,12 @@ public class BambooPane extends BlockPane implements IMultiTextuerBlock {
     @Override
     protected ItemStack createStackedBlock(IBlockState state) {
         return new ItemStack(this, 1, state.getValue(META));
+    }
+
+    @Override
+    public int damageDropped(IBlockState state)
+    {
+        return state.getValue(META);
     }
 
     @Override
