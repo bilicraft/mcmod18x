@@ -21,6 +21,8 @@ import ruby.bamboo.crafting.CraftingHandler;
 import ruby.bamboo.fluid.HotSpring;
 import ruby.bamboo.generate.GenerateHandler;
 import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.item.katana.CounterManager;
+import ruby.bamboo.item.katana.KatanaDrops;
 import ruby.bamboo.tileentity.TileCampfire;
 import ruby.bamboo.tileentity.TileJPChest;
 import ruby.bamboo.tileentity.TileMillStone;
@@ -64,10 +66,12 @@ public class CommonProxy {
         // えんてぃてぃ
         new EntityRegister().entityRegist();
         PacketDispatcher.init();
+        new KatanaDrops().regist();
     }
 
     public void init() {
         this.registRecipe();
+        MinecraftForge.EVENT_BUS.register(new CounterManager());
     }
 
     public void postInit() {

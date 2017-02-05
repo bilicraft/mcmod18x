@@ -18,4 +18,5 @@ public class BambooItems {
     public static final Item BAMBOO_PICKAXE = Item.getByNameOrId(Constants.RESOURCED_DOMAIN + "BambooPickaxe");
     public static final Item BAMBOO_FOOD = Item.getByNameOrId(Constants.RESOURCED_DOMAIN + "bamboofood");
     public static final Item RAWRICE = Item.getByNameOrId(Constants.RESOURCED_DOMAIN + "rawrice");
+    public static final Item COMMON_KATANA = Item.getByNameOrId(Constants.RESOURCED_DOMAIN + "commonkatana");
 }
